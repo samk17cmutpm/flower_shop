@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">FlowerShop</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_details">DetailsActivity</string>
+
+    <string name="main.tab.home">Mới Nhất</string>
+    <string name="main.tab.types">Thể Loại</string>
+    <string name="main.tab.search">Tìm Kiếm</string>
+    <string name="main.tab.cart">Giỏ Hàng</string>
+    <string name="main.tab.info">Thông Tin</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
