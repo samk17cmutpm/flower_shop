@@ -11,6 +11,8 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
@@ -19,12 +21,13 @@ import khoaluan.vn.flowershop.action.ActtachMainView;
 public class MainActivity extends BaseActivity implements ActtachMainView, Base {
 
     private BottomBar bottomBar;
-    private ViewPager viewPager;
+    @BindView(R.id.vpPager) ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setUpBottomTabBar(savedInstanceState);
         setUpViewPager();
         injectBottomTabsToViewPager();
@@ -47,7 +50,8 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base 
 
     @Override
     public void setUpViewPager() {
-        viewPager = (ViewPager) findViewById(R.id.vpPager);
+//        viewPager = (ViewPager) findViewById(R.id.vpPager);
+        viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(new MainTabsPagerAdapter(getSupportFragmentManager(), this));
     }
 
@@ -98,7 +102,7 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base 
             }
         });
     }
-    
+
     public BottomBar getBottomBar() {
         return bottomBar;
     }

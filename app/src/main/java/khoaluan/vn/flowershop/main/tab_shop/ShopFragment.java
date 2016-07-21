@@ -5,15 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import khoaluan.vn.flowershop.R;
 
 
-public class ShopFragment extends Fragment {
+public class ShopFragment extends Fragment implements ShopContract.View{
 
-
+    private ShopContract.Presenter presenter;
     public ShopFragment() {
         // Required empty public constructor
     }
@@ -27,6 +30,13 @@ public class ShopFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -35,6 +45,17 @@ public class ShopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_shop, container, false);
+    }
+
+    @Override
+    public void showUI() {
+
+    }
+
+    @Override
+    public void setPresenter(ShopContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 }

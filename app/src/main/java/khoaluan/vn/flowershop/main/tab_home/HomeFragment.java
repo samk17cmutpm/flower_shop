@@ -1,19 +1,43 @@
 package khoaluan.vn.flowershop.main.tab_home;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.Flower;
+import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeContract.View,
+        SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, Base{
 
+    private HomeContract.Presenter presenter;
+    private View root;
+    private FlowerAdapter adapter;
+    private List<Flower> flowers;
+    private Activity activity;
+    private GridLayoutManager gridLayoutManager;
+
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -31,7 +55,70 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        root = inflater.inflate(R.layout.fragment_home, container, false);
+        ButterKnife.bind(this, root);
+        showUI();
+        initilizeGridView();
+        presenter.loadData();
+        return root;
     }
 
+    @Override
+    public void initilizeGridView() {
+        gridLayoutManager = new GridLayoutManager(getActivity(), GRID_VIEW_SIZE);
+        flowers = new ArrayList<>();
+        adapter = new FlowerAdapter(activity, flowers);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        SpacesItemDecoration decoration = new SpacesItemDecoration(GRID_VIEW_DISTANCE);
+        recyclerView.addItemDecoration(decoration);
+
+        adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        adapter.setOnLoadMoreListener(this);
+
+        View viewLoadingMore = getActivity().getLayoutInflater().inflate(R.layout.loading_more_ui,
+                (ViewGroup) recyclerView.getParent(), false);
+        adapter.setLoadingView(viewLoadingMore);
+
+        recyclerView.setAdapter(adapter);
+    }
+
+
+
+    @Override
+    public void showUI() {
+
+        activity = getActivity();
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setNestedScrollingEnabled(true);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+    @Override
+    public void showFlowers(List<Flower> flowers) {
+        this.flowers.addAll(flowers);
+        adapter.notifyDataSetChanged();
+        adapter.openLoadMore(this.flowers.size(), true);
+    }
+
+    @Override
+    public void setPresenter(HomeContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+
+    }
 }

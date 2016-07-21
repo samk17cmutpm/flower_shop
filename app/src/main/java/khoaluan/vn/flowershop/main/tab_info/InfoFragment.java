@@ -12,8 +12,9 @@ import khoaluan.vn.flowershop.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InfoFragment extends Fragment {
+public class InfoFragment extends Fragment implements InfoContract.View{
 
+    private InfoContract.Presenter presenter;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -34,4 +35,13 @@ public class InfoFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_info, container, false);
     }
 
+    @Override
+    public void showUI() {
+
+    }
+
+    @Override
+    public void setPresenter(InfoContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
 }

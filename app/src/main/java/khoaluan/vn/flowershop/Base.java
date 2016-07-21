@@ -10,4 +10,9 @@ public interface Base {
     int TAB_SEARCH = 2;
     int TAB_SHOP = 3;
     int TAB_INFO = 4;
+
+    int GRID_VIEW_SIZE = 2;
+    int GRID_VIEW_DISTANCE = 15;
+
+    int RECYCLER_VIEW_DISTANCE = 1;
 }
