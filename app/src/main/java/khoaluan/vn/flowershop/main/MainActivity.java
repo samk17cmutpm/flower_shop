@@ -6,10 +6,14 @@ import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabClickListener;
+
+import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +26,6 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base 
 
     private BottomBar bottomBar;
     @BindView(R.id.vpPager) ViewPager viewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +50,8 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base 
         nearbyBadge.setAutoShowAfterUnSelection(true);
 
     }
-
     @Override
     public void setUpViewPager() {
-//        viewPager = (ViewPager) findViewById(R.id.vpPager);
         viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(new MainTabsPagerAdapter(getSupportFragmentManager(), this));
     }
@@ -118,4 +119,5 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base 
     public void setViewPager(ViewPager viewPager) {
         this.viewPager = viewPager;
     }
+
 }

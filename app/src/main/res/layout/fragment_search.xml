@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="khoaluan.vn.flowershop.main.tab_search.SearchFragment">
 
     <android.support.design.widget.CoordinatorLayout
@@ -10,40 +11,36 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingPrefix"
+            android:gravity="top">
 
-
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/appBar"
+            <com.arlib.floatingsearchview.FloatingSearchView
+                android:id="@+id/floating_search_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-                    <FrameLayout
-                        android:id="@+id/toolbar_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                            <android.support.v7.widget.Toolbar
-                                android:id="@+id/toolbar"
-                                android:layout_width="match_parent"
-                                android:layout_height="?attr/actionBarSize"
-                                android:background="@color/colorPrimary"
-                                app:layout_scrollFlags="scroll|enterAlways" >
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    tools:ignore="MissingPrefix"
-                                    android:gravity="center_vertical|center|center_horizontal">
-                                </RelativeLayout>
-                            </android.support.v7.widget.Toolbar>
-                            <com.miguelcatalan.materialsearchview.MaterialSearchView
-                                android:id="@+id/search_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                    </FrameLayout>
+                android:layout_height="match_parent"
+                app:floatingSearch_leftActionColor="@color/colorPrimary"
+                app:floatingSearch_clearBtnColor="@color/colorPrimary"
+                app:floatingSearch_viewTextColor="@color/colorPrimary"
+                app:floatingSearch_hintTextColor="@color/colorPrimary"
+                app:floatingSearch_dividerColor="@color/colorPrimary"
+                app:floatingSearch_searchBarMarginLeft="10dp"
+                app:floatingSearch_searchBarMarginTop="10dp"
+                app:floatingSearch_searchBarMarginRight="10dp"
+                app:floatingSearch_searchHint="Tìm Kiếm ..."
+                app:floatingSearch_suggestionsListAnimDuration="150"
+                app:floatingSearch_showSearchKey="true"
+                app:floatingSearch_leftActionMode="noLeftAction"
+                app:floatingSearch_close_search_on_keyboard_dismiss="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="false" />
 
-            </android.support.design.widget.AppBarLayout>
-
-
+        </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
+
 
 </FrameLayout>
