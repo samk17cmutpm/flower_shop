@@ -3,7 +3,7 @@ package khoaluan.vn.flowershop.main.tab_type;
 import java.util.ArrayList;
 import java.util.List;
 
-import khoaluan.vn.flowershop.data.Type;
+import khoaluan.vn.flowershop.data.FlowerType;
 import khoaluan.vn.flowershop.main.MainActivity;
 
 /**
@@ -24,12 +24,12 @@ public class TypePresenter implements TypeContract.Presenter {
         this.view.showFlowerTypes(dumpData());
     }
 
-    private List<Type> dumpData() {
-        List<Type> types = new ArrayList<>();
+    private List<FlowerType> dumpData() {
+        List<FlowerType> flowerTypes = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            types.add(new Type(i, "data"));
+            flowerTypes.add(new FlowerType(i, "data"));
         }
-        return types;
+        return flowerTypes;
     }
 
     @Override

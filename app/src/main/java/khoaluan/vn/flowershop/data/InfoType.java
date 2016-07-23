@@ -1,13 +1,13 @@
 package khoaluan.vn.flowershop.data;
 
 /**
- * Created by samnguyen on 7/21/16.
+ * Created by samnguyen on 7/23/16.
  */
-public class Type {
+public class InfoType {
     private int id;
     private String name;
 
-    public Type(int id, String name) {
+    public InfoType(int id, String name) {
         this.id = id;
         this.name = name;
     }

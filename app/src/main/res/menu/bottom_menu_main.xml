@@ -8,7 +8,7 @@
     <item
         android:id="@+id/tab_types"
         android:icon="@drawable/tab_type_icon"
-        android:title="@string/main.tab.types" />
+        android:title="@string/main.tab.flowerTypes" />
     <item
         android:id="@+id/tab_search"
         android:icon="@drawable/tab_search_icon"

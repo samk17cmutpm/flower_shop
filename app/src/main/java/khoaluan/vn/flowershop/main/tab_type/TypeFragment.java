@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.CommonView;
-import khoaluan.vn.flowershop.data.Type;
+import khoaluan.vn.flowershop.data.FlowerType;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 
 /**
@@ -32,8 +32,8 @@ public class TypeFragment extends Fragment implements TypeContract.View, CommonV
 
     private TypeContract.Presenter presenter;
     private View root;
-    private TypeAdapter adapter;
-    private List<Type> types;
+    private FlowerTypeAdapter adapter;
+    private List<FlowerType> flowerTypes;
     private Activity activity;
     private LinearLayoutManager layoutManager;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
@@ -66,8 +66,8 @@ public class TypeFragment extends Fragment implements TypeContract.View, CommonV
     @Override
     public void initilizeRecyclerView() {
         layoutManager = new LinearLayoutManager(activity);
-        this.types = new ArrayList<>();
-        adapter = new TypeAdapter(activity, types);
+        this.flowerTypes = new ArrayList<>();
+        adapter = new FlowerTypeAdapter(activity, flowerTypes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -83,8 +83,8 @@ public class TypeFragment extends Fragment implements TypeContract.View, CommonV
     }
 
     @Override
-    public void showFlowerTypes(List<Type> types) {
-        this.types.addAll(types);
+    public void showFlowerTypes(List<FlowerType> flowerTypes) {
+        this.flowerTypes.addAll(flowerTypes);
         adapter.notifyDataSetChanged();
     }
 

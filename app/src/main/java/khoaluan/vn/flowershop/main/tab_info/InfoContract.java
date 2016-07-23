@@ -1,7 +1,10 @@
 package khoaluan.vn.flowershop.main.tab_info;
 
+import java.util.List;
+
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
+import khoaluan.vn.flowershop.data.InfoType;
 
 /**
  * Created by samnguyen on 7/19/16.
@@ -9,6 +12,8 @@ import khoaluan.vn.flowershop.BaseView;
 public interface InfoContract {
     interface View extends BaseView<Presenter> {
         void showUI();
+        void initilizeRecyclerView();
+        void showInfoTypes(List<InfoType> infoTypes);
     }
     interface Presenter extends BasePresenter {
         void loadData();

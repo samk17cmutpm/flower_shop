@@ -4,7 +4,7 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
-import khoaluan.vn.flowershop.data.Type;
+import khoaluan.vn.flowershop.data.FlowerType;
 
 /**
  * Created by samnguyen on 7/19/16.
@@ -13,7 +13,7 @@ public interface TypeContract {
     interface View extends BaseView<Presenter> {
         void initilizeRecyclerView();
         void showUI();
-        void showFlowerTypes(List<Type> types);
+        void showFlowerTypes(List<FlowerType> flowerTypes);
     }
     interface Presenter extends BasePresenter {
         void loadData();

@@ -2,6 +2,10 @@ package khoaluan.vn.flowershop.main.tab_info;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import khoaluan.vn.flowershop.data.InfoType;
 import khoaluan.vn.flowershop.main.MainActivity;
 
 /**
@@ -18,7 +22,14 @@ public class InfoPresenter implements InfoContract.Presenter {
     }
     @Override
     public void loadData() {
+        this.view.showInfoTypes(loadDumpData());
+    }
 
+    private List<InfoType> loadDumpData() {
+        List<InfoType> infoTypes = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            infoTypes.add(new InfoType(i, i + ""));
+        return infoTypes;
     }
 
     @Override
