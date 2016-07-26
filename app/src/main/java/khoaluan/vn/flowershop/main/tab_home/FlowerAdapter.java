@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.data.client_parse.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 
 /**

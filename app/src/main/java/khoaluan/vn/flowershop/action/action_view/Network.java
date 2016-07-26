@@ -1,4 +1,4 @@
-package khoaluan.vn.flowershop.action;
+package khoaluan.vn.flowershop.action.action_view;
 
 /**
  * Created by samnguyen on 7/25/16.

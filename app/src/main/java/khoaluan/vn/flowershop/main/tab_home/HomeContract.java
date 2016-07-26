@@ -4,8 +4,9 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
-import khoaluan.vn.flowershop.action.Network;
-import khoaluan.vn.flowershop.data.client_parse.Flower;
+import khoaluan.vn.flowershop.action.action_view.Network;
+import khoaluan.vn.flowershop.action.action_presenter.RealmAction;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 
 /**
  * Created by samnguyen on 7/19/16.
@@ -19,19 +20,14 @@ public interface HomeContract {
         void showIndicator(boolean active);
         void setDeviderForGridView();
         void finishLoadMore(boolean finish);
-
-        @Override
-        void noInternetConnectTion();
     }
-    interface Presenter extends BasePresenter {
+    interface Presenter extends BasePresenter, RealmAction<Flower> {
         void loadData();
         boolean isHasNext();
 
         // Local Data
-        List<Flower> loadLocalData();
-        void loadDataFirst();
-        void loadDataMore();
-        void updateLocalData(List<Flower> flowers);
+        void loadRefreshData();
+        void loadMoreData();
 
     }
 }

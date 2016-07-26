@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
-import khoaluan.vn.flowershop.data.client_parse.Flower;
-import khoaluan.vn.flowershop.data.response.MostFlowerResponse;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
@@ -42,8 +41,8 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadData() {
         this.view.showIndicator(true);
-        this.view.showFlowers(loadLocalData(), false);
-        loadDataFirst();
+        this.view.showFlowers(loadAll(), false);
+        loadRefreshData();
     }
     @Override
     public boolean isHasNext() {
@@ -51,27 +50,21 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     }
 
     @Override
-    public List<Flower> loadLocalData() {
-        RealmResults<Flower> flowers = realm.where(Flower.class).findAll();
-        return flowers;
-    }
-
-    @Override
-    public void loadDataFirst() {
-        Observable<Response<MostFlowerResponse>> observable =
+    public void loadRefreshData() {
+        Observable<Response<FlowerResponse>> observable =
                 client.getMostFlowers(currentPage, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<MostFlowerResponse>>() {
+                .subscribe(new Subscriber<Response<FlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
                         view.clearAllDataLocal();
                         view.showIndicator(false);
                         view.showFlowers(flowers, hasNext);
-                        updateLocalData(flowers);
+                        updateData(flowers);
                         currentPage = 1;
                     }
 
@@ -83,7 +76,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     }
 
                     @Override
-                    public void onNext(Response<MostFlowerResponse> mostFlowerResponseResponse) {
+                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                             hasNext = mostFlowerResponseResponse.body().isHasNext();
@@ -94,14 +87,14 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     }
 
     @Override
-    public void loadDataMore() {
-        Observable<Response<MostFlowerResponse>> observable =
+    public void loadMoreData() {
+        Observable<Response<FlowerResponse>> observable =
                 client.getMostFlowers(currentPage, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<MostFlowerResponse>>() {
+                .subscribe(new Subscriber<Response<FlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
@@ -118,7 +111,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     }
 
                     @Override
-                    public void onNext(Response<MostFlowerResponse> mostFlowerResponseResponse) {
+                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                             hasNext = mostFlowerResponseResponse.body().isHasNext();
@@ -128,9 +121,22 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                 });
     }
 
-    @Override
-    public void updateLocalData(final List<Flower> flowers) {
 
+
+    @Override
+    public void start() {
+        Log.d(TAG, "Starting HomeFragment");
+    }
+
+
+    @Override
+    public List<Flower> loadAll() {
+        RealmResults<Flower> flowers = realm.where(Flower.class).findAll();
+        return flowers;
+    }
+
+    @Override
+    public void updateData(final List<Flower> list) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -144,7 +150,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                 realm.executeTransactionAsync(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        realm.copyToRealm(flowers);
+                        realm.copyToRealm(list);
                     }
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
@@ -154,13 +160,5 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                 });
             }
         });
-
     }
-
-    @Override
-    public void start() {
-        Log.d(TAG, "Starting HomeFragment");
-    }
-
-
 }

@@ -3,7 +3,7 @@ package khoaluan.vn.flowershop.main.tab_type;
 import java.util.ArrayList;
 import java.util.List;
 
-import khoaluan.vn.flowershop.data.FlowerType;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.FlowerType;
 import khoaluan.vn.flowershop.main.MainActivity;
 
 /**
@@ -21,16 +21,16 @@ public class TypePresenter implements TypeContract.Presenter {
 
     @Override
     public void loadData() {
-        this.view.showFlowerTypes(dumpData());
+//        this.view.showFlowerTypes(dumpData());
     }
 
-    private List<FlowerType> dumpData() {
-        List<FlowerType> flowerTypes = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            flowerTypes.add(new FlowerType(i, "data"));
-        }
-        return flowerTypes;
-    }
+//    private List<FlowerType> dumpData() {
+//        List<FlowerType> flowerTypes = new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            flowerTypes.add(new FlowerType(i, "data"));
+//        }
+//        return flowerTypes;
+//    }
 
     @Override
     public void start() {

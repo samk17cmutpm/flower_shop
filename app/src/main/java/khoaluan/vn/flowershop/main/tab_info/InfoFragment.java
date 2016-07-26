@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.action.CommonView;
+import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.InfoType;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 

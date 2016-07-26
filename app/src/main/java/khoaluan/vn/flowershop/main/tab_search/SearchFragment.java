@@ -4,16 +4,11 @@ package khoaluan.vn.flowershop.main.tab_search;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.action.CommonView;
 
 /**
  * A simple {@link Fragment} subclass.

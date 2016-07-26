@@ -1,4 +1,4 @@
-package khoaluan.vn.flowershop.data.client_parse;
+package khoaluan.vn.flowershop.data.model_parse_and_realm;
 
 import com.google.gson.annotations.SerializedName;
 

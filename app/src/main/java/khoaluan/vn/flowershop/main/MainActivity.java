@@ -5,22 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabClickListener;
-
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.action.ActtachMainView;
+import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
 
 public class MainActivity extends BaseActivity implements ActtachMainView, Base {
 

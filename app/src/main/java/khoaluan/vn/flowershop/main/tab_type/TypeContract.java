@@ -4,7 +4,7 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
-import khoaluan.vn.flowershop.data.FlowerType;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.FlowerType;
 
 /**
  * Created by samnguyen on 7/19/16.

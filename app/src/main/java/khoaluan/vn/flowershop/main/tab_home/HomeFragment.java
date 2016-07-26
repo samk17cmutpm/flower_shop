@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.data.client_parse.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 
 /**
@@ -108,7 +107,6 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     public void showFlowers(List<Flower> flowers, boolean isHasNext) {
         this.flowers.addAll(flowers);
         adapter.notifyDataSetChanged();
-        Log.d("=============>", isHasNext + "");
         adapter.openLoadMore(this.flowers.size(), isHasNext);
     }
 
@@ -157,11 +155,11 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     @Override
     public void onRefresh() {
-        presenter.loadDataFirst();
+        presenter.loadRefreshData();
     }
 
     @Override
     public void onLoadMoreRequested() {
-        presenter.loadDataMore();
+        presenter.loadMoreData();
     }
 }

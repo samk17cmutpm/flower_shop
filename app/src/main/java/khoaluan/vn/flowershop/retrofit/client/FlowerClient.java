@@ -1,6 +1,6 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
-import khoaluan.vn.flowershop.data.response.MostFlowerResponse;
+import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -12,5 +12,5 @@ import rx.Observable;
 public interface FlowerClient {
 
     @GET("/api/v1/product/getbestproducts/{page}/{size}")
-    Observable<Response<MostFlowerResponse>> getMostFlowers(@Path("page") int page, @Path("size") int size);
+    Observable<Response<FlowerResponse>> getMostFlowers(@Path("page") int page, @Path("size") int size);
 }
