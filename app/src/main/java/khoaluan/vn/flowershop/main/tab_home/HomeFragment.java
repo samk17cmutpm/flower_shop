@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,10 +105,11 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     @Override
-    public void showFlowers(List<Flower> flowers) {
+    public void showFlowers(List<Flower> flowers, boolean isHasNext) {
         this.flowers.addAll(flowers);
         adapter.notifyDataSetChanged();
-        adapter.openLoadMore(this.flowers.size(), true);
+        Log.d("=============>", isHasNext + "");
+        adapter.openLoadMore(this.flowers.size(), isHasNext);
     }
 
     @Override
@@ -160,7 +162,6 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     @Override
     public void onLoadMoreRequested() {
-        if (presenter.isHasNext())
-            presenter.loadDataMore();
+        presenter.loadDataMore();
     }
 }

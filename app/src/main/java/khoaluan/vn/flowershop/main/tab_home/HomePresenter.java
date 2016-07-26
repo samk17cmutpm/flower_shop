@@ -42,49 +42,9 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadData() {
         this.view.showIndicator(true);
-        this.view.showFlowers(loadLocalData());
+        this.view.showFlowers(loadLocalData(), false);
         loadDataFirst();
     }
-
-    @Override
-    public void loadMostFlowers(int page, int size) {
-
-        Observable<Response<MostFlowerResponse>> observable =
-                client.getMostFlowers(page, size);
-
-        observable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<MostFlowerResponse>>() {
-                    private List<Flower> flowers = new ArrayList<>();
-                    @Override
-                    public void onCompleted() {
-                        view.showFlowers(flowers);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Response<MostFlowerResponse> mostFlowerResponseResponse) {
-                        if (mostFlowerResponseResponse.isSuccessful()) {
-                            flowers.addAll(mostFlowerResponseResponse.body().getResult());
-                            hasNext = mostFlowerResponseResponse.body().isHasNext();
-                        }
-
-                    }
-                });
-    }
-
-
-
-    @Override
-    public boolean isFlowersExisted() {
-        return false;
-    }
-
     @Override
     public boolean isHasNext() {
         return hasNext;
@@ -99,7 +59,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadDataFirst() {
         Observable<Response<MostFlowerResponse>> observable =
-                client.getMostFlowers(0, SIZE);
+                client.getMostFlowers(currentPage, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -110,10 +70,9 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     public void onCompleted() {
                         view.clearAllDataLocal();
                         view.showIndicator(false);
-                        view.showFlowers(flowers);
+                        view.showFlowers(flowers, hasNext);
                         updateLocalData(flowers);
-                        currentPage = 0;
-                        currentPage ++;
+                        currentPage = 1;
                     }
 
                     @Override
@@ -147,8 +106,8 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     @Override
                     public void onCompleted() {
                         view.showIndicator(false);
-                        view.showFlowers(flowers);
-                        view.finishLoadMore(true);
+                        view.showFlowers(flowers, hasNext);
+                        view.finishLoadMore(hasNext);
                         currentPage ++;
                     }
 
@@ -163,8 +122,6 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                             hasNext = mostFlowerResponseResponse.body().isHasNext();
-                            if (!hasNext)
-                                view.finishLoadMore(false);
                         }
 
                     }

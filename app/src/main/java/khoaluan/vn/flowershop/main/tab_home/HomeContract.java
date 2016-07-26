@@ -15,7 +15,7 @@ public interface HomeContract {
         void clearAllDataLocal();
         void initilizeGridView();
         void showUI();
-        void showFlowers(List<Flower> flowers);
+        void showFlowers(List<Flower> flowers, boolean isHasNext);
         void showIndicator(boolean active);
         void setDeviderForGridView();
         void finishLoadMore(boolean finish);
@@ -25,8 +25,6 @@ public interface HomeContract {
     }
     interface Presenter extends BasePresenter {
         void loadData();
-        void loadMostFlowers(int page, int size);
-        boolean isFlowersExisted();
         boolean isHasNext();
 
         // Local Data
