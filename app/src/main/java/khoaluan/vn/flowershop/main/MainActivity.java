@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base 
     }
     @Override
     public void setUpViewPager() {
-        viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(new MainTabsPagerAdapter(getSupportFragmentManager(), this));
     }
 

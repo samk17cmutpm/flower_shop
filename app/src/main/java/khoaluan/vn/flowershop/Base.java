@@ -15,4 +15,6 @@ public interface Base {
     int GRID_VIEW_DISTANCE = 15;
 
     int RECYCLER_VIEW_DISTANCE = 1;
+
+    int SIZE = 20;
 }

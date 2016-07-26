@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 24
@@ -36,4 +37,14 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.1.0'
     compile 'info.hoang8f:android-segmented:1.0.6'
     compile 'com.github.arimorty:floatingsearchview:2.0.2'
+
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    compile 'io.reactivex:rxandroid:1.2.0'
+
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
