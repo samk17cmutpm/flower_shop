@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="khoaluan.vn.flowershop.main.tab_type.TypeFragment">
+    tools:context=".main.tab_category.CategoryFragment">
 
     <!-- CoordinatorLayout is used to create scrolling and "floating" effects within a layout -->
     <!-- This is typically the root layout which wraps the app bar and content -->
@@ -29,7 +29,7 @@
                     android:gravity="center_vertical|center|center_horizontal">
                     <info.hoang8f.android.segmented.SegmentedGroup
                         xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/segmented2"
+                        android:id="@+id/segment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -40,7 +40,7 @@
                         android:gravity="center_vertical|center|center_horizontal">
 
                         <RadioButton
-                            android:id="@+id/button21"
+                            android:id="@+id/flower"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:text="Hoa Tươi"
@@ -48,7 +48,7 @@
                             style="@style/RadioButton" />
 
                         <RadioButton
-                            android:id="@+id/button22"
+                            android:id="@+id/gift"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:text="Quà Tặng "

@@ -41,7 +41,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadData() {
         this.view.showIndicator(true);
-        this.view.showFlowers(loadAll(), false);
+        this.view.showFlowers(loadAll(SIZE), false);
         loadRefreshData();
     }
     @Override
@@ -52,7 +52,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadRefreshData() {
         Observable<Response<FlowerResponse>> observable =
-                client.getMostFlowers(currentPage, SIZE);
+                client.getFlowers(currentPage, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +64,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                         view.clearAllDataLocal();
                         view.showIndicator(false);
                         view.showFlowers(flowers, hasNext);
-                        updateData(flowers);
+                        updateData(setFlowersNewest(flowers));
                         currentPage = 1;
                     }
 
@@ -89,7 +89,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadMoreData() {
         Observable<Response<FlowerResponse>> observable =
-                client.getMostFlowers(currentPage, SIZE);
+                client.getFlowers(currentPage, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -107,6 +107,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     @Override
                     public void onError(Throwable e) {
                         view.showIndicator(false);
+                        view.finishLoadMore(true);
                         e.printStackTrace();
                     }
 
@@ -130,8 +131,8 @@ public class HomePresenter implements HomeContract.Presenter, Base{
 
 
     @Override
-    public List<Flower> loadAll() {
-        RealmResults<Flower> flowers = realm.where(Flower.class).findAll();
+    public List<Flower> loadAll(int limit) {
+        RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isNewest", true).findAll();
         return flowers;
     }
 
@@ -140,7 +141,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<Flower> flowers = realm.where(Flower.class).findAll();
+                RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isNewest", true).findAll();
                 flowers.deleteAllFromRealm();
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -160,5 +161,12 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                 });
             }
         });
+    }
+
+    private List<Flower> setFlowersNewest(List<Flower> flowers) {
+        for (Flower flower : flowers)
+            flower.setNewest(true);
+
+        return flowers;
     }
 }

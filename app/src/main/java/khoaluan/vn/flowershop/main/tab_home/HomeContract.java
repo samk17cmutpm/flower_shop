@@ -21,7 +21,7 @@ public interface HomeContract {
         void setDeviderForGridView();
         void finishLoadMore(boolean finish);
     }
-    interface Presenter extends BasePresenter, RealmAction<Flower> {
+    interface Presenter extends BasePresenter, RealmAction.Flower<Flower> {
         void loadData();
         boolean isHasNext();
 

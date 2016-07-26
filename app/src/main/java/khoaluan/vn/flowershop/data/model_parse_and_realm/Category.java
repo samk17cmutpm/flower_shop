@@ -2,15 +2,17 @@ package khoaluan.vn.flowershop.data.model_parse_and_realm;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import io.realm.RealmObject;
 
 /**
  * Created by samnguyen on 7/21/16.
  */
-public class FlowerType extends RealmObject {
+public class Category extends RealmObject {
 
     @SerializedName("Id")
-    private int id;
+    private String id;
 
     @SerializedName("Name")
     private String name;
@@ -21,21 +23,21 @@ public class FlowerType extends RealmObject {
     @SerializedName("Type")
     private String type;
 
-    public FlowerType(int id, String name, String description, String type) {
+    public Category(String id, String name, String description, String type) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
     }
 
-    public FlowerType() {
+    public Category() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -62,4 +64,5 @@ public class FlowerType extends RealmObject {
     public void setType(String type) {
         this.type = type;
     }
+
 }

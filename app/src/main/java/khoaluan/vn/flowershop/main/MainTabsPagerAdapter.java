@@ -1,12 +1,12 @@
 package khoaluan.vn.flowershop.main;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.lib.SmartFragmentStatePagerAdapter;
+import khoaluan.vn.flowershop.main.tab_category.CategoryFragment;
 import khoaluan.vn.flowershop.main.tab_home.HomeContract;
 import khoaluan.vn.flowershop.main.tab_home.HomeFragment;
 import khoaluan.vn.flowershop.main.tab_home.HomePresenter;
@@ -19,9 +19,8 @@ import khoaluan.vn.flowershop.main.tab_search.SearchPresenter;
 import khoaluan.vn.flowershop.main.tab_shop.ShopContract;
 import khoaluan.vn.flowershop.main.tab_shop.ShopFragment;
 import khoaluan.vn.flowershop.main.tab_shop.ShopPresenter;
-import khoaluan.vn.flowershop.main.tab_type.TypeContract;
-import khoaluan.vn.flowershop.main.tab_type.TypeFragment;
-import khoaluan.vn.flowershop.main.tab_type.TypePresenter;
+import khoaluan.vn.flowershop.main.tab_category.CategoryContract;
+import khoaluan.vn.flowershop.main.tab_category.CategoryPresenter;
 
 /**
  * Created by samnguyen on 7/19/16.
@@ -44,9 +43,9 @@ public class MainTabsPagerAdapter extends SmartFragmentStatePagerAdapter impleme
                         HomePresenter(activity, (HomeContract.View) fragment);
                 break;
             case TAB_TYPE:
-                fragment = new TypeFragment().newInstance();
+                fragment = new CategoryFragment().newInstance();
                 presenter = new
-                        TypePresenter(activity, (TypeContract.View) fragment);
+                        CategoryPresenter(activity, (CategoryContract.View) fragment);
                 break;
             case TAB_SEARCH:
                 fragment = new SearchFragment().newInstance();

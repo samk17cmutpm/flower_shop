@@ -1,8 +1,9 @@
-package khoaluan.vn.flowershop.main.tab_type;
+package khoaluan.vn.flowershop.main.tab_category;
 
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -19,31 +21,33 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import info.hoang8f.android.segmented.SegmentedGroup;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.FlowerType;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TypeFragment extends Fragment implements TypeContract.View, CommonView.ToolBar, Base {
+public class CategoryFragment extends Fragment implements CategoryContract.View, CommonView.ToolBar, Base,
+        RadioGroup.OnCheckedChangeListener{
 
-    private TypeContract.Presenter presenter;
+    private CategoryContract.Presenter presenter;
     private View root;
-    private FlowerTypeAdapter adapter;
-    private List<FlowerType> flowerTypes;
+    private CategoriesAdapter adapter;
+    private List<Category> categories;
     private Activity activity;
     private LinearLayoutManager layoutManager;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    public TypeFragment() {
+    public CategoryFragment() {
         // Required empty public constructor
     }
 
-    public static TypeFragment newInstance() {
-        TypeFragment fragment = new TypeFragment();
+    public static CategoryFragment newInstance() {
+        CategoryFragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -57,8 +61,9 @@ public class TypeFragment extends Fragment implements TypeContract.View, CommonV
         root = inflater.inflate(R.layout.fragment_type, container, false);
         ButterKnife.bind(this, root);
         initilizeToolBar();
+        setSegment();
         showUI();
-        initilizeRecyclerView();
+        setDevider();
         presenter.loadData();
         return root;
     }
@@ -66,13 +71,10 @@ public class TypeFragment extends Fragment implements TypeContract.View, CommonV
     @Override
     public void initilizeRecyclerView() {
         layoutManager = new LinearLayoutManager(activity);
-        this.flowerTypes = new ArrayList<>();
-        adapter = new FlowerTypeAdapter(activity, flowerTypes);
+        this.categories = new ArrayList<>();
+        adapter = new CategoriesAdapter(activity, categories);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-
-        SpacesItemDecoration decoration = new SpacesItemDecoration(RECYCLER_VIEW_DISTANCE);
-        recyclerView.addItemDecoration(decoration);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recyclerView.setAdapter(adapter);
     }
@@ -83,13 +85,26 @@ public class TypeFragment extends Fragment implements TypeContract.View, CommonV
     }
 
     @Override
-    public void showFlowerTypes(List<FlowerType> flowerTypes) {
-        this.flowerTypes.addAll(flowerTypes);
+    public void showCategories(List<Category> categories) {
+        initilizeRecyclerView();
+        this.categories.addAll(categories);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void setPresenter(TypeContract.Presenter presenter) {
+    public void setDevider() {
+        SpacesItemDecoration decoration = new SpacesItemDecoration(RECYCLER_VIEW_DISTANCE);
+        recyclerView.addItemDecoration(decoration);
+    }
+
+    @Override
+    public void setSegment() {
+        SegmentedGroup segmentedGroup = (SegmentedGroup) root.findViewById(R.id.segment);
+        segmentedGroup.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public void setPresenter(CategoryContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -98,5 +113,25 @@ public class TypeFragment extends Fragment implements TypeContract.View, CommonV
         Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
+    }
+
+    @Override
+    public void noInternetConnectTion() {
+        Snackbar.make(recyclerView, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE)
+                .setDuration(5000)
+                .show();
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+        switch (checkedId) {
+            case R.id.flower:
+                showCategories(presenter.loadLocalFlowerCategories());
+                break;
+            case R.id.gift:
+                showCategories(presenter.loadLocalGiftCategories());
+                break;
+
+        }
     }
 }

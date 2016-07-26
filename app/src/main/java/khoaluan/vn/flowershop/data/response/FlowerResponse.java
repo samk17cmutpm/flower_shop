@@ -9,7 +9,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 /**
  * Created by samnguyen on 7/25/16.
  */
-public class FlowerResponse extends ApiResponse<List<khoaluan.vn.flowershop.data.model_parse_and_realm.Flower>> {
+public class FlowerResponse extends ApiResponse<List<Flower>> {
 
     @SerializedName("datas")
     private List<Flower> flowers;

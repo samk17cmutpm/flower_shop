@@ -33,6 +33,8 @@ public class Flower extends RealmObject{
     @SerializedName("Price")
     private int price;
 
+    private boolean isNewest;
+
     public Flower() {
     }
 
@@ -45,6 +47,14 @@ public class Flower extends RealmObject{
         this.image = image;
         this.oldPrice = oldPrice;
         this.price = price;
+    }
+
+    public boolean isNewest() {
+        return isNewest;
+    }
+
+    public void setNewest(boolean newest) {
+        isNewest = newest;
     }
 
     public String getId() {
