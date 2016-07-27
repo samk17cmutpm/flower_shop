@@ -1,5 +1,8 @@
 package khoaluan.vn.flowershop.data.model_parse_and_realm;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
@@ -7,7 +10,7 @@ import io.realm.RealmObject;
 /**
  * Created by samnguyen on 7/25/16.
  */
-public class Flower extends RealmObject{
+public class Flower extends RealmObject implements Parcelable {
 
     @SerializedName("Id")
     private String id;
@@ -120,4 +123,47 @@ public class Flower extends RealmObject{
     public void setPrice(int price) {
         this.price = price;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.categoryId);
+        dest.writeString(this.shortDescription);
+        dest.writeString(this.fullDescription);
+        dest.writeString(this.image);
+        dest.writeInt(this.oldPrice);
+        dest.writeInt(this.price);
+        dest.writeByte(this.isNewest ? (byte) 1 : (byte) 0);
+    }
+
+    protected Flower(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.categoryId = in.readString();
+        this.shortDescription = in.readString();
+        this.fullDescription = in.readString();
+        this.image = in.readString();
+        this.oldPrice = in.readInt();
+        this.price = in.readInt();
+        this.isNewest = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<Flower> CREATOR = new Parcelable.Creator<Flower>() {
+        @Override
+        public Flower createFromParcel(Parcel source) {
+            return new Flower(source);
+        }
+
+        @Override
+        public Flower[] newArray(int size) {
+            return new Flower[size];
+        }
+    };
 }

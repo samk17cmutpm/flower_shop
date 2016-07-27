@@ -52,7 +52,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadRefreshData() {
         Observable<Response<FlowerResponse>> observable =
-                client.getFlowers(currentPage, SIZE);
+                client.getFlowers(0, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
