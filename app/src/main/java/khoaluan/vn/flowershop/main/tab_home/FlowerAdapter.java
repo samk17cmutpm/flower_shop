@@ -28,7 +28,7 @@ public class FlowerAdapter extends BaseQuickAdapter<Flower> {
     @Override
     protected void convert(BaseViewHolder baseViewHolder, Flower flower) {
         baseViewHolder.setText(R.id.tv_flower_name, flower.getName())
-                .setText(R.id.tv_price, flower.getPrice() + "");
+                .setText(R.id.tv_price, flower.getMoney() + "");
 
         ImageView imageView = (ImageView) baseViewHolder.getConvertView().findViewById(R.id.im_flower);
         if (flower.getImage() != null)

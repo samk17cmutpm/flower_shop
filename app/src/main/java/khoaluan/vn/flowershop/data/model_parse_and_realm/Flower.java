@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 import io.realm.RealmObject;
 
 /**
@@ -178,4 +181,14 @@ public class Flower extends RealmObject implements Parcelable {
             return new Flower[size];
         }
     };
+
+    public String getMoney() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat();
+        df.setDecimalFormatSymbols(symbols);
+        df.setGroupingSize(3);
+        df.setMaximumFractionDigits(2);
+        return df.format(getPrice()) + " VND";
+    }
 }
