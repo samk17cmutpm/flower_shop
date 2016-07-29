@@ -27,6 +27,10 @@
             android:name=".detail.DetailsActivity"
             android:label="@string/title_activity_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".category_detail.CategoryDetailActivity"
+            android:label="@string/title_activity_category_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

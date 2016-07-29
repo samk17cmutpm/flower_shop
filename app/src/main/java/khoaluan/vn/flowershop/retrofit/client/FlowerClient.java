@@ -25,4 +25,9 @@ public interface FlowerClient {
     Observable<Response<FlowerResponse>> getFlowersBySearch(@Path("key") String key,
                                                             @Path("page") int page,
                                                             @Path("size") int size);
+
+    @GET("/api/v1/product/getproducts/{id}/{page}/{size}")
+    Observable<Response<FlowerResponse>> getFlowersByCategory(@Path("id") String id,
+                                                              @Path("page") int page,
+                                                              @Path("size") int size);
 }

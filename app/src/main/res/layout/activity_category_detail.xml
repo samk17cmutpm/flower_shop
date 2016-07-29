@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".detail.DetailsActivity">
-
-    <include layout="@layout/content_details" />
+    tools:context="khoaluan.vn.flowershop.category_detail.CategoryDetailActivity">
+    <include layout="@layout/content_category_detail" />
 
 </android.support.design.widget.CoordinatorLayout>

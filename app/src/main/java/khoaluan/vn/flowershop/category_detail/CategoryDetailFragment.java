@@ -1,4 +1,4 @@
-package khoaluan.vn.flowershop.main.tab_home;
+package khoaluan.vn.flowershop.category_detail;
 
 
 import android.app.Activity;
@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -21,23 +25,29 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
+import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements HomeContract.View,
-        SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, Base{
+public class CategoryDetailFragment extends BaseFragment implements CategoryDetailContract.View, Base, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
-    private HomeContract.Presenter presenter;
+    private CategoryDetailContract.Presenter presenter;
     private View root;
+    private Activity activity;
     private FlowerAdapter adapter;
     private List<Flower> flowers;
-    private Activity activity;
+
     private GridLayoutManager gridLayoutManager;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbarView;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -45,14 +55,13 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    public HomeFragment() {
+
+    public CategoryDetailFragment() {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+    public static CategoryDetailFragment newInstance() {
+        CategoryDetailFragment fragment = new CategoryDetailFragment();
         return fragment;
     }
 
@@ -61,14 +70,14 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_home, container, false);
+        root = inflater.inflate(R.layout.fragment_category_detail, container, false);
         ButterKnife.bind(this, root);
         // UI
+        initilizeToolBar();
         showUI();
         // Initialize GridView
         initilizeGridView();
         setDeviderForGridView();
-        // Loading data
         presenter.loadData();
         return root;
     }
@@ -99,8 +108,6 @@ public class HomeFragment extends Fragment implements HomeContract.View,
         });
         recyclerView.setAdapter(adapter);
     }
-
-
 
     @Override
     public void showUI() {
@@ -153,6 +160,46 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     @Override
+    public void setEmptyRecyclerView(String message) {
+        View emptyView = activity.getLayoutInflater().inflate(R.layout.recycler_view_empty, (ViewGroup) recyclerView.getParent(), false);
+        TextView textView = (TextView) emptyView.findViewById(R.id.textView);
+        textView.setText(message);
+        adapter.setEmptyView(emptyView);
+    }
+
+    @Override
+    public void setPresenter(CategoryDetailContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void initilizeToolBar() {
+        toolbarView = (Toolbar) root.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarView);
+        toolbarView.setContentInsetsAbsolute(0, 0);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbarView.setNavigationIcon(R.drawable.ic_back);
+        toolbarView.setTitleTextColor(getResources().getColor(R.color.white));
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(presenter.getCategory().getName());
+        toolbarView.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.loadRefreshData();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        presenter.loadMoreData();
+    }
+
+    @Override
     public void noInternetConnectTion() {
         Snackbar.make(recyclerView, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE).
                 setAction(R.string.retry_again, new View.OnClickListener() {
@@ -164,20 +211,5 @@ public class HomeFragment extends Fragment implements HomeContract.View,
                 .setActionTextColor(getResources().getColor(R.color.colorAccent))
                 .setDuration(5000)
                 .show();
-    }
-
-    @Override
-    public void setPresenter(HomeContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
-    public void onRefresh() {
-        presenter.loadRefreshData();
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        presenter.loadMoreData();
     }
 }

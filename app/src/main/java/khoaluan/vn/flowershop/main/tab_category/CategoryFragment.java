@@ -2,6 +2,7 @@ package khoaluan.vn.flowershop.main.tab_category;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 
@@ -76,6 +78,14 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                Intent intent = new Intent(getActivity(), CategoryDetailActivity.class);
+                intent.putExtra(CATEGORY_PARCELABLE, categories.get(i));
+                activity.startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 

@@ -1,8 +1,7 @@
-package khoaluan.vn.flowershop.main.tab_search;
+package khoaluan.vn.flowershop.category_detail;
 
+import android.app.Activity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +9,9 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
-import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import retrofit2.Response;
@@ -22,138 +21,133 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by samnguyen on 7/19/16.
+ * Created by samnguyen on 7/28/16.
  */
-public class SearchPresenter implements SearchContract.Presenter, Base {
-    private static String TAG = SearchPresenter.class.getName();
-    private final MainActivity activity;
-    private final SearchContract.View view;
+public class CategoryDetailPresenter implements CategoryDetailContract.Presenter, Base {
+    private static String TAG = CategoryDetailPresenter.class.getName();
+    private final CategoryDetailContract.View view;
+    private final Activity activity;
+    private final Realm realm;
     private final FlowerClient client;
     private int currentPage = 0;
     private boolean hasNext;
-    private String key;
-    private final Realm realm;
+    private final Category category;
 
-    public SearchPresenter (MainActivity activity, SearchContract.View view) {
-        this.activity = activity;
+    public CategoryDetailPresenter(CategoryDetailContract.View view, Activity activity, Category category) {
         this.view = view;
+        this.activity = activity;
         this.view.setPresenter(this);
+        this.category = category;
         this.realm = Realm.getDefaultInstance();
         this.client = ServiceGenerator.createService(FlowerClient.class);
     }
+
     @Override
     public void loadData() {
-        this.view.showDataSearch(loadAll(20), false);
+        this.view.showIndicator(true);
+        this.view.showFlowers(loadLocalFlowersByCategory(category.getId()), false);
+        loadRefreshData();
     }
 
     @Override
-    public void loadDataBySearch(String key) {
-        this.key = key;
+    public void loadRefreshData() {
         Observable<Response<FlowerResponse>> observable =
-                client.getFlowersBySearch(key, 0, SIZE);
+                client.getFlowersByCategory(category.getId(), 0, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<Response<FlowerResponse>>() {
-                    private List<Flower> flowers = new ArrayList<Flower>();
+                    private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
-                        view.initilizeGridview();
-                        view.showNoResult();
-                        view.showDataSearch(flowers, hasNext);
+                        view.clearAllDataLocal();
                         view.showIndicator(false);
-                        view.setEnableRefresh(!flowers.isEmpty());
-                        if (!flowers.isEmpty())
-                            updateData(setFlowersIsSearch(flowers));
+                        view.setEmptyRecyclerView("Hiện Tại Chưa Có Dữ Liệu Cho Mục Này");
+                        view.showFlowers(flowers, hasNext);
+                        updateLocalFlowersByCategory(category.getId(), flowers);
                         currentPage = 1;
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
                         view.showIndicator(false);
                         view.noInternetConnectTion();
+                        e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> flowerResponseResponse) {
-                        if (flowerResponseResponse.isSuccessful()) {
-                            flowers.addAll(flowerResponseResponse.body().getResult());
-                            hasNext = flowerResponseResponse.body().isHasNext();
+                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
+                        if (mostFlowerResponseResponse.isSuccessful()) {
+                            flowers.addAll(mostFlowerResponseResponse.body().getResult());
+                            hasNext = mostFlowerResponseResponse.body().isHasNext();
                         }
                     }
                 });
+
+
     }
 
     @Override
-    public void loadMoreDataBySearch() {
+    public void loadMoreData() {
         Observable<Response<FlowerResponse>> observable =
-                client.getFlowersBySearch(key, currentPage, SIZE);
+                client.getFlowersByCategory(category.getId(), currentPage, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<Response<FlowerResponse>>() {
-                    private List<Flower> flowers = new ArrayList<Flower>();
+                    private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
-                        view.showDataSearch(flowers, hasNext);
+                        view.showIndicator(false);
+                        view.showFlowers(flowers, hasNext);
                         view.finishLoadMore(hasNext);
                         currentPage ++;
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        view.showIndicator(false);
+                        view.finishLoadMore(true);
                         view.noInternetConnectTion();
+                        e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> flowerResponseResponse) {
-                        if (flowerResponseResponse.isSuccessful()) {
-                            flowers.addAll(flowerResponseResponse.body().getResult());
-                            hasNext = flowerResponseResponse.body().isHasNext();
+                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
+                        if (mostFlowerResponseResponse.isSuccessful()) {
+                            flowers.addAll(mostFlowerResponseResponse.body().getResult());
+                            hasNext = mostFlowerResponseResponse.body().isHasNext();
                         }
+
                     }
                 });
     }
 
     @Override
-    public void resetData() {
-
-    }
-
-    @Override
     public void start() {
-        Log.d(TAG, "Search Presenter");
+
     }
 
-    private List<Flower> setFlowersIsSearch(List<Flower> flowers) {
-        for (Flower flower : flowers)
-            flower.setSearch(true);
-
+    @Override
+    public List<Flower> loadLocalFlowersByCategory(String categoryId) {
+        RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("categoryId", categoryId).findAll();
         return flowers;
     }
 
     @Override
-    public List<Flower> loadAll(int limit) {
-        RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isSearch", true).findAll();
-        return flowers;
-    }
-
-    @Override
-    public void updateData(final List<Flower> list) {
+    public void updateLocalFlowersByCategory(final String categoryId, final List<Flower> list) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isSearch", true).findAll();
+                RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("categoryId", categoryId).findAll();
                 flowers.deleteAllFromRealm();
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "Clear data local flowers successfully");
+                Log.d(TAG, "Clear data local flowers by category successfully");
                 realm.executeTransactionAsync(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -162,10 +156,15 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
                     public void onSuccess() {
-                        Log.d(TAG, "Save data success");
+                        Log.d(TAG, "Save data by category success");
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public Category getCategory() {
+        return category;
     }
 }

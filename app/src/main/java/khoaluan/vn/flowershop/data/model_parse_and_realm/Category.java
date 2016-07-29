@@ -1,5 +1,8 @@
 package khoaluan.vn.flowershop.data.model_parse_and_realm;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -9,7 +12,7 @@ import io.realm.RealmObject;
 /**
  * Created by samnguyen on 7/21/16.
  */
-public class Category extends RealmObject {
+public class Category extends RealmObject implements Parcelable {
 
     @SerializedName("Id")
     private String id;
@@ -65,4 +68,36 @@ public class Category extends RealmObject {
         this.type = type;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeString(this.type);
+    }
+
+    protected Category(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.type = in.readString();
+    }
+
+    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+        @Override
+        public Category createFromParcel(Parcel source) {
+            return new Category(source);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
 }

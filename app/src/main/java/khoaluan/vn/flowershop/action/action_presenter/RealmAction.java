@@ -21,4 +21,9 @@ public interface RealmAction {
         void updateLocalGiftCategories(List<T> newList);
     }
 
+    interface FlowerByCategory<T> {
+        List<T> loadLocalFlowersByCategory(String categoryId);
+        void updateLocalFlowersByCategory(String categoryId, List<T> list);
+    }
+
 }

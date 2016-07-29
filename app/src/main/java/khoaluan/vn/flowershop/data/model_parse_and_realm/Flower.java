@@ -38,6 +38,8 @@ public class Flower extends RealmObject implements Parcelable {
 
     private boolean isNewest;
 
+    private boolean isSearch;
+
     public Flower() {
     }
 
@@ -50,6 +52,14 @@ public class Flower extends RealmObject implements Parcelable {
         this.image = image;
         this.oldPrice = oldPrice;
         this.price = price;
+    }
+
+    public boolean isSearch() {
+        return isSearch;
+    }
+
+    public void setSearch(boolean search) {
+        isSearch = search;
     }
 
     public boolean isNewest() {
@@ -141,6 +151,7 @@ public class Flower extends RealmObject implements Parcelable {
         dest.writeInt(this.oldPrice);
         dest.writeInt(this.price);
         dest.writeByte(this.isNewest ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isSearch ? (byte) 1 : (byte) 0);
     }
 
     protected Flower(Parcel in) {
@@ -153,9 +164,10 @@ public class Flower extends RealmObject implements Parcelable {
         this.oldPrice = in.readInt();
         this.price = in.readInt();
         this.isNewest = in.readByte() != 0;
+        this.isSearch = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Flower> CREATOR = new Parcelable.Creator<Flower>() {
+    public static final Creator<Flower> CREATOR = new Creator<Flower>() {
         @Override
         public Flower createFromParcel(Parcel source) {
             return new Flower(source);

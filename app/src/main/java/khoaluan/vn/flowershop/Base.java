@@ -17,4 +17,7 @@ public interface Base {
     int RECYCLER_VIEW_DISTANCE = 1;
 
     int SIZE = 20;
+
+    String FLOWER_PARCELABLE = "FLOWER_PARCELABLE";
+    String CATEGORY_PARCELABLE = "CATEGORY_PARCELABLE";
 }

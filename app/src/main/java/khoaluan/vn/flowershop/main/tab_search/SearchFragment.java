@@ -2,6 +2,7 @@ package khoaluan.vn.flowershop.main.tab_search;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -9,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
 
@@ -75,6 +76,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
         setUpFloatSearch();
         initilizeGridview();
         setDeviderForGridView();
+        presenter.loadData();
         return root;
     }
 
@@ -110,7 +112,20 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
         View viewLoadingMore = getActivity().getLayoutInflater().inflate(R.layout.loading_more_ui,
                 (ViewGroup) recyclerView.getParent(), false);
         adapter.setLoadingView(viewLoadingMore);
+        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                showFlowerDetails(flowers.get(i));
+            }
+        });
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showFlowerDetails(Flower flower) {
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra(FLOWER_PARCELABLE, flower);
+        getActivity().startActivity(intent);
     }
 
     @Override
@@ -140,7 +155,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
 
     @Override
     public void showNoResult() {
-        View emptyView = activity.getLayoutInflater().inflate(R.layout.search_empty, (ViewGroup) recyclerView.getParent(), false);
+        View emptyView = activity.getLayoutInflater().inflate(R.layout.recycler_view_empty, (ViewGroup) recyclerView.getParent(), false);
         adapter.setEmptyView(emptyView);
     }
 

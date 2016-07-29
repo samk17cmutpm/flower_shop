@@ -7,6 +7,7 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
+import khoaluan.vn.flowershop.action.action_presenter.RealmAction;
 import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 
@@ -25,9 +26,9 @@ public interface SearchContract {
         void showIndicator(boolean active);
         void showNoResult();
         void setEnableRefresh(boolean active);
-
+        void showFlowerDetails(Flower flower);
     }
-    interface Presenter extends BasePresenter {
+    interface Presenter extends BasePresenter, RealmAction.Flower<Flower> {
         void loadData();
         void loadDataBySearch(String key);
         void loadMoreDataBySearch();
