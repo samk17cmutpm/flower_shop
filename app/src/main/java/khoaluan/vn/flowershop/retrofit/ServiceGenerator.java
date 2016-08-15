@@ -36,7 +36,7 @@ public class ServiceGenerator {
             })
             .create();
 
-    public static final String API_BASE_URL = "http://www2.dienhoaquatang.com";
+    public static final String API_BASE_URL = "http://dienhoaquatang.com";
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 

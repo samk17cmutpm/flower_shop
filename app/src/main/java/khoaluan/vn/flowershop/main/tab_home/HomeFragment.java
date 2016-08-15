@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,8 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     private FlowerAdapter adapter;
     private List<Flower> flowers;
     private Activity activity;
-    private GridLayoutManager gridLayoutManager;
+
+    private LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -80,12 +82,12 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     @Override
     public void initilizeGridView() {
-        gridLayoutManager = new GridLayoutManager(getActivity(), GRID_VIEW_SIZE);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         flowers = new ArrayList<>();
         adapter = new FlowerAdapter(activity, flowers);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         adapter.setOnLoadMoreListener(this);
         View viewLoadingMore = getActivity().getLayoutInflater().inflate(R.layout.loading_more_ui,
