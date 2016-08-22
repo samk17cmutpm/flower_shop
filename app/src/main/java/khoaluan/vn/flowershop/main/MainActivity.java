@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
@@ -16,16 +19,23 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
+import khoaluan.vn.flowershop.action.action_view.CommonView;
 
-public class MainActivity extends BaseActivity implements ActtachMainView, Base {
+public class MainActivity extends BaseActivity implements ActtachMainView, Base, CommonView.ToolBar {
 
     private BottomBar bottomBar;
-    @BindView(R.id.vpPager) ViewPager viewPager;
+    @BindView(R.id.vpPager)
+    ViewPager viewPager;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbarView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initilizeToolBar();
         setUpBottomTabBar(savedInstanceState);
         setUpViewPager();
         injectBottomTabsToViewPager();
@@ -114,4 +124,19 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base 
         this.viewPager = viewPager;
     }
 
+    @Override
+    public void initilizeToolBar() {
+        setSupportActionBar(toolbarView);
+        toolbarView.setContentInsetsAbsolute(0, 0);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbarView.setNavigationIcon(R.drawable.ic_menu);
+        toolbarView.setTitleTextColor(getResources().getColor(R.color.white));
+        getSupportActionBar().setTitle("Livizi");
+        toolbarView.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
 }

@@ -2,52 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="khoaluan.vn.flowershop.main.tab_home.HomeFragment">
-
-    <!-- CoordinatorLayout is used to create scrolling and "floating" effects within a layout -->
-    <!-- This is typically the root layout which wraps the app bar and content -->
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!-- AppBarLayout is a wrapper for a Toolbar in order to apply scrolling effects. -->
-        <!-- Note that AppBarLayout expects to be the first child nested within a CoordinatorLayout -->
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-            <!-- Toolbar is the actual app bar with text and the action items -->
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways" >
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center_vertical"
-                    android:paddingLeft="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Livizi "
-                        android:id="@+id/textView2"
-                        android:textColor="@color/white" />
-                </RelativeLayout>
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-
-        <!-- This could also be included from another file using the include tag -->
-        <!-- i.e `res/layout/content_main.xml` -->
-        <!-- `app:layout_behavior` is set to a pre-defined standard scrolling behavior -->
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -58,20 +20,10 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+                android:id="@+id/recycler_view_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/recycler_view"-->
-                <!--android:scrollbars="vertical"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:clipToPadding="false"-->
-                <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
-
+                android:clipToPadding="false" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </android.support.design.widget.CoordinatorLayout>

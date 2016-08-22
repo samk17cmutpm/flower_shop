@@ -12,7 +12,7 @@ public interface Base {
     int TAB_INFO = 4;
 
     int GRID_VIEW_SIZE = 2;
-    int GRID_VIEW_DISTANCE = 15;
+    int GRID_VIEW_DISTANCE = 10;
 
     int RECYCLER_VIEW_DISTANCE = 1;
 

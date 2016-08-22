@@ -24,6 +24,9 @@ public class Flower extends RealmObject implements Parcelable {
     @SerializedName("CategoryId")
     private String categoryId;
 
+    @SerializedName("CategoryName")
+    private String CategoryName;
+
     @SerializedName("ShortDescription")
     private String shortDescription;
 
@@ -46,6 +49,8 @@ public class Flower extends RealmObject implements Parcelable {
     public Flower() {
     }
 
+
+
     public Flower(String id, String name, String categoryId, String shortDescription, String fullDescription, String image, int oldPrice, int price) {
         this.id = id;
         this.name = name;
@@ -55,6 +60,14 @@ public class Flower extends RealmObject implements Parcelable {
         this.image = image;
         this.oldPrice = oldPrice;
         this.price = price;
+    }
+
+    public String getCategoryName() {
+        return CategoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        CategoryName = categoryName;
     }
 
     public boolean isSearch() {

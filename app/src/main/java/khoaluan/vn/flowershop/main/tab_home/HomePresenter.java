@@ -3,7 +3,9 @@ package khoaluan.vn.flowershop.main.tab_home;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -28,8 +30,6 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     private final HomeContract.View view;
     private final Realm realm;
     private final FlowerClient client;
-    private int currentPage = 0;
-    private boolean hasNext;
 
     public HomePresenter(MainActivity activity, HomeContract.View view) {
         this.activity = activity;
@@ -41,18 +41,13 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadData() {
         this.view.showIndicator(true);
-        this.view.showFlowers(loadAll(SIZE), false);
-        loadRefreshData();
-    }
-    @Override
-    public boolean isHasNext() {
-        return hasNext;
+        loadTopProducts();
     }
 
     @Override
-    public void loadRefreshData() {
+    public void loadTopProducts() {
         Observable<Response<FlowerResponse>> observable =
-                client.getFlowers(0, SIZE);
+                client.getTopProducts();
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -61,17 +56,16 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
-                        view.clearAllDataLocal();
                         view.showIndicator(false);
-                        view.showFlowers(flowers, hasNext);
-                        updateData(setFlowersNewest(flowers));
-                        currentPage = 1;
+                        view.initilizeMainView();
+                        view.showTopProducts(convertTopProductsToMultipleItems(flowers));
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         view.showIndicator(false);
                         view.noInternetConnectTion();
+                        view.showError(null);
                         e.printStackTrace();
                     }
 
@@ -79,51 +73,46 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
-                            hasNext = mostFlowerResponseResponse.body().isHasNext();
                         }
 
                     }
                 });
     }
 
-    @Override
-    public void loadMoreData() {
-        Observable<Response<FlowerResponse>> observable =
-                client.getFlowers(currentPage, SIZE);
+    private List<MultipleItem> convertTopProductsToMultipleItems(List<Flower> flowers) {
+        // Create new Set
+        Set<String> idCategories = new LinkedHashSet<>();
+        for (Flower flower : flowers) {
+            idCategories.add(flower.getCategoryId());
+        }
+        // Create new List
+        List<MultipleItem> multipleItemses = new ArrayList<>();
 
-        observable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<FlowerResponse>>() {
-                    private List<Flower> flowers = new ArrayList<>();
-                    @Override
-                    public void onCompleted() {
-                        view.showIndicator(false);
-                        view.showFlowers(flowers, hasNext);
-                        view.finishLoadMore(hasNext);
-                        currentPage ++;
-                    }
+        for (String idCategory : idCategories) {
+            // Title
+            MultipleItem multipleItemTitle = new MultipleItem();
+            multipleItemTitle.setItemType(MultipleItem.TITLE);
+            // Flowers
+            MultipleItem multipleItemFlower = new MultipleItem();
+            multipleItemFlower.setItemType(MultipleItem.FLOWER);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        view.showIndicator(false);
-                        view.finishLoadMore(true);
-                        e.printStackTrace();
-                    }
+            List<Flower> flowersTemp = new ArrayList<>();
+            for (Flower flower : flowers) {
+                if (flower.getCategoryId().equals(idCategory)) {
+                    flowersTemp.add(flower);
+                    multipleItemTitle.setTitle(flower.getCategoryName());
+                }
 
-                    @Override
-                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
-                        if (mostFlowerResponseResponse.isSuccessful()) {
-                            flowers.addAll(mostFlowerResponseResponse.body().getResult());
-                            hasNext = mostFlowerResponseResponse.body().isHasNext();
-                        }
+            }
+            multipleItemFlower.setFlowers(flowersTemp);
 
-                    }
-                });
+            multipleItemses.add(multipleItemTitle);
+            multipleItemses.add(multipleItemFlower);
+        }
+
+        return multipleItemses;
+
     }
-
-
-
     @Override
     public void start() {
         Log.d(TAG, "Starting HomeFragment");

@@ -2,17 +2,16 @@ package khoaluan.vn.flowershop.main.tab_home;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -23,28 +22,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.detail.DetailsActivity;
-import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements HomeContract.View,
-        SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, Base{
+        SwipeRefreshLayout.OnRefreshListener, Base{
 
     private HomeContract.Presenter presenter;
     private View root;
-    private FlowerAdapter adapter;
-    private List<Flower> flowers;
+    private MultipleItemAdapter adapter;
     private Activity activity;
 
     private LinearLayoutManager linearLayoutManager;
+    private List<MultipleItem> multipleItems;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    @BindView(R.id.recycler_view)
+    @BindView(R.id.recycler_view_main)
     RecyclerView recyclerView;
 
     public HomeFragment() {
@@ -68,35 +64,21 @@ public class HomeFragment extends Fragment implements HomeContract.View,
         // UI
         showUI();
         // Initialize GridView
-        initilizeGridView();
-        setDeviderForGridView();
+        initilizeMainView();
         // Loading data
         presenter.loadData();
+
         return root;
     }
-
     @Override
-    public void clearAllDataLocal() {
-        initilizeGridView();
-    }
-
-    @Override
-    public void initilizeGridView() {
-        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
-        flowers = new ArrayList<>();
-        adapter = new FlowerAdapter(activity, flowers);
-        recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
+    public void initilizeMainView() {
+        multipleItems = new ArrayList<>();
+        adapter = new MultipleItemAdapter(activity, multipleItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        adapter.setOnLoadMoreListener(this);
-        View viewLoadingMore = getActivity().getLayoutInflater().inflate(R.layout.loading_more_ui,
-                (ViewGroup) recyclerView.getParent(), false);
-        adapter.setLoadingView(viewLoadingMore);
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int index) {
-                showFlowerDetails(flowers.get(index));
+
             }
         });
         recyclerView.setAdapter(adapter);
@@ -106,7 +88,9 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     @Override
     public void showUI() {
+
         activity = getActivity();
+
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setNestedScrollingEnabled(true);
@@ -114,13 +98,11 @@ public class HomeFragment extends Fragment implements HomeContract.View,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-    }
 
-    @Override
-    public void showFlowers(List<Flower> flowers, boolean isHasNext) {
-        this.flowers.addAll(flowers);
-        adapter.notifyDataSetChanged();
-        adapter.openLoadMore(this.flowers.size(), isHasNext);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
     }
 
     @Override
@@ -134,24 +116,24 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     @Override
-    public void setDeviderForGridView() {
-        SpacesItemDecoration decoration = new SpacesItemDecoration(GRID_VIEW_DISTANCE);
-        recyclerView.addItemDecoration(decoration);
+    public void showTopProducts(List<MultipleItem> multipleItems) {
+        this.multipleItems.addAll(multipleItems);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void finishLoadMore(boolean finish) {
-        if (finish)
-            adapter.notifyDataChangedAfterLoadMore(finish);
-        else
-            adapter.openLoadMore(finish);
-    }
-
-    @Override
-    public void showFlowerDetails(Flower flower) {
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(FLOWER_PARCELABLE, flower);
-        getActivity().startActivity(intent);
+    public void showError(String message) {
+        View view_empty = this.activity.getLayoutInflater().inflate(R.layout.flowers_empty,
+                (ViewGroup) recyclerView.getParent(), false);
+        RelativeLayout relativeLayoutRefresh = (RelativeLayout)
+                view_empty.findViewById(R.id.rl_refresh);
+        relativeLayoutRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.loadTopProducts();
+            }
+        });
+        adapter.setEmptyView(view_empty);
     }
 
     @Override
@@ -175,11 +157,7 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     @Override
     public void onRefresh() {
-        presenter.loadRefreshData();
+        presenter.loadTopProducts();
     }
 
-    @Override
-    public void onLoadMoreRequested() {
-        presenter.loadMoreData();
-    }
 }

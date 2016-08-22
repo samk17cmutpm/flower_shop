@@ -12,7 +12,7 @@ import rx.Observable;
  */
 public interface FlowerClient {
 
-    @GET("/api/v1/product/getbestproducts/{page}/{size}")
+    @GET("/api/v1/product/get-best-products/{page}/{size}")
     Observable<Response<FlowerResponse>> getFlowers(@Path("page") int page, @Path("size") int size);
 
     @GET("/api/v1/flower/getcategories")
@@ -30,4 +30,7 @@ public interface FlowerClient {
     Observable<Response<FlowerResponse>> getFlowersByCategory(@Path("id") String id,
                                                               @Path("page") int page,
                                                               @Path("size") int size);
+
+    @GET("/api/v1/product/get-top-products")
+    Observable<Response<FlowerResponse>> getTopProducts();
 }

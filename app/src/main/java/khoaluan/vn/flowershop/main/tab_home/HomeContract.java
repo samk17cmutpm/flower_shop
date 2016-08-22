@@ -13,22 +13,15 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
  */
 public interface HomeContract {
     interface View extends BaseView<Presenter>, Network {
-        void clearAllDataLocal();
-        void initilizeGridView();
+        void initilizeMainView();
         void showUI();
-        void showFlowers(List<Flower> flowers, boolean isHasNext);
         void showIndicator(boolean active);
-        void setDeviderForGridView();
-        void finishLoadMore(boolean finish);
-        void showFlowerDetails(Flower flower);
+        void showTopProducts(List<MultipleItem> multipleItems);
+        void showError(String message);
     }
     interface Presenter extends BasePresenter, RealmAction.Flower<Flower> {
         void loadData();
-        boolean isHasNext();
-
         // Local Data
-        void loadRefreshData();
-        void loadMoreData();
-
+        void loadTopProducts();
     }
 }

@@ -5,7 +5,7 @@
     tools:context=".main.tab_category.CategoryFragment">
 
     <!-- CoordinatorLayout is used to create scrolling and "floating" effects within a layout -->
-    <!-- This is typically the root layout which wraps the app bar and content -->
+    <!-- This is typically the root layout which wraps the app bar and title -->
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
