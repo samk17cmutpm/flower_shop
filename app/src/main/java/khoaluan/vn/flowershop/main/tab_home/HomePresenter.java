@@ -17,6 +17,7 @@ import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
+import khoaluan.vn.flowershop.utils.ConvertUtils;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -49,6 +50,13 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     }
 
     @Override
+    public void refreshData() {
+        this.view.showIndicator(true);
+        this.multipleMainItems = new ArrayList<>();
+        loadAdvertisingItems();
+    }
+
+    @Override
     public void loadTopProducts() {
         Observable<Response<FlowerResponse>> observable =
                 client.getTopProducts();
@@ -62,7 +70,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     public void onCompleted() {
                         view.showIndicator(false);
                         view.initilizeMainView();
-                        multipleMainItems.addAll(convertTopProductsToMultipleItems(flowers));
+                        multipleMainItems.addAll(ConvertUtils.convertTopProductsToMultipleItems(flowers));
                         view.showTopProducts(multipleMainItems);
                     }
 
@@ -105,7 +113,8 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        view.showTopProducts(multipleMainItems);
+                        view.noInternetConnectTion();
+                        view.showError(null);
                     }
 
                     @Override
@@ -117,47 +126,6 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                 });
     }
 
-    @Override
-    public void refreshData() {
-        this.view.showIndicator(true);
-        this.multipleMainItems = new ArrayList<>();
-        loadAdvertisingItems();
-    }
-
-    private List<MultipleMainItem> convertTopProductsToMultipleItems(List<Flower> flowers) {
-        // Create new Set
-        Set<String> idCategories = new LinkedHashSet<>();
-        for (Flower flower : flowers) {
-            idCategories.add(flower.getCategoryId());
-        }
-        // Create new List
-        List<MultipleMainItem> multipleMainItemses = new ArrayList<>();
-
-        for (String idCategory : idCategories) {
-            // Title
-            MultipleMainItem multipleMainItemTitle = new MultipleMainItem();
-            multipleMainItemTitle.setItemType(MultipleMainItem.TITLE);
-            // Flowers
-            MultipleMainItem multipleMainItemFlower = new MultipleMainItem();
-            multipleMainItemFlower.setItemType(MultipleMainItem.FLOWER);
-
-            List<Flower> flowersTemp = new ArrayList<>();
-            for (Flower flower : flowers) {
-                if (flower.getCategoryId().equals(idCategory)) {
-                    flowersTemp.add(flower);
-                    multipleMainItemTitle.setTitle(flower.getCategoryName());
-                }
-
-            }
-            multipleMainItemFlower.setFlowers(flowersTemp);
-
-            multipleMainItemses.add(multipleMainItemTitle);
-            multipleMainItemses.add(multipleMainItemFlower);
-        }
-
-        return multipleMainItemses;
-
-    }
     @Override
     public void start() {
         Log.d(TAG, "Starting HomeFragment");

@@ -12,8 +12,8 @@ public interface Base {
     int TAB_INFO = 4;
 
     int GRID_VIEW_SIZE = 2;
-    int PRODUCT_DISTANCE = 10;
-    int ADVERTISING_DISTANCE = 5;
+    int PRODUCT_DISTANCE = 5;
+    int ADVERTISING_DISTANCE = 2;
 
     int RECYCLER_VIEW_DISTANCE = 1;
 

@@ -15,7 +15,9 @@ import java.util.List;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.utils.ConvertUtils;
 
 /**
  * Created by samnguyen on 8/22/16.
@@ -36,57 +38,61 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
     protected void convert(BaseViewHolder holder, MultipleMainItem item) {
         switch (holder.getItemViewType()) {
             case MultipleMainItem.ADVERTISING:
-                MultipleAdvertisingAdapter multipleAdvertisingAdapter =
-                        new MultipleAdvertisingAdapter(this.activity,
-                                convertAdvertisingToMultipleAdvertisingItem(item.getAdvertisings()));
-
-                LinearLayoutManager linearLayoutAdvertisingManager =
-                        new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-                RecyclerView recyclerViewAdvertising =
-                        (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
-
-                recyclerViewAdvertising.setHasFixedSize(true);
-                recyclerViewAdvertising.setLayoutManager(linearLayoutAdvertisingManager);
-                recyclerViewAdvertising.removeItemDecoration(spaceAdvertising);
-                recyclerViewAdvertising.addItemDecoration(spaceAdvertising);
-
-                View view_empty_advertising = this.activity.getLayoutInflater().inflate(R.layout.flowers_empty,
-                        (ViewGroup) recyclerViewAdvertising.getParent(), false);
-
-                multipleAdvertisingAdapter.setEmptyView(view_empty_advertising);
-                recyclerViewAdvertising.setAdapter(multipleAdvertisingAdapter);
+                setUpAdvertising(activity, holder, item.getAdvertisings(), spaceAdvertising);
                 break;
             case MultipleMainItem.TITLE:
-                holder.setText(R.id.tv_title, item.getTitle());
+                setUpTitle(activity, holder, item.getTitle());
                 break;
             case MultipleMainItem.FLOWER:
-                FlowerAdapter adapter = new FlowerAdapter(this.activity, item.getFlowers());
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
-                RecyclerView recyclerView = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.removeItemDecoration(spaceProduct);
-                recyclerView.addItemDecoration(spaceProduct);
-                View view_empty = this.activity.getLayoutInflater().inflate(R.layout.flowers_empty,
-                        (ViewGroup) recyclerView.getParent(), false);
-                adapter.setEmptyView(view_empty);
-                recyclerView.setAdapter(adapter);
+                setUpTopsProduct(activity, holder, item.getFlowers(), spaceProduct);
                 break;
         }
     }
 
-    private List<MultipleAdvertisingItem> convertAdvertisingToMultipleAdvertisingItem(List<Advertising> advertisings) {
-        List<MultipleAdvertisingItem> multipleAdvertisingItems = new ArrayList<>();
-        for (Advertising advertising : advertisings) {
-            MultipleAdvertisingItem multipleAdvertisingItem = new MultipleAdvertisingItem(advertising.getAdvertisingItems());
-            if (advertising.getAdvertisingItems().size() > 1) {
-                multipleAdvertisingItem.setItemType(MultipleAdvertisingItem.MORE);
-            } else {
-                multipleAdvertisingItem.setItemType(MultipleAdvertisingItem.ONLY_ONE);
-            }
-            multipleAdvertisingItems.add(multipleAdvertisingItem);
-        }
-        return multipleAdvertisingItems;
+    private static void setUpTitle(Activity activity, BaseViewHolder holder, String title) {
+        holder.setText(R.id.tv_title, title);
     }
+
+
+    private static void setUpAdvertising(Activity activity, BaseViewHolder holder,
+                                  List<Advertising> advertisings, SpacesItemDecoration spacesItemDecoration) {
+        MultipleAdvertisingAdapter multipleAdvertisingAdapter =
+                new MultipleAdvertisingAdapter(activity,
+                        ConvertUtils.convertAdvertisingToMultipleAdvertisingItem(advertisings));
+
+        LinearLayoutManager linearLayoutAdvertisingManager =
+                new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        RecyclerView recyclerViewAdvertising =
+                (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
+
+        recyclerViewAdvertising.setHasFixedSize(true);
+        recyclerViewAdvertising.setLayoutManager(linearLayoutAdvertisingManager);
+        recyclerViewAdvertising.removeItemDecoration(spacesItemDecoration);
+        recyclerViewAdvertising.addItemDecoration(spacesItemDecoration);
+
+        View view_empty_advertising = activity.getLayoutInflater().inflate(R.layout.flowers_empty,
+                (ViewGroup) recyclerViewAdvertising.getParent(), false);
+
+        multipleAdvertisingAdapter.setEmptyView(view_empty_advertising);
+        recyclerViewAdvertising.setAdapter(multipleAdvertisingAdapter);
+    }
+
+
+    private static void setUpTopsProduct(Activity activity, BaseViewHolder holder,
+                                         List<Flower> flowers, SpacesItemDecoration spacesItemDecoration) {
+        FlowerAdapter adapter = new FlowerAdapter(activity, flowers);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.removeItemDecoration(spacesItemDecoration);
+        recyclerView.addItemDecoration(spacesItemDecoration);
+        View view_empty = activity.getLayoutInflater().inflate(R.layout.flowers_empty,
+                (ViewGroup) recyclerView.getParent(), false);
+        adapter.setEmptyView(view_empty);
+        recyclerView.setAdapter(adapter);
+    }
+
+
 
 }
