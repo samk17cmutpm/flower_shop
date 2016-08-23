@@ -1,5 +1,6 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
+import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import retrofit2.Response;
@@ -11,6 +12,12 @@ import rx.Observable;
  * Created by samnguyen on 7/25/16.
  */
 public interface FlowerClient {
+
+    @GET("/api/v1/advertising/get-advertising")
+    Observable<Response<AdvertisingResponse>> getAdvertisingItems();
+
+    @GET("/api/v1/product/get-top-products")
+    Observable<Response<FlowerResponse>> getTopProducts();
 
     @GET("/api/v1/product/get-best-products/{page}/{size}")
     Observable<Response<FlowerResponse>> getFlowers(@Path("page") int page, @Path("size") int size);
@@ -31,6 +38,5 @@ public interface FlowerClient {
                                                               @Path("page") int page,
                                                               @Path("size") int size);
 
-    @GET("/api/v1/product/get-top-products")
-    Observable<Response<FlowerResponse>> getTopProducts();
+
 }

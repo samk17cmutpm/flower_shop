@@ -31,11 +31,11 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     private HomeContract.Presenter presenter;
     private View root;
-    private MultipleItemAdapter adapter;
+    private MultipleMainItemAdapter adapter;
     private Activity activity;
 
     private LinearLayoutManager linearLayoutManager;
-    private List<MultipleItem> multipleItems;
+    private List<MultipleMainItem> multipleMainItems;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -72,8 +72,8 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
     @Override
     public void initilizeMainView() {
-        multipleItems = new ArrayList<>();
-        adapter = new MultipleItemAdapter(activity, multipleItems);
+        multipleMainItems = new ArrayList<>();
+        adapter = new MultipleMainItemAdapter(activity, multipleMainItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
@@ -116,8 +116,8 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     @Override
-    public void showTopProducts(List<MultipleItem> multipleItems) {
-        this.multipleItems.addAll(multipleItems);
+    public void showTopProducts(List<MultipleMainItem> multipleMainItems) {
+        this.multipleMainItems.addAll(multipleMainItems);
         adapter.notifyDataSetChanged();
     }
 
@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     @Override
     public void onRefresh() {
-        presenter.loadTopProducts();
+        presenter.refreshData();
     }
 
 }

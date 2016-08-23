@@ -10,7 +10,9 @@ import java.util.Set;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
@@ -30,6 +32,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     private final HomeContract.View view;
     private final Realm realm;
     private final FlowerClient client;
+    private List<MultipleMainItem> multipleMainItems;
 
     public HomePresenter(MainActivity activity, HomeContract.View view) {
         this.activity = activity;
@@ -37,11 +40,12 @@ public class HomePresenter implements HomeContract.Presenter, Base{
         this.view.setPresenter(this);
         this.realm = Realm.getDefaultInstance();
         this.client = ServiceGenerator.createService(FlowerClient.class);
+        this.multipleMainItems = new ArrayList<>();
     }
     @Override
     public void loadData() {
         this.view.showIndicator(true);
-        loadTopProducts();
+        loadAdvertisingItems();
     }
 
     @Override
@@ -58,7 +62,8 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     public void onCompleted() {
                         view.showIndicator(false);
                         view.initilizeMainView();
-                        view.showTopProducts(convertTopProductsToMultipleItems(flowers));
+                        multipleMainItems.addAll(convertTopProductsToMultipleItems(flowers));
+                        view.showTopProducts(multipleMainItems);
                     }
 
                     @Override
@@ -74,43 +79,83 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void loadAdvertisingItems() {
+        Observable<Response<AdvertisingResponse>> observable =
+                client.getAdvertisingItems();
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<AdvertisingResponse>>() {
+                    List<Advertising> advertisings = new ArrayList<Advertising>();
+                    @Override
+                    public void onCompleted() {
+                        MultipleMainItem multipleMainItem = new MultipleMainItem();
+                        multipleMainItem.setItemType(MultipleMainItem.ADVERTISING);
+                        multipleMainItem.setAdvertisings(advertisings);
+                        multipleMainItems.add(multipleMainItem);
+                        loadTopProducts();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.showTopProducts(multipleMainItems);
+                    }
+
+                    @Override
+                    public void onNext(Response<AdvertisingResponse> advertisingResponseResponse) {
+                        if (advertisingResponseResponse.isSuccessful())
+                            advertisings.addAll(advertisingResponseResponse.body().getResult());
 
                     }
                 });
     }
 
-    private List<MultipleItem> convertTopProductsToMultipleItems(List<Flower> flowers) {
+    @Override
+    public void refreshData() {
+        this.view.showIndicator(true);
+        this.multipleMainItems = new ArrayList<>();
+        loadAdvertisingItems();
+    }
+
+    private List<MultipleMainItem> convertTopProductsToMultipleItems(List<Flower> flowers) {
         // Create new Set
         Set<String> idCategories = new LinkedHashSet<>();
         for (Flower flower : flowers) {
             idCategories.add(flower.getCategoryId());
         }
         // Create new List
-        List<MultipleItem> multipleItemses = new ArrayList<>();
+        List<MultipleMainItem> multipleMainItemses = new ArrayList<>();
 
         for (String idCategory : idCategories) {
             // Title
-            MultipleItem multipleItemTitle = new MultipleItem();
-            multipleItemTitle.setItemType(MultipleItem.TITLE);
+            MultipleMainItem multipleMainItemTitle = new MultipleMainItem();
+            multipleMainItemTitle.setItemType(MultipleMainItem.TITLE);
             // Flowers
-            MultipleItem multipleItemFlower = new MultipleItem();
-            multipleItemFlower.setItemType(MultipleItem.FLOWER);
+            MultipleMainItem multipleMainItemFlower = new MultipleMainItem();
+            multipleMainItemFlower.setItemType(MultipleMainItem.FLOWER);
 
             List<Flower> flowersTemp = new ArrayList<>();
             for (Flower flower : flowers) {
                 if (flower.getCategoryId().equals(idCategory)) {
                     flowersTemp.add(flower);
-                    multipleItemTitle.setTitle(flower.getCategoryName());
+                    multipleMainItemTitle.setTitle(flower.getCategoryName());
                 }
 
             }
-            multipleItemFlower.setFlowers(flowersTemp);
+            multipleMainItemFlower.setFlowers(flowersTemp);
 
-            multipleItemses.add(multipleItemTitle);
-            multipleItemses.add(multipleItemFlower);
+            multipleMainItemses.add(multipleMainItemTitle);
+            multipleMainItemses.add(multipleMainItemFlower);
         }
 
-        return multipleItemses;
+        return multipleMainItemses;
 
     }
     @Override

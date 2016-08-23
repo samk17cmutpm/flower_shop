@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
@@ -140,7 +138,7 @@ public class CategoryDetailFragment extends BaseFragment implements CategoryDeta
 
     @Override
     public void setDeviderForGridView() {
-        SpacesItemDecoration decoration = new SpacesItemDecoration(GRID_VIEW_DISTANCE);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
         recyclerView.addItemDecoration(decoration);
     }
 

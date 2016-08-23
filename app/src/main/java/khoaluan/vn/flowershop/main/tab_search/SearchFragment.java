@@ -166,7 +166,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
 
     @Override
     public void setDeviderForGridView() {
-        SpacesItemDecoration decoration = new SpacesItemDecoration(GRID_VIEW_DISTANCE);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
         recyclerView.addItemDecoration(decoration);
     }
 

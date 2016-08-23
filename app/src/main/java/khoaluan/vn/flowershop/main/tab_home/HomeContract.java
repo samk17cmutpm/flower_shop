@@ -16,12 +16,14 @@ public interface HomeContract {
         void initilizeMainView();
         void showUI();
         void showIndicator(boolean active);
-        void showTopProducts(List<MultipleItem> multipleItems);
+        void showTopProducts(List<MultipleMainItem> multipleMainItems);
         void showError(String message);
     }
     interface Presenter extends BasePresenter, RealmAction.Flower<Flower> {
         void loadData();
         // Local Data
         void loadTopProducts();
+        void loadAdvertisingItems();
+        void refreshData();
     }
 }
