@@ -26,11 +26,11 @@
         <activity
             android:name=".detail.DetailsActivity"
             android:label="@string/title_activity_details"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".category_detail.CategoryDetailActivity"
             android:label="@string/title_activity_category_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

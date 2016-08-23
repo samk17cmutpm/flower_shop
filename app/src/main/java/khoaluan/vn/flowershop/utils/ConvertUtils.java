@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.main.tab_home.MultipleAdvertisingItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
@@ -62,5 +64,26 @@ public class ConvertUtils {
             multipleAdvertisingItems.add(multipleAdvertisingItem);
         }
         return multipleAdvertisingItems;
+    }
+
+    public static List<ExpandCategory> convertCategoriseToExpandCategories(List<Category> categories) {
+        Set<String> titles = new LinkedHashSet<>();
+        for (Category category : categories)
+            titles.add(category.getType());
+
+        List<ExpandCategory> expandCategories = new ArrayList<>();
+
+        for (String title : titles) {
+            List<Category> categoryTemp = new ArrayList<>();
+            for (Category category : categories) {
+                if (title.equals(category.getType()))
+                    categoryTemp.add(category);
+
+            }
+            expandCategories.add(new ExpandCategory(title, categoryTemp));
+
+        }
+
+        return expandCategories;
     }
 }

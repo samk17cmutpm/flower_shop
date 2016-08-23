@@ -4,14 +4,29 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabClickListener;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,15 +35,30 @@ import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
+import khoaluan.vn.flowershop.data.response.CategoryResponse;
+import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
+import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
+import khoaluan.vn.flowershop.utils.ConvertUtils;
+import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements ActtachMainView, Base, CommonView.ToolBar {
 
     private BottomBar bottomBar;
+
     @BindView(R.id.vpPager)
     ViewPager viewPager;
 
     @BindView(R.id.toolbar)
     Toolbar toolbarView;
+
+    @BindView(R.id.left_drawer)
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +69,10 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         setUpBottomTabBar(savedInstanceState);
         setUpViewPager();
         injectBottomTabsToViewPager();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        loadFlowerCategories();
+
     }
 
     @Override
@@ -128,15 +162,55 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
     public void initilizeToolBar() {
         setSupportActionBar(toolbarView);
         toolbarView.setContentInsetsAbsolute(0, 0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarView.setNavigationIcon(R.drawable.ic_menu);
         toolbarView.setTitleTextColor(getResources().getColor(R.color.white));
         getSupportActionBar().setTitle("Livizi");
-        toolbarView.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbarView, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
     }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void loadFlowerCategories() {
+        Observable<Response<CategoryResponse>> observable =
+                ServiceGenerator.createService(FlowerClient.class).getFlowerCategories();
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<CategoryResponse>>() {
+                    private List<Category> categories = new ArrayList<Category>();
+                    @Override
+                    public void onCompleted() {
+                        recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
+                                ConvertUtils.convertCategoriseToExpandCategories(categories)));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(Response<CategoryResponse> categoryResponseResponse) {
+                        if (categoryResponseResponse.isSuccessful())
+                            categories.addAll(categoryResponseResponse.body().getResult());
+                    }
+                });
+    }
+
+
+
+
+
+
 }
