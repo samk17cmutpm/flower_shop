@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.main.tab_home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,13 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.utils.AdvertisingUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 
 /**
@@ -34,7 +41,7 @@ public class MultipleAdvertisingAdapter extends BaseMultiItemQuickAdapter<Multip
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, MultipleAdvertisingItem multipleAdvertisingItem) {
+    protected void convert(BaseViewHolder holder, final MultipleAdvertisingItem multipleAdvertisingItem) {
         switch (holder.getItemViewType()) {
             case MultipleAdvertisingItem.ONLY_ONE:
                 ImageView imageView = (ImageView) holder.getConvertView().findViewById(R.id.iv_advertising);
@@ -56,6 +63,13 @@ public class MultipleAdvertisingAdapter extends BaseMultiItemQuickAdapter<Multip
                 View view_empty = this.activity.getLayoutInflater().inflate(R.layout.flowers_empty,
                         (ViewGroup) recyclerView.getParent(), false);
                 adapter.setEmptyView(view_empty);
+                adapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int i) {
+                        AdvertisingItem advertisingItem = multipleAdvertisingItem.getAdvertisingItems().get(i);
+                        AdvertisingUtils.goDetails(advertisingItem, activity);
+                    }
+                });
                 recyclerView.setAdapter(adapter);
                 break;
         }

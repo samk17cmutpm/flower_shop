@@ -34,7 +34,7 @@
                 android:background="@android:color/white"
                 android:id="@+id/relativeLayout2"
                 android:padding="5dp"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center|center_horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -45,6 +45,7 @@
                     android:text="Hoa Hồng Đẹp"
                     android:id="@+id/tv_flower_name"
                     android:textColor="@color/primary_text"
+                    android:gravity="center_vertical|center|center_horizontal"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true" />
 
@@ -54,10 +55,10 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="Small Text"
                     android:id="@+id/tv_price"
+                    android:textColor="@color/red"
+                    android:gravity="center_vertical|center|center_horizontal"
                     android:layout_below="@+id/tv_flower_name"
-                    android:layout_alignLeft="@+id/tv_price_old"
-                    android:layout_alignStart="@+id/tv_price_old"
-                    android:textColor="@color/red" />
+                    android:layout_centerHorizontal="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,7 +68,8 @@
                     android:id="@+id/tv_price_old"
                     android:layout_below="@+id/tv_price"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/secondary_text" />
+                    android:textColor="@color/secondary_text"
+                    android:gravity="center_vertical|center|center_horizontal" />
 
                 <RatingBar
                     style="@style/RatingBar"

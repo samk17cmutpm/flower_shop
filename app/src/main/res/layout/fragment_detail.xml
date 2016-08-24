@@ -21,7 +21,7 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/parallax_image_height"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:src="@drawable/example" />
 
             <View

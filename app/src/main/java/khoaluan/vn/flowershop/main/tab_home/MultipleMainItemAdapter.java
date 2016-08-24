@@ -22,6 +22,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.utils.AdvertisingUtils;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
 
 /**
@@ -86,16 +87,7 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
             @Override
             public void onItemClick(View view, int i) {
                 AdvertisingItem advertisingItem = multipleAdvertisingItems.get(i).getAdvertisingItems().get(0);
-                switch (advertisingItem.getType()) {
-                    case AdvertisingItem.PRODUCT :
-                        break;
-                    case AdvertisingItem.CATEGORY:
-                        Category category = new Category(advertisingItem.getCategoryId());
-                        Intent intent = new Intent(activity, CategoryDetailActivity.class);
-                        intent.putExtra(CATEGORY_PARCELABLE, category);
-                        activity.startActivity(intent);
-                        break;
-                }
+                AdvertisingUtils.goDetails(advertisingItem, activity);
             }
         });
         recyclerViewAdvertising.setAdapter(multipleAdvertisingAdapter);
@@ -124,10 +116,4 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
         });
         recyclerView.setAdapter(adapter);
     }
-
-
-
-
-
-
 }
