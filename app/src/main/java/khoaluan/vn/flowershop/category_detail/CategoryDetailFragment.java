@@ -89,7 +89,7 @@ public class CategoryDetailFragment extends BaseFragment implements CategoryDeta
     public void initilizeGridView() {
         gridLayoutManager = new GridLayoutManager(getActivity(), GRID_VIEW_SIZE);
         flowers = new ArrayList<>();
-        adapter = new FlowerAdapter(activity, flowers);
+        adapter = new FlowerAdapter(activity, flowers, R.layout.flower_girdview_item);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);

@@ -28,6 +28,10 @@ public class FlowerAdapter extends BaseQuickAdapter<Flower> {
     public FlowerAdapter(Activity activity, List<Flower> flowers) {
         super(R.layout.flower_item, flowers);
     }
+
+    public FlowerAdapter(Activity activity, List<Flower> flowers, int layoutId) {
+        super(layoutId, flowers);
+    }
     @Override
     protected void convert(BaseViewHolder baseViewHolder, Flower flower) {
         baseViewHolder.setText(R.id.tv_flower_name, flower.getName())

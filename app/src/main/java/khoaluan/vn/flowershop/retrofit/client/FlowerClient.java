@@ -33,7 +33,7 @@ public interface FlowerClient {
                                                             @Path("page") int page,
                                                             @Path("size") int size);
 
-    @GET("/api/v1/product/getproducts/{id}/{page}/{size}")
+    @GET("/api/v1/product/get-products/{id}/{page}/{size}")
     Observable<Response<FlowerResponse>> getFlowersByCategory(@Path("id") String id,
                                                               @Path("page") int page,
                                                               @Path("size") int size);

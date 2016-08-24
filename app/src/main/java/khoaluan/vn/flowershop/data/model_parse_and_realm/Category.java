@@ -33,6 +33,10 @@ public class Category extends RealmObject implements Parcelable {
         this.type = type;
     }
 
+    public Category(String id) {
+        this.id = id;
+    }
+
     public Category() {
     }
 

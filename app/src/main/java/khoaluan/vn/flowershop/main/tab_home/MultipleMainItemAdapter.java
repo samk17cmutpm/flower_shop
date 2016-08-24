@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.main.tab_home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,8 +15,12 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
 
@@ -54,11 +59,14 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
     }
 
 
-    private static void setUpAdvertising(Activity activity, BaseViewHolder holder,
-                                  List<Advertising> advertisings, SpacesItemDecoration spacesItemDecoration) {
+    private static void setUpAdvertising(final Activity activity, BaseViewHolder holder,
+                                         List<Advertising> advertisings, SpacesItemDecoration spacesItemDecoration) {
+
+        final List<MultipleAdvertisingItem> multipleAdvertisingItems = new ArrayList<>();
+        multipleAdvertisingItems.addAll(ConvertUtils.convertAdvertisingToMultipleAdvertisingItem(advertisings));
+
         MultipleAdvertisingAdapter multipleAdvertisingAdapter =
-                new MultipleAdvertisingAdapter(activity,
-                        ConvertUtils.convertAdvertisingToMultipleAdvertisingItem(advertisings));
+                new MultipleAdvertisingAdapter(activity, multipleAdvertisingItems);
 
         LinearLayoutManager linearLayoutAdvertisingManager =
                 new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
@@ -74,12 +82,28 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
                 (ViewGroup) recyclerViewAdvertising.getParent(), false);
 
         multipleAdvertisingAdapter.setEmptyView(view_empty_advertising);
+        multipleAdvertisingAdapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                AdvertisingItem advertisingItem = multipleAdvertisingItems.get(i).getAdvertisingItems().get(0);
+                switch (advertisingItem.getType()) {
+                    case AdvertisingItem.PRODUCT :
+                        break;
+                    case AdvertisingItem.CATEGORY:
+                        Category category = new Category(advertisingItem.getCategoryId());
+                        Intent intent = new Intent(activity, CategoryDetailActivity.class);
+                        intent.putExtra(CATEGORY_PARCELABLE, category);
+                        activity.startActivity(intent);
+                        break;
+                }
+            }
+        });
         recyclerViewAdvertising.setAdapter(multipleAdvertisingAdapter);
     }
 
 
-    private static void setUpTopsProduct(Activity activity, BaseViewHolder holder,
-                                         List<Flower> flowers, SpacesItemDecoration spacesItemDecoration) {
+    private static void setUpTopsProduct(final Activity activity, BaseViewHolder holder,
+                                         final List<Flower> flowers, SpacesItemDecoration spacesItemDecoration) {
         FlowerAdapter adapter = new FlowerAdapter(activity, flowers);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
@@ -90,8 +114,19 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
         View view_empty = activity.getLayoutInflater().inflate(R.layout.flowers_empty,
                 (ViewGroup) recyclerView.getParent(), false);
         adapter.setEmptyView(view_empty);
+        adapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                Intent intent = new Intent(activity, DetailsActivity.class);
+                intent.putExtra(FLOWER_PARCELABLE, flowers.get(i));
+                activity.startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
+
+
+
 
 
 

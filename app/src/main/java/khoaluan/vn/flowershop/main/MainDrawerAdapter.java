@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.main.tab_category.CategoriesAdapter;
@@ -24,7 +27,7 @@ import khoaluan.vn.flowershop.main.tab_category.CategoriesAdapter;
 /**
  * Created by samnguyen on 8/23/16.
  */
-public class MainDrawerAdapter extends RecyclerView.Adapter<MainDrawerAdapter.ViewHolder> {
+public class MainDrawerAdapter extends RecyclerView.Adapter<MainDrawerAdapter.ViewHolder> implements Base{
     private static final int UNSELECTED = -1;
     private RecyclerView recyclerView;
     private int selectedItem = UNSELECTED;
@@ -76,7 +79,7 @@ public class MainDrawerAdapter extends RecyclerView.Adapter<MainDrawerAdapter.Vi
             rl_expand.setOnClickListener(this);
         }
 
-        public void bind(int position) {
+        public void bind(final int position) {
             this.position = position;
             rl_expand.setSelected(false);
             expandableLayout.collapse(false);
@@ -87,6 +90,14 @@ public class MainDrawerAdapter extends RecyclerView.Adapter<MainDrawerAdapter.Vi
             recyclerViewExpand.setHasFixedSize(true);
             recyclerViewExpand.setLayoutManager(layoutManager);
             adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+            adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+                @Override
+                public void onItemClick(View view, int i) {
+                    Intent intent = new Intent(activity, CategoryDetailActivity.class);
+                    intent.putExtra(CATEGORY_PARCELABLE, expandCategories.get(position).getCategories().get(i));
+                    activity.startActivity(intent);
+                }
+            });
             recyclerViewExpand.setAdapter(adapter);
 
         }

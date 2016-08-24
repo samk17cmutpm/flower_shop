@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
  * Created by samnguyen on 8/23/16.
  */
 public class AdvertisingItem {
+    public static final int PRODUCT = 0;
+    public static final int CATEGORY = 1;
     @SerializedName("CategoryId")
     private String categoryId;
 
@@ -19,6 +21,12 @@ public class AdvertisingItem {
         this.categoryId = categoryId;
         this.productId = productId;
         this.image = image;
+    }
+
+    public int getType() {
+        if (getCategoryId() != null)
+            return CATEGORY;
+        return PRODUCT;
     }
 
     public String getCategoryId() {
