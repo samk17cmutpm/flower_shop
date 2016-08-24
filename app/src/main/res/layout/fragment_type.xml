@@ -3,67 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main.tab_category.CategoryFragment">
-
-    <!-- CoordinatorLayout is used to create scrolling and "floating" effects within a layout -->
-    <!-- This is typically the root layout which wraps the app bar and title -->
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingPrefix"
+            android:gravity="center_vertical|center|center_horizontal">
+            <info.hoang8f.android.segmented.SegmentedGroup
+                xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/segment"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                segmentedgroup:sc_border_width="2dp"
+                segmentedgroup:sc_corner_radius="10dp"
+                segmentedgroup:sc_tint_color="@color/white"
+                segmentedgroup:sc_checked_text_color="@color/colorPrimary"
+                android:gravity="center_vertical|center|center_horizontal"
                 android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways" >
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:ignore="MissingPrefix"
-                    android:gravity="center_vertical|center|center_horizontal">
-                    <info.hoang8f.android.segmented.SegmentedGroup
-                        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/segment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        segmentedgroup:sc_border_width="2dp"
-                        segmentedgroup:sc_corner_radius="10dp"
-                        segmentedgroup:sc_tint_color="@color/white"
-                        segmentedgroup:sc_checked_text_color="@color/colorPrimary"
-                        android:gravity="center_vertical|center|center_horizontal">
+                android:padding="10dp">
 
-                        <RadioButton
-                            android:id="@+id/flower"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:text="Hoa Tươi"
-                            android:checked="true"
-                            style="@style/RadioButton" />
+                <RadioButton
+                    android:id="@+id/flower"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Hoa Tươi"
+                    android:checked="true"
+                    style="@style/RadioButton" />
 
-                        <RadioButton
-                            android:id="@+id/gift"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:text="Quà Tặng "
-                            style="@style/RadioButton" />
-                    </info.hoang8f.android.segmented.SegmentedGroup>
-                </RelativeLayout>
-                </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
+                <RadioButton
+                    android:id="@+id/gift"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Quà Tặng "
+                    style="@style/RadioButton" />
+            </info.hoang8f.android.segmented.SegmentedGroup>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="473dp"
+                android:clipToPadding="false"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_below="@+id/segment"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

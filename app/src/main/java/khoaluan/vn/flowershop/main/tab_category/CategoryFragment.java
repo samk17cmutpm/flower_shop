@@ -33,7 +33,7 @@ import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CategoryFragment extends Fragment implements CategoryContract.View, CommonView.ToolBar, Base,
+public class CategoryFragment extends Fragment implements CategoryContract.View, Base,
         RadioGroup.OnCheckedChangeListener{
 
     private CategoryContract.Presenter presenter;
@@ -62,7 +62,6 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_type, container, false);
         ButterKnife.bind(this, root);
-        initilizeToolBar();
         setSegment();
         showUI();
         setDevider();
@@ -116,13 +115,6 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
     @Override
     public void setPresenter(CategoryContract.Presenter presenter) {
         this.presenter = presenter;
-    }
-
-    @Override
-    public void initilizeToolBar() {
-        Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        toolbar.setContentInsetsAbsolute(0, 0);
     }
 
     @Override

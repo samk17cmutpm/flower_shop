@@ -28,7 +28,7 @@ import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InfoFragment extends Fragment implements InfoContract.View, Base, CommonView.ToolBar{
+public class InfoFragment extends Fragment implements InfoContract.View, Base{
 
     private InfoContract.Presenter presenter;
     private View root;
@@ -56,7 +56,6 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, C
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_info, container, false);
         ButterKnife.bind(this, root);
-        initilizeToolBar();
         showUI();
         initilizeRecyclerView();
         presenter.loadData();
@@ -94,10 +93,4 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, C
         this.presenter = presenter;
     }
 
-    @Override
-    public void initilizeToolBar() {
-        Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        toolbar.setContentInsetsAbsolute(0, 0);
-    }
 }
