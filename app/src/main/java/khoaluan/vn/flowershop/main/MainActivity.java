@@ -69,10 +69,7 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         setUpBottomTabBar(savedInstanceState);
         setUpViewPager();
         injectBottomTabsToViewPager();
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         loadFlowerCategories();
-
     }
 
     @Override
@@ -181,6 +178,7 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
     }
 
     public void loadFlowerCategories() {
+
         Observable<Response<CategoryResponse>> observable =
                 ServiceGenerator.createService(FlowerClient.class).getFlowerCategories();
 
@@ -191,6 +189,7 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
                     private List<Category> categories = new ArrayList<Category>();
                     @Override
                     public void onCompleted() {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                         recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
                                 ConvertUtils.convertCategoriseToExpandCategories(categories)));
                     }
@@ -207,10 +206,4 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
                     }
                 });
     }
-
-
-
-
-
-
 }

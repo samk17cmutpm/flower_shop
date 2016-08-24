@@ -1,7 +1,10 @@
 package khoaluan.vn.flowershop.main.tab_home;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -28,7 +31,14 @@ public class FlowerAdapter extends BaseQuickAdapter<Flower> {
     @Override
     protected void convert(BaseViewHolder baseViewHolder, Flower flower) {
         baseViewHolder.setText(R.id.tv_flower_name, flower.getName())
-                .setText(R.id.tv_price, flower.getMoney() + "");
+                .setText(R.id.tv_price, flower.getMoney(flower.getPrice()));
+
+        TextView textViewOldPrice = (TextView) baseViewHolder.getConvertView().findViewById(R.id.tv_price_old);
+        textViewOldPrice.setText(flower.getMoney(flower.getOldPrice()));
+        textViewOldPrice.setPaintFlags(textViewOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        RatingBar ratingBar = (RatingBar) baseViewHolder.getConvertView().findViewById(R.id.rating_bar);
+        ratingBar.setRating(Float.parseFloat(flower.getRating()));
 
         ImageView imageView = (ImageView) baseViewHolder.getConvertView().findViewById(R.id.im_flower);
         if (flower.getImage() != null)

@@ -27,6 +27,9 @@ public class Flower extends RealmObject implements Parcelable {
     @SerializedName("CategoryName")
     private String CategoryName;
 
+    @SerializedName("Rating")
+    private String rating;
+
     @SerializedName("ShortDescription")
     private String shortDescription;
 
@@ -60,6 +63,29 @@ public class Flower extends RealmObject implements Parcelable {
         this.image = image;
         this.oldPrice = oldPrice;
         this.price = price;
+    }
+
+    public Flower(String id, String name, String categoryId, String categoryName, String rating, String shortDescription, String fullDescription, String image, int oldPrice, int price, boolean isNewest, boolean isSearch) {
+        this.id = id;
+        this.name = name;
+        this.categoryId = categoryId;
+        CategoryName = categoryName;
+        this.rating = rating;
+        this.shortDescription = shortDescription;
+        this.fullDescription = fullDescription;
+        this.image = image;
+        this.oldPrice = oldPrice;
+        this.price = price;
+        this.isNewest = isNewest;
+        this.isSearch = isSearch;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public String getCategoryName() {
@@ -151,6 +177,17 @@ public class Flower extends RealmObject implements Parcelable {
     }
 
 
+    public String getMoney(int serverPrice) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat();
+        df.setDecimalFormatSymbols(symbols);
+        df.setGroupingSize(3);
+        df.setMaximumFractionDigits(2);
+        return df.format(serverPrice) + " VND";
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -161,6 +198,8 @@ public class Flower extends RealmObject implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.categoryId);
+        dest.writeString(this.CategoryName);
+        dest.writeString(this.rating);
         dest.writeString(this.shortDescription);
         dest.writeString(this.fullDescription);
         dest.writeString(this.image);
@@ -174,6 +213,8 @@ public class Flower extends RealmObject implements Parcelable {
         this.id = in.readString();
         this.name = in.readString();
         this.categoryId = in.readString();
+        this.CategoryName = in.readString();
+        this.rating = in.readString();
         this.shortDescription = in.readString();
         this.fullDescription = in.readString();
         this.image = in.readString();
@@ -194,14 +235,4 @@ public class Flower extends RealmObject implements Parcelable {
             return new Flower[size];
         }
     };
-
-    public String getMoney() {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setGroupingSeparator('.');
-        DecimalFormat df = new DecimalFormat();
-        df.setDecimalFormatSymbols(symbols);
-        df.setGroupingSize(3);
-        df.setMaximumFractionDigits(2);
-        return df.format(getPrice()) + " VND";
-    }
 }

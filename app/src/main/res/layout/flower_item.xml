@@ -22,18 +22,19 @@
                 android:id="@+id/im_flower"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/rose"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_above="@+id/relativeLayout2" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="100dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:background="@android:color/white"
                 android:id="@+id/relativeLayout2"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:gravity="center_vertical|center_horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -44,26 +45,41 @@
                     android:text="Hoa Hồng Đẹp"
                     android:id="@+id/tv_flower_name"
                     android:textColor="@color/primary_text"
-                    android:layout_alignBottom="@+id/imageView2"
-                    android:layout_toRightOf="@+id/imageView2"
-                    android:layout_toEndOf="@+id/imageView2" />
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="$ 300.000 vnd"
+                    android:text="Small Text"
                     android:id="@+id/tv_price"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:textColor="@color/secondary_text" />
+                    android:layout_below="@+id/tv_flower_name"
+                    android:layout_alignLeft="@+id/tv_price_old"
+                    android:layout_alignStart="@+id/tv_price_old"
+                    android:textColor="@color/red" />
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView2"
-                    android:src="@drawable/flower_icon" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/tv_price_old"
+                    android:layout_below="@+id/tv_price"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/secondary_text" />
+
+                <RatingBar
+                    style="@style/RatingBar"
+                    android:rating="0"
+                    android:stepSize="0.5"
+                    android:numStars="5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rating_bar"
+                    android:layout_below="@+id/tv_price_old"
+                    android:layout_centerHorizontal="true" />
+
             </RelativeLayout>
         </RelativeLayout>
 
