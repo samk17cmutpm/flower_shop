@@ -28,7 +28,10 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.main.MainDrawerAdapter;
+import khoaluan.vn.flowershop.utils.ConvertUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,10 +41,10 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
 
     private CategoryContract.Presenter presenter;
     private View root;
-    private CategoriesAdapter adapter;
-    private List<Category> categories;
+    private MainDrawerAdapter adapter;
     private Activity activity;
     private LinearLayoutManager layoutManager;
+    private List<ExpandCategory> expandCategories;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     public CategoryFragment() {
@@ -72,19 +75,10 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
     @Override
     public void initilizeRecyclerView() {
         layoutManager = new LinearLayoutManager(activity);
-        this.categories = new ArrayList<>();
-        adapter = new CategoriesAdapter(activity, categories);
+        this.expandCategories = new ArrayList<>();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int i) {
-                Intent intent = new Intent(getActivity(), CategoryDetailActivity.class);
-                intent.putExtra(CATEGORY_PARCELABLE, categories.get(i));
-                activity.startActivity(intent);
-            }
-        });
+        adapter = new MainDrawerAdapter(activity, recyclerView, expandCategories);
         recyclerView.setAdapter(adapter);
     }
 
@@ -94,9 +88,9 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
     }
 
     @Override
-    public void showCategories(List<Category> categories) {
+    public void showCategories(List<ExpandCategory> expandCategories) {
         initilizeRecyclerView();
-        this.categories.addAll(categories);
+        this.expandCategories.addAll(expandCategories);
         adapter.notifyDataSetChanged();
     }
 
@@ -128,10 +122,10 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         switch (checkedId) {
             case R.id.flower:
-                showCategories(presenter.loadLocalFlowerCategories());
+                showCategories(ConvertUtils.convertCategoriseToExpandCategories(presenter.loadLocalFlowerCategories()));
                 break;
             case R.id.gift:
-                showCategories(presenter.loadLocalGiftCategories());
+                showCategories(ConvertUtils.convertCategoriseToExpandCategories(presenter.loadLocalGiftCategories()));
                 break;
 
         }

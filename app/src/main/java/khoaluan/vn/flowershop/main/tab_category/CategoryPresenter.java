@@ -12,6 +12,7 @@ import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
+import khoaluan.vn.flowershop.utils.ConvertUtils;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -41,7 +42,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void loadData() {
-        view.showCategories(loadLocalFlowerCategories());
+        view.showCategories(ConvertUtils.convertCategoriseToExpandCategories(loadLocalFlowerCategories()));
         loadFlowerCategories();
         loadGiftCategories();
     }
@@ -59,7 +60,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
                     @Override
                     public void onCompleted() {
                         updateLocalFlowerCategories(categories);
-                        view.showCategories(categories);
+                        view.showCategories(ConvertUtils.convertCategoriseToExpandCategories(categories));
                     }
 
                     @Override
