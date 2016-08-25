@@ -1,4 +1,4 @@
-package khoaluan.vn.flowershop.main.tab_search;
+package khoaluan.vn.flowershop.search;
 
 import android.view.Menu;
 import android.view.MenuInflater;

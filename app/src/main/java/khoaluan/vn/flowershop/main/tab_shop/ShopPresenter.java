@@ -1,7 +1,6 @@
 package khoaluan.vn.flowershop.main.tab_shop;
 
 import khoaluan.vn.flowershop.main.MainActivity;
-import khoaluan.vn.flowershop.main.tab_search.SearchPresenter;
 
 /**
  * Created by samnguyen on 7/19/16.

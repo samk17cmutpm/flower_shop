@@ -178,6 +178,8 @@ public class Flower extends RealmObject implements Parcelable {
 
 
     public String getMoney(int serverPrice) {
+        if (serverPrice == 0)
+            return null;
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator('.');
         DecimalFormat df = new DecimalFormat();

@@ -1,5 +1,6 @@
 package khoaluan.vn.flowershop.main;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -11,22 +12,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
-import net.cachapa.expandablelayout.ExpandableLayout;
-
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,10 +30,10 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
+import khoaluan.vn.flowershop.search.SearchActivity;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
 import retrofit2.Response;
 import rx.Observable;
@@ -121,7 +115,7 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
                         getViewPager().setCurrentItem(TAB_TYPE, true);
                         break;
                     case R.id.tab_search:
-                        getViewPager().setCurrentItem(TAB_SEARCH, true);
+                        getViewPager().setCurrentItem(TAB_FAVORITE, true);
                         break;
                     case R.id.tab_cart:
                         getViewPager().setCurrentItem(TAB_SHOP, true);
@@ -167,6 +161,24 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         drawer.setDrawerListener(toggle);
         toggle.syncState();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

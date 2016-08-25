@@ -2,70 +2,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="khoaluan.vn.flowershop.main.tab_search.SearchFragment">
+    tools:context=".search.SearchFragment">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/main_content"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <RelativeLayout
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="MissingPrefix"
-            android:gravity="top">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary_dark" />
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="visible"
-                android:clipToPadding="false"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-                <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/recycler_view"-->
-                <!--android:scrollbars="vertical"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:clipToPadding="false"-->
-                <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
-
-            </android.support.v4.widget.SwipeRefreshLayout>
-
-            <com.arlib.floatingsearchview.FloatingSearchView
-                android:id="@+id/floating_search_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:floatingSearch_leftActionColor="@color/colorPrimary"
-                app:floatingSearch_clearBtnColor="@color/colorPrimary"
-                app:floatingSearch_viewTextColor="@color/colorPrimary"
-                app:floatingSearch_hintTextColor="@color/colorPrimary"
-                app:floatingSearch_dividerColor="@color/colorPrimary"
-                app:floatingSearch_searchBarMarginLeft="10dp"
-                app:floatingSearch_searchBarMarginTop="10dp"
-                app:floatingSearch_searchBarMarginRight="10dp"
-                app:floatingSearch_searchHint="Tìm Kiếm ..."
-                app:floatingSearch_suggestionsListAnimDuration="150"
-                app:floatingSearch_showSearchKey="true"
-                app:floatingSearch_leftActionMode="noLeftAction"
-                app:floatingSearch_close_search_on_keyboard_dismiss="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="false" />
-
-        </RelativeLayout>
-
-    </android.support.design.widget.CoordinatorLayout>
-
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 </FrameLayout>

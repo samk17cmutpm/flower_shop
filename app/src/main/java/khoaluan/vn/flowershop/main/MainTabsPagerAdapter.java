@@ -7,15 +7,18 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.lib.SmartFragmentStatePagerAdapter;
 import khoaluan.vn.flowershop.main.tab_category.CategoryFragment;
+import khoaluan.vn.flowershop.main.tab_favorite.FavoriteContract;
+import khoaluan.vn.flowershop.main.tab_favorite.FavoriteFragment;
+import khoaluan.vn.flowershop.main.tab_favorite.FavoritePresenter;
 import khoaluan.vn.flowershop.main.tab_home.HomeContract;
 import khoaluan.vn.flowershop.main.tab_home.HomeFragment;
 import khoaluan.vn.flowershop.main.tab_home.HomePresenter;
 import khoaluan.vn.flowershop.main.tab_info.InfoContract;
 import khoaluan.vn.flowershop.main.tab_info.InfoFragment;
 import khoaluan.vn.flowershop.main.tab_info.InfoPresenter;
-import khoaluan.vn.flowershop.main.tab_search.SearchContract;
-import khoaluan.vn.flowershop.main.tab_search.SearchFragment;
-import khoaluan.vn.flowershop.main.tab_search.SearchPresenter;
+import khoaluan.vn.flowershop.search.SearchContract;
+import khoaluan.vn.flowershop.search.SearchFragment;
+import khoaluan.vn.flowershop.search.SearchPresenter;
 import khoaluan.vn.flowershop.main.tab_shop.ShopContract;
 import khoaluan.vn.flowershop.main.tab_shop.ShopFragment;
 import khoaluan.vn.flowershop.main.tab_shop.ShopPresenter;
@@ -47,10 +50,10 @@ public class MainTabsPagerAdapter extends SmartFragmentStatePagerAdapter impleme
                 presenter = new
                         CategoryPresenter(activity, (CategoryContract.View) fragment);
                 break;
-            case TAB_SEARCH:
-                fragment = new SearchFragment().newInstance();
+            case TAB_FAVORITE:
+                fragment = new FavoriteFragment().newInstance();
                 presenter = new
-                        SearchPresenter(activity, (SearchContract.View) fragment);
+                        FavoritePresenter(activity, (FavoriteContract.View) fragment);
                 break;
             case TAB_SHOP:
                 fragment = new ShopFragment().newInstance();

@@ -1,8 +1,7 @@
-package khoaluan.vn.flowershop.main.tab_search;
+package khoaluan.vn.flowershop.search;
 
+import android.app.Activity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ import rx.schedulers.Schedulers;
  */
 public class SearchPresenter implements SearchContract.Presenter, Base {
     private static String TAG = SearchPresenter.class.getName();
-    private final MainActivity activity;
+    private final Activity activity;
     private final SearchContract.View view;
     private final FlowerClient client;
     private int currentPage = 0;
@@ -34,7 +33,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
     private String key;
     private final Realm realm;
 
-    public SearchPresenter (MainActivity activity, SearchContract.View view) {
+    public SearchPresenter (Activity activity, SearchContract.View view) {
         this.activity = activity;
         this.view = view;
         this.view.setPresenter(this);
