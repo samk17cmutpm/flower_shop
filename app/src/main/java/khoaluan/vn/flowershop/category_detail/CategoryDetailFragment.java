@@ -45,7 +45,7 @@ public class CategoryDetailFragment extends BaseFragment implements CategoryDeta
     private GridLayoutManager gridLayoutManager;
 
     @BindView(R.id.toolbar)
-    Toolbar toolbarView;
+    Toolbar toolbar;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -172,14 +172,14 @@ public class CategoryDetailFragment extends BaseFragment implements CategoryDeta
 
     @Override
     public void initilizeToolBar() {
-        toolbarView = (Toolbar) root.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarView);
-        toolbarView.setContentInsetsAbsolute(0, 0);
+        toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setContentInsetsAbsolute(0, 0);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarView.setNavigationIcon(R.drawable.ic_back);
-        toolbarView.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(presenter.getCategory().getName());
-        toolbarView.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();

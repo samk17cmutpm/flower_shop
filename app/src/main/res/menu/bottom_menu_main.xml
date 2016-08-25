@@ -11,8 +11,8 @@
         android:title="@string/main.tab.categories" />
     <item
         android:id="@+id/tab_search"
-        android:icon="@drawable/tab_search_icon"
-        android:title="@string/main.tab.search" />
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/main.tab.favorite" />
     <item
         android:id="@+id/tab_cart"
         android:icon="@drawable/tab_shopping_cart_icon"

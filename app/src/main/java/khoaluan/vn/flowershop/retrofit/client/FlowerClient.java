@@ -1,10 +1,13 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
+import khoaluan.vn.flowershop.data.request.SearchRequest;
 import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -32,6 +35,9 @@ public interface FlowerClient {
     Observable<Response<FlowerResponse>> getFlowersBySearch(@Path("key") String key,
                                                             @Path("page") int page,
                                                             @Path("size") int size);
+
+    @POST("/api/v1/product/search-products")
+    Observable<Response<FlowerResponse>> getFlowersBySearch(@Body SearchRequest searchRequest);
 
     @GET("/api/v1/product/get-products/{id}/{page}/{size}")
     Observable<Response<FlowerResponse>> getFlowersByCategory(@Path("id") String id,

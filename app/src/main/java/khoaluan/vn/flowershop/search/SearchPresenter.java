@@ -10,6 +10,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.request.SearchRequest;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
@@ -28,10 +29,10 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
     private final Activity activity;
     private final SearchContract.View view;
     private final FlowerClient client;
-    private int currentPage = 0;
     private boolean hasNext;
     private String key;
     private final Realm realm;
+    private SearchRequest searchRequest;
 
     public SearchPresenter (Activity activity, SearchContract.View view) {
         this.activity = activity;
@@ -46,10 +47,12 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
     }
 
     @Override
-    public void loadDataBySearch(String key) {
-        this.key = key;
+    public void loadDataBySearch(SearchRequest request) {
+
+        initilizeSearchRequest(request);
+
         Observable<Response<FlowerResponse>> observable =
-                client.getFlowersBySearch(key, 0, SIZE);
+                client.getFlowersBySearch(searchRequest);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,7 +68,8 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
                         view.setEnableRefresh(!flowers.isEmpty());
                         if (!flowers.isEmpty())
                             updateData(setFlowersIsSearch(flowers));
-                        currentPage = 1;
+                        searchRequest.setCurrentPage(1);
+
                     }
 
                     @Override
@@ -88,7 +92,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
     @Override
     public void loadMoreDataBySearch() {
         Observable<Response<FlowerResponse>> observable =
-                client.getFlowersBySearch(key, currentPage, SIZE);
+                client.getFlowersBySearch(this.searchRequest);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -99,7 +103,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
                     public void onCompleted() {
                         view.showDataSearch(flowers, hasNext);
                         view.finishLoadMore(hasNext);
-                        currentPage ++;
+                        searchRequest.setCurrentPage(searchRequest.getCurrentPage() + 1);
                     }
 
                     @Override
@@ -116,6 +120,12 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void initilizeSearchRequest(SearchRequest searchRequest) {
+        this.searchRequest = null;
+        this.searchRequest = searchRequest;
     }
 
     @Override

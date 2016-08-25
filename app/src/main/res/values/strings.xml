@@ -5,7 +5,7 @@
 
     <string name="main.tab.home">Mới Nhất</string>
     <string name="main.tab.categories">Thể Loại</string>
-    <string name="main.tab.search">Tìm Kiếm</string>
+    <string name="main.tab.favorite">Yêu Thích</string>
     <string name="main.tab.cart">Giỏ Hàng</string>
     <string name="main.tab.info">Thông Tin</string>
 
