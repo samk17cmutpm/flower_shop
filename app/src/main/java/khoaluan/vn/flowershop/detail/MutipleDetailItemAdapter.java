@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.List;
 
@@ -73,6 +74,12 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
                 break;
 
             case MutipleDetailItem.ACTION:
+                MaterialFavoriteButton toolbarFavorite = (MaterialFavoriteButton)
+                        holder.getConvertView().findViewById(R.id.favorite);
+//                toolbarFavorite.setFavorite(false, false);
+//                toolbarFavorite.setColor(MaterialFavoriteButton.STYLE_WHITE);
+//                toolbarFavorite.setType(MaterialFavoriteButton.STYLE_HEART);
+//                toolbarFavorite.setRotationDuration(4000);
                 break;
 
             case MutipleDetailItem.FULL_DESCRIPTION:

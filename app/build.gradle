@@ -44,4 +44,5 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'net.cachapa.expandablelayout:expandablelayout:2.2'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.github.ivbaranov:materialfavoritebutton:0.1.2'
 }

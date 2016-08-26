@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingRight="@dimen/detail_padding">
 
-    <ImageView
+    <com.github.ivbaranov.mfb.MaterialFavoriteButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:layout_centerVertical="true"
+        app:mfb_animate_favorite="true"
+        app:mfb_animate_unfavorite="false"
+        app:mfb_padding="5"
+        app:mfb_favorite_image="@drawable/ic_favorite_action"
+        app:mfb_not_favorite_image="@drawable/ic_un_favorite_action"
+        app:mfb_rotation_duration="400"
+        app:mfb_rotation_angle="360"
+        app:mfb_bounce_duration="300"
+        app:mfb_type="heart"
+        android:id="@+id/favorite"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/share"
+        android:layout_toStartOf="@+id/share"
+        android:layout_marginRight="@dimen/detail_padding" />
+
+    <com.github.ivbaranov.mfb.MaterialFavoriteButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:mfb_animate_favorite="true"
+        app:mfb_animate_unfavorite="false"
+        app:mfb_padding="5"
+        app:mfb_favorite_image="@drawable/ic_share"
+        app:mfb_not_favorite_image="@drawable/ic_share"
+        app:mfb_rotation_duration="400"
+        app:mfb_rotation_angle="360"
+        app:mfb_bounce_duration="300"
+        app:mfb_type="heart"
+        android:id="@+id/share"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/flower_icon" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView3"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_toLeftOf="@+id/imageView2"
-        android:layout_toStartOf="@+id/imageView2"
-        android:src="@drawable/flower_icon"
-        android:layout_marginRight="50dp" />
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
