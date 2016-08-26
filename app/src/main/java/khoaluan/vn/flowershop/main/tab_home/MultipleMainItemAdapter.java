@@ -20,10 +20,12 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.utils.AdvertisingUtils;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
+import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 
 /**
  * Created by samnguyen on 8/22/16.
@@ -109,9 +111,9 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
         adapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-                Intent intent = new Intent(activity, DetailsActivity.class);
-                intent.putExtra(FLOWER_PARCELABLE, flowers.get(i));
-                activity.startActivity(intent);
+                OnItemClickUtils.flowerDetail(activity, flowers.get(i),
+                        new FlowerSuggesstion(flowers));
+
             }
         });
         recyclerView.setAdapter(adapter);

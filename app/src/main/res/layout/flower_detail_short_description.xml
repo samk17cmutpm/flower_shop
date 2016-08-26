@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/detail_padding"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Suggestions, however, can also have an effect in the absence of a hypnosis. These so-called &quot;waking suggestions&quot; are given in precisely the same way as &quot;hypnotic suggestions&quot; (i.e., suggestions given within hypnosis) and can produce strong changes in perceptual experience. Experiments on suggestion, Suggestions, however, can also have an effect in the absence of a hypnosis. These so-called &quot;waking suggestions&quot; are given in precisely the same way as &quot;hypnotic suggestions&quot; (i.e., suggestions given within hypnosis) and can produce strong changes in perceptual experience. Experiments on suggestion,"
+        android:id="@+id/tv_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

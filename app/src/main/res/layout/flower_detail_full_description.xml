@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/detail_padding_relative"
+    android:paddingBottom="@dimen/detail_padding_relative">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/detail_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Mô Tả"
+            android:id="@+id/tv_title"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="@dimen/detail_magrin" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Suggestions, however, can also have an effect in the absence of a hypnosis. These so-called &quot;waking suggestions&quot; are given in precisely the same way as &quot;hypnotic suggestions&quot; (i.e., suggestions given within hypnosis) and can produce strong changes in perceptual experience. Experiments on suggestion, Suggestions, however, can also have an effect in the absence of a hypnosis. These so-called &quot;waking suggestions&quot; are given in precisely the same way as &quot;hypnotic suggestions&quot; (i.e., suggestions given within hypnosis) and can produce strong changes in perceptual experience. Experiments on suggestion,"
+            android:id="@+id/tv_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+</RelativeLayout>

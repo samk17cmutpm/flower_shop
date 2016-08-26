@@ -27,9 +27,11 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
+import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,7 +103,7 @@ public class CategoryDetailFragment extends BaseFragment implements CategoryDeta
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int index) {
-                showFlowerDetails(flowers.get(index));
+                OnItemClickUtils.flowerDetail(activity, flowers.get(index), new FlowerSuggesstion(flowers));
             }
         });
         recyclerView.setAdapter(adapter);
