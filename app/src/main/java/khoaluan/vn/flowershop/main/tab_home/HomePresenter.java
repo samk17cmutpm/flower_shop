@@ -35,6 +35,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     private final FlowerClient client;
     private List<MultipleMainItem> multipleMainItems;
 
+
     public HomePresenter(MainActivity activity, HomeContract.View view) {
         this.activity = activity;
         this.view = view;
