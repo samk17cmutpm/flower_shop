@@ -112,7 +112,7 @@ public class MultipleMainItemAdapter extends BaseMultiItemQuickAdapter<MultipleM
             @Override
             public void onItemClick(View view, int i) {
                 OnItemClickUtils.flowerDetail(activity, flowers.get(i),
-                        new FlowerSuggesstion(flowers));
+                        new FlowerSuggesstion(flowers), false);
 
             }
         });

@@ -12,10 +12,12 @@ import khoaluan.vn.flowershop.detail.DetailsActivity;
  * Created by samnguyen on 8/26/16.
  */
 public class OnItemClickUtils implements Base{
-    public static void flowerDetail(Activity activity, Flower flower, FlowerSuggesstion flowerSuggesstion) {
+    public static void flowerDetail(Activity activity, Flower flower, FlowerSuggesstion flowerSuggesstion, boolean finish) {
         Intent intent = new Intent(activity, DetailsActivity.class);
         intent.putExtra(FLOWER_PARCELABLE, flower);
         intent.putExtra(LIST_FLOWER_PARCELABLE, flowerSuggesstion);
         activity.startActivity(intent);
+        if (finish)
+            activity.finish();
     }
 }

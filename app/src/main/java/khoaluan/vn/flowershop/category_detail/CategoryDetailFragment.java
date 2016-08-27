@@ -103,7 +103,7 @@ public class CategoryDetailFragment extends BaseFragment implements CategoryDeta
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int index) {
-                OnItemClickUtils.flowerDetail(activity, flowers.get(index), new FlowerSuggesstion(flowers));
+                OnItemClickUtils.flowerDetail(activity, flowers.get(index), new FlowerSuggesstion(flowers), false);
             }
         });
         recyclerView.setAdapter(adapter);

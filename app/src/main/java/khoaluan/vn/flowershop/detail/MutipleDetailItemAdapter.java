@@ -107,7 +107,7 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
                     @Override
                     public void onItemClick(View view, int i) {
                         OnItemClickUtils.flowerDetail(activity, item.getFlowers().get(i),
-                                new FlowerSuggesstion(item.getFlowers()));
+                                new FlowerSuggesstion(item.getFlowers()), true);
                     }
                 });
                 recyclerView.setAdapter(adapter);

@@ -147,7 +147,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers));
+                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers), false);
             }
         });
         recyclerView.setAdapter(adapter);

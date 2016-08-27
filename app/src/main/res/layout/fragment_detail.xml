@@ -37,7 +37,8 @@
             android:orientation="vertical"
             android:visibility="visible"
             android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:paddingBottom="50dp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
@@ -49,4 +50,49 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </android.support.design.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:weightSum="1"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:id="@+id/ln_buy"
+            android:background="@drawable/buy_now"
+            android:gravity="center_vertical|center|center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Mua Ngay"
+                android:id="@+id/tv_buy"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:id="@+id/ln_add_to_cart"
+            android:background="@drawable/add_to_cart"
+            android:gravity="center_vertical|center|center_horizontal"
+            android:layout_marginLeft="2dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_add_cart"
+                android:src="@drawable/ic_shopping_cart" />
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

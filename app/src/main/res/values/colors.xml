@@ -18,4 +18,8 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="colorFocused">#bbdefb</color>
+
+    <color name="cart_normal">#FF5722</color>
+    <color name="cart_pressed">#E64A19</color>
+
 </resources>
