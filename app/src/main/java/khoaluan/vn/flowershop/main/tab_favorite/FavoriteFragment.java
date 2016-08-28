@@ -70,8 +70,6 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     public void showUI() {
 
         activity = getActivity();
-
-        swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setNestedScrollingEnabled(true);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,

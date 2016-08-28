@@ -1,9 +1,14 @@
 package khoaluan.vn.flowershop.main.tab_shop;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,12 +16,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
+import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 
 
-public class ShopFragment extends Fragment implements ShopContract.View{
+public class ShopFragment extends Fragment implements ShopContract.View, SwipeRefreshLayout.OnRefreshListener, Base {
 
     private ShopContract.Presenter presenter;
+    private View root;
+    private LinearLayoutManager linearLayoutManager;
+    private Activity activity;
+    private ShopAdapter adapter;
+    private RealmResults<Flower> flowersCart;
+    private List<Flower> flowers;
+    private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(PRODUCT_DISTANCE);
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
     public ShopFragment() {
         // Required empty public constructor
     }
@@ -38,16 +67,61 @@ public class ShopFragment extends Fragment implements ShopContract.View{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop, container, false);
+        root = inflater.inflate(R.layout.fragment_shop, container, false);
+        ButterKnife.bind(this, root);
+        showUI();
+        return root;
     }
 
     @Override
     public void showUI() {
+        activity = getActivity();
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setNestedScrollingEnabled(true);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        swipeRefreshLayout.setEnabled(false);
+
+
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        flowersCart = presenter.loadCartFlowers();
+
+        flowers = new ArrayList<>();
+        flowers.addAll(flowersCart);
+
+        adapter = new ShopAdapter(activity, flowers);
+        adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_cart,
+                (ViewGroup) recyclerView.getParent(), false);
+        adapter.setEmptyView(view_empty);
+        recyclerView.removeItemDecoration(spaceProduct);
+        recyclerView.addItemDecoration(spaceProduct);
+        recyclerView.setAdapter(adapter);
+
+        flowersCart.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
+            @Override
+            public void onChange(RealmResults<Flower> element) {
+                Log.d("============>", element.size() + " dmcs");
+                flowers.clear();
+                flowers.addAll(element);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
     @Override
     public void setPresenter(ShopContract.Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }
