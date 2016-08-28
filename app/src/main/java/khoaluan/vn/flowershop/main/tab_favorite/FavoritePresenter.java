@@ -7,6 +7,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.main.MainActivity;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 
 /**
  * Created by samnguyen on 8/25/16.
@@ -28,9 +29,10 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
     }
 
     @Override
-    public List<Flower> loadFavoriteFlowers() {
-        RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isSearch", true).findAll();
-        return flowers;
+    public RealmResults<Flower> loadFavoriteFlowers() {
+        return RealmFlowerUtils.findBy("isFavorite", true);
+//        RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isSearch", true).findAll();
+//        return flowers;
     }
 
     @Override
@@ -39,13 +41,17 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
         List<FavoriteItem> favoriteItems = new ArrayList<>();
 
         FavoriteItem favorite = new FavoriteItem();
+
         favorite.setItemType(FavoriteItem.FAVORITE);
+
         favorite.setFavoriteFlowers(flowersFavorite);
 
         favoriteItems.add(favorite);
 
         FavoriteItem favoriteTitle = new FavoriteItem();
+
         favoriteTitle.setItemType(FavoriteItem.TITLE);
+
         favoriteTitle.setTitle(title);
 
         favoriteItems.add(favoriteTitle);
@@ -58,6 +64,8 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
 
         return favoriteItems;
     }
+
+
 
     @Override
     public void start() {

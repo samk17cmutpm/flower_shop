@@ -13,6 +13,7 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
@@ -35,50 +36,72 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, FavoriteItem favoriteItem) {
+    protected void convert(BaseViewHolder holder, final FavoriteItem favoriteItem) {
         switch (holder.getItemViewType()) {
-            case FavoriteItem.FLOWER:
-                FlowerAdapter adapter = new FlowerAdapter(activity, favoriteItem.getFlowers());
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
-                RecyclerView recyclerView = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.removeItemDecoration(spaceProduct);
-                recyclerView.addItemDecoration(spaceProduct);
-                View view_empty = activity.getLayoutInflater().inflate(R.layout.flowers_empty,
-                        (ViewGroup) recyclerView.getParent(), false);
-                adapter.setEmptyView(view_empty);
-                adapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int i) {
-//                        OnItemClickUtils.flowerDetail(activity, flowers.get(i),
-//                                new FlowerSuggesstion(flowers), false);
-
-                    }
-                });
-                recyclerView.setAdapter(adapter);
+            case FavoriteItem.FAVORITE:
+                setUpFavoriteFlowers(activity, holder, favoriteItem.getFavoriteFlowers(), spaceProduct);
                 break;
             case FavoriteItem.TITLE:
-                holder.setText(R.id.tv_title, favoriteItem.getTitle());
+                setUpTitle(activity, holder, favoriteItem.getTitle());
                 break;
-            case FavoriteItem.FAVORITE:
-                FavoriteAdapter favoriteAdapter = new FavoriteAdapter(activity, favoriteItem.getFavoriteFlowers());
-                LinearLayoutManager linearLayoutAdvertisingManager =
-                        new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-                RecyclerView recyclerViewFavorite =
-                        (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
-
-                recyclerViewFavorite.setHasFixedSize(true);
-                recyclerViewFavorite.setLayoutManager(linearLayoutAdvertisingManager);
-                recyclerViewFavorite.removeItemDecoration(spaceProduct);
-                recyclerViewFavorite.addItemDecoration(spaceProduct);
-
-                View view_empty_advertising = activity.getLayoutInflater().inflate(R.layout.flowers_empty,
-                        (ViewGroup) recyclerViewFavorite.getParent(), false);
-
-                favoriteAdapter.setEmptyView(view_empty_advertising);
-                recyclerViewFavorite.setAdapter(favoriteAdapter);
+            case FavoriteItem.FLOWER:
+                setUpRecommendedFlowers(activity, holder, favoriteItem.getFlowers(), spaceProduct);
                 break;
         }
+    }
+
+    private
+    void setUpTitle(Activity activity, BaseViewHolder holder, String title) {
+        holder.setText(R.id.tv_title, title);
+    }
+
+    private void setUpRecommendedFlowers(final Activity activity, BaseViewHolder holder,
+                                         final List<Flower> flowers, SpacesItemDecoration spacesItemDecoration) {
+        FlowerAdapter adapter = new FlowerAdapter(activity, flowers);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.removeItemDecoration(spacesItemDecoration);
+        recyclerView.addItemDecoration(spacesItemDecoration);
+        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
+                (ViewGroup) recyclerView.getParent(), false);
+        adapter.setEmptyView(view_empty);
+        adapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                OnItemClickUtils.flowerDetail(activity, flowers.get(i),
+                        new FlowerSuggesstion(flowers), false);
+
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setUpFavoriteFlowers(final Activity activity, BaseViewHolder holder,
+                                      final List<Flower> flowers, SpacesItemDecoration spacesItemDecoration) {
+        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(activity, flowers);
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        RecyclerView recyclerViewFavorite =
+                (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
+
+        recyclerViewFavorite.setHasFixedSize(true);
+        recyclerViewFavorite.setLayoutManager(layoutManager);
+        recyclerViewFavorite.removeItemDecoration(spacesItemDecoration);
+        recyclerViewFavorite.addItemDecoration(spacesItemDecoration);
+
+        View view_empty_advertising = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
+                (ViewGroup) recyclerViewFavorite.getParent(), false);
+
+        favoriteAdapter.setEmptyView(view_empty_advertising);
+        favoriteAdapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                OnItemClickUtils.flowerDetail(activity, flowers.get(i),
+                        new FlowerSuggesstion(flowers), false);
+            }
+        });
+        recyclerViewFavorite.setAdapter(favoriteAdapter);
     }
 }

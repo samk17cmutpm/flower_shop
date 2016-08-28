@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.main.tab_home.MultipleMainItemAdapter;
-import khoaluan.vn.flowershop.utils.ConvertUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +36,7 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     private LinearLayoutManager linearLayoutManager;
     private List<FavoriteItem> favoriteItems;
     private FavoriteItemAdapter adapter;
+    private RealmResults<Flower> flowerRealmResults;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -82,24 +82,37 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        flowerRealmResults = presenter.loadFavoriteFlowers();
+
         favoriteItems = new ArrayList<>();
-        favoriteItems.addAll(presenter.convertData(presenter.loadFavoriteFlowers(),presenter.loadFavoriteFlowers(), "Được Mua Nhiều Nhất"));
+        favoriteItems.addAll(presenter.convertData(flowerRealmResults, flowerRealmResults, "Được Mua Nhiều Nhất"));
+
         adapter = new FavoriteItemAdapter(activity, favoriteItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int index) {
-
-            }
-        });
         recyclerView.setAdapter(adapter);
 
-
+        flowerRealmResults.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
+            @Override
+            public void onChange(RealmResults<Flower> element) {
+                updateChange(element);
+            }
+        });
     }
+
+
 
     @Override
     public void showIndicator(boolean active) {
 
+    }
+
+    @Override
+    public void updateChange(RealmResults<Flower> flowers) {
+        favoriteItems = null;
+        favoriteItems = new ArrayList<FavoriteItem>();
+        favoriteItems.addAll(presenter.convertData(flowers, flowers, "Được Mua Nhiều Nhất"));
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -110,5 +123,12 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     @Override
     public void onRefresh() {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        if (flowerRealmResults != null)
+            flowerRealmResults.removeChangeListeners();
+        super.onDestroy();
     }
 }

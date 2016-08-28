@@ -5,8 +5,10 @@ import android.app.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 
 /**
  * Created by samnguyen on 7/28/16.
@@ -15,16 +17,29 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     private static String TAG = DetailsPresenter.class.getName();
     private final DetailsContract.View view;
     private final Activity activity;
-
+    private final Realm realm;
     public DetailsPresenter(DetailsContract.View view, Activity activity) {
         this.view = view;
         this.activity = activity;
         this.view.setPresenter(this);
+        this.realm = Realm.getDefaultInstance();
     }
 
     @Override
     public void loadData() {
 
+    }
+
+    @Override
+    public void addToFavoriteList(Flower flower) {
+        List<Flower> flowers = new ArrayList<>();
+        flowers.add(flower);
+        RealmFlowerUtils.save(flowers);
+    }
+
+    @Override
+    public void removeFavoriteFlower(Flower flower) {
+        RealmFlowerUtils.deleteById("isFavorite", true, flower.getId());
     }
 
     @Override
@@ -48,6 +63,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
         MutipleDetailItem action = new MutipleDetailItem();
         action.setItemType(MutipleDetailItem.ACTION);
+        action.setFlower(flower);
         items.add(action);
 
         MutipleDetailItem fullDescription = new MutipleDetailItem();

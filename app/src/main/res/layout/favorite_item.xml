@@ -39,7 +39,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/im_flower"
                 android:layout_toEndOf="@+id/im_flower"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,8 +52,7 @@
                 android:gravity="center_vertical|center|center_horizontal"
                 android:layout_below="@+id/tv_flower_name"
                 android:layout_alignLeft="@+id/tv_flower_name"
-                android:layout_alignStart="@+id/tv_flower_name"
-                android:layout_marginTop="10dp" />
+                android:layout_alignStart="@+id/tv_flower_name" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,10 +62,9 @@
                 android:id="@+id/tv_price_old"
                 android:textColor="@color/secondary_text"
                 android:gravity="center_vertical|center|center_horizontal"
-                android:layout_alignTop="@+id/tv_price"
-                android:layout_toRightOf="@+id/tv_price"
-                android:layout_toEndOf="@+id/tv_price"
-                android:layout_marginLeft="20dp" />
+                android:layout_alignBottom="@+id/iv_delete"
+                android:layout_alignLeft="@+id/tv_price"
+                android:layout_alignStart="@+id/tv_price" />
 
             <RatingBar
                 style="@style/RatingBar"
@@ -75,9 +74,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rating_bar"
-                android:layout_below="@+id/tv_price"
-                android:layout_alignLeft="@+id/tv_flower_name"
-                android:layout_alignStart="@+id/tv_flower_name" />
+                android:layout_below="@+id/tv_price_old"
+                android:layout_alignLeft="@+id/tv_price_old"
+                android:layout_alignStart="@+id/tv_price_old"
+                android:layout_marginTop="5dp" />
 
             <ImageView
                 android:layout_width="wrap_content"

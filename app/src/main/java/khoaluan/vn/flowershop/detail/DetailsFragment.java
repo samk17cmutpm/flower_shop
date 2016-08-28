@@ -126,7 +126,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new MutipleDetailItemAdapter(getActivity(), presenter.convertData(flower, flowerSuggesstion));
+        adapter = new MutipleDetailItemAdapter(getActivity(), presenter.convertData(flower, flowerSuggesstion), presenter);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recyclerView.setAdapter(adapter);
 

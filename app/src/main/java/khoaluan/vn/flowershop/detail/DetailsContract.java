@@ -20,5 +20,7 @@ public interface DetailsContract {
     interface Presenter extends BasePresenter {
         void loadData();
         List<MutipleDetailItem> convertData(Flower flower, FlowerSuggesstion flowerSuggesstion);
+        void addToFavoriteList(Flower flower);
+        void removeFavoriteFlower(Flower flower);
     }
 }

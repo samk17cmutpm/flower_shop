@@ -1,7 +1,6 @@
 package khoaluan.vn.flowershop.detail;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.List;
@@ -24,7 +22,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
-import khoaluan.vn.flowershop.main.tab_home.MultipleMainItemAdapter;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 
@@ -34,10 +32,12 @@ import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleDetailItem> implements Base {
     private final Activity activity;
     private final SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
+    private final DetailsContract.Presenter presenter;
 
-    public MutipleDetailItemAdapter(Activity activity, List<MutipleDetailItem> data) {
+    public MutipleDetailItemAdapter(Activity activity, List<MutipleDetailItem> data, DetailsContract.Presenter presenter) {
         super(data);
         this.activity = activity;
+        this.presenter = presenter;
         addItemType(MutipleDetailItem.HEADER, R.layout.flower_detail_header);
         addItemType(MutipleDetailItem.SHORT_DESCRIPTION, R.layout.flower_detail_short_description);
         addItemType(MutipleDetailItem.IMAGE, R.layout.flower_detail_image);
@@ -76,10 +76,21 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
             case MutipleDetailItem.ACTION:
                 MaterialFavoriteButton toolbarFavorite = (MaterialFavoriteButton)
                         holder.getConvertView().findViewById(R.id.favorite);
-//                toolbarFavorite.setFavorite(false, false);
-//                toolbarFavorite.setColor(MaterialFavoriteButton.STYLE_WHITE);
-//                toolbarFavorite.setType(MaterialFavoriteButton.STYLE_HEART);
-//                toolbarFavorite.setRotationDuration(4000);
+
+                toolbarFavorite.setFavorite(RealmFlowerUtils.isExisted("isFavorite", true, item.getFlower().getId()));
+
+                toolbarFavorite.setOnFavoriteChangeListener(new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                    @Override
+                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
+                        if (favorite) {
+                            Flower flower = item.getFlower();
+                            flower.setFavorite(true);
+                            presenter.addToFavoriteList(flower);
+                        } else {
+                            presenter.removeFavoriteFlower(item.getFlower());
+                        }
+                    }
+                });
                 break;
 
             case MutipleDetailItem.FULL_DESCRIPTION:
