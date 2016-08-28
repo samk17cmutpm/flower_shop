@@ -79,6 +79,8 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        swipeRefreshLayout.setEnabled(false);
+
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);

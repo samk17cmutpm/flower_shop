@@ -4,12 +4,15 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.MemoryHandler;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
+import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
  * Created by samnguyen on 7/28/16.
@@ -36,12 +39,30 @@ public class DetailsPresenter implements DetailsContract.Presenter {
         List<Flower> flowers = new ArrayList<>();
         flowers.add(flower);
         RealmFlowerUtils.save(flowers);
+        MessageUtils.showLong(activity, "Đã Thêm Sản Phẩm Này Vào Yêu Thích");
     }
 
     @Override
     public void removeFavoriteFlower(Flower flower) {
         RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.FAVORITE, flower.getId());
+        MessageUtils.showLong(activity, "Đã Xóa Sản Phẩm Này Ra Khỏi Yêu Thích");
     }
+
+    @Override
+    public void addToCart(List<Flower> flowers) {
+        RealmFlowerUtils.save(flowers);
+    }
+
+    @Override
+    public boolean isExistedInCart(Flower flower) {
+        return RealmFlowerUtils.isExistedById(RealmFlag.FLAG, RealmFlag.CART, flower.getId());
+    }
+
+    @Override
+    public RealmResults<Flower> getFlowersCart() {
+        return RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.CART);
+    }
+
 
     @Override
     public List<MutipleDetailItem> convertData(Flower flower, FlowerSuggesstion flowerSuggesstion) {
