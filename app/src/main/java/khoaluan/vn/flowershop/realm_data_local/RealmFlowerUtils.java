@@ -30,7 +30,7 @@ public class RealmFlowerUtils {
         });
     }
 
-    public static RealmResults<Flower> findBy(String tag, boolean value) {
+    public static RealmResults<Flower> findBy(String tag, String value) {
         RealmResults<Flower> flowers = realm.where(Flower.class).equalTo(tag, value).findAll();
         return flowers;
     }
@@ -50,7 +50,7 @@ public class RealmFlowerUtils {
         });
     }
 
-    public static boolean isExisted(String tag, boolean value, String flowerId) {
+    public static boolean isExistedById(String tag, String value, String flowerId) {
         List<Flower> flowers = findBy(tag, value);
         for (Flower flower : flowers) {
             if (flower.getId().equals(flowerId))
@@ -59,7 +59,7 @@ public class RealmFlowerUtils {
         return false;
     }
 
-    public static void deleteById(final String tag, final boolean value, final String flowerId) {
+    public static void deleteById(final String tag, final String value, final String flowerId) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

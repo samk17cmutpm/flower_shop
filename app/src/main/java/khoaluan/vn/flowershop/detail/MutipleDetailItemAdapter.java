@@ -22,6 +22,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 import khoaluan.vn.flowershop.utils.OnItemClickUtils;
@@ -77,14 +78,14 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
                 MaterialFavoriteButton toolbarFavorite = (MaterialFavoriteButton)
                         holder.getConvertView().findViewById(R.id.favorite);
 
-                toolbarFavorite.setFavorite(RealmFlowerUtils.isExisted("isFavorite", true, item.getFlower().getId()));
+                toolbarFavorite.setFavorite(RealmFlowerUtils.isExistedById(RealmFlag.FLAG, RealmFlag.FAVORITE, item.getFlower().getId()));
 
                 toolbarFavorite.setOnFavoriteChangeListener(new MaterialFavoriteButton.OnFavoriteChangeListener() {
                     @Override
                     public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
                         if (favorite) {
                             Flower flower = item.getFlower();
-                            flower.setFavorite(true);
+                            flower.setFlag(RealmFlag.FAVORITE);
                             presenter.addToFavoriteList(flower);
                         } else {
                             presenter.removeFavoriteFlower(item.getFlower());

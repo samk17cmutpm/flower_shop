@@ -7,6 +7,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.main.MainActivity;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 
 /**
@@ -30,7 +31,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
 
     @Override
     public RealmResults<Flower> loadFavoriteFlowers() {
-        return RealmFlowerUtils.findBy("isFavorite", true);
+        return RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.FAVORITE);
 //        RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isSearch", true).findAll();
 //        return flowers;
     }

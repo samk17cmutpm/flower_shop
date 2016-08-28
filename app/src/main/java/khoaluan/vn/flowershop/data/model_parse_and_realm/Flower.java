@@ -45,6 +45,8 @@ public class Flower extends RealmObject implements Parcelable {
     @SerializedName("Price")
     private int price;
 
+    private String flag;
+
     private boolean isNewest;
 
     private boolean isSearch;
@@ -80,6 +82,14 @@ public class Flower extends RealmObject implements Parcelable {
         this.price = price;
         this.isNewest = isNewest;
         this.isSearch = isSearch;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
     public boolean isFavorite() {
@@ -217,6 +227,7 @@ public class Flower extends RealmObject implements Parcelable {
         dest.writeString(this.image);
         dest.writeInt(this.oldPrice);
         dest.writeInt(this.price);
+        dest.writeString(this.flag);
         dest.writeByte(this.isNewest ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isSearch ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isFavorite ? (byte) 1 : (byte) 0);
@@ -233,6 +244,7 @@ public class Flower extends RealmObject implements Parcelable {
         this.image = in.readString();
         this.oldPrice = in.readInt();
         this.price = in.readInt();
+        this.flag = in.readString();
         this.isNewest = in.readByte() != 0;
         this.isSearch = in.readByte() != 0;
         this.isFavorite = in.readByte() != 0;

@@ -8,6 +8,7 @@ import java.util.List;
 import io.realm.Realm;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 
 /**
@@ -39,7 +40,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
     @Override
     public void removeFavoriteFlower(Flower flower) {
-        RealmFlowerUtils.deleteById("isFavorite", true, flower.getId());
+        RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.FAVORITE, flower.getId());
     }
 
     @Override
