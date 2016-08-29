@@ -1,13 +1,18 @@
 package khoaluan.vn.flowershop.main.tab_favorite;
 
 import android.app.Activity;
+import android.graphics.Canvas;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
+import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 
 import java.util.List;
 
@@ -18,6 +23,8 @@ import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 
 /**
@@ -80,7 +87,7 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
 
     private void setUpFavoriteFlowers(final Activity activity, BaseViewHolder holder,
                                       final List<Flower> flowers, SpacesItemDecoration spacesItemDecoration) {
-        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(activity, flowers);
+        final FavoriteAdapter favoriteAdapter = new FavoriteAdapter(activity, flowers);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         RecyclerView recyclerViewFavorite =
@@ -103,5 +110,27 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
             }
         });
         recyclerViewFavorite.setAdapter(favoriteAdapter);
+
+        OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
+            @Override
+            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {}
+            @Override
+            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {}
+            @Override
+            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+                RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.FAVORITE, flowers.get(pos).getId());
+            }
+
+            @Override
+            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float v, float v1, boolean b) {
+            }
+        };
+
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(favoriteAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerViewFavorite);
+
+        favoriteAdapter.enableSwipeItem();
+        favoriteAdapter.setOnItemSwipeListener(onItemSwipeListener);
     }
 }

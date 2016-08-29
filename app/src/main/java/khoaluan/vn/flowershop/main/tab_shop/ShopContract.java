@@ -1,5 +1,7 @@
 package khoaluan.vn.flowershop.main.tab_shop;
 
+import java.util.List;
+
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
@@ -15,5 +17,6 @@ public interface ShopContract {
     interface Presenter extends BasePresenter {
         void loadData();
         RealmResults<Flower> loadCartFlowers();
+        int countTotalMoney(List<Flower> flowers);
     }
 }

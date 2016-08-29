@@ -2,12 +2,14 @@ package khoaluan.vn.flowershop.main.tab_shop;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,8 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
+import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +34,9 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
+import khoaluan.vn.flowershop.utils.MoneyUtils;
 
 
 public class ShopFragment extends Fragment implements ShopContract.View, SwipeRefreshLayout.OnRefreshListener, Base {
@@ -46,6 +54,10 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.tv_total)
+    TextView textViewTotal;
+
     public ShopFragment() {
         // Required empty public constructor
     }
@@ -94,6 +106,8 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
         flowers = new ArrayList<>();
         flowers.addAll(flowersCart);
 
+        textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(flowers)));
+
         adapter = new ShopAdapter(activity, flowers);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_cart,
@@ -106,12 +120,34 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
         flowersCart.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
             @Override
             public void onChange(RealmResults<Flower> element) {
-                Log.d("============>", element.size() + " dmcs");
                 flowers.clear();
                 flowers.addAll(element);
+                textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(flowers)));
                 adapter.notifyDataSetChanged();
             }
         });
+
+        OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
+            @Override
+            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {}
+            @Override
+            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {}
+            @Override
+            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+                RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.CART, flowers.get(pos).getId());
+            }
+
+            @Override
+            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float v, float v1, boolean b) {
+            }
+        };
+
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        adapter.enableSwipeItem();
+        adapter.setOnItemSwipeListener(onItemSwipeListener);
 
     }
 

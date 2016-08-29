@@ -1,5 +1,7 @@
 package khoaluan.vn.flowershop.main.tab_shop;
 
+import java.util.List;
+
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.main.MainActivity;
@@ -25,6 +27,15 @@ public class ShopPresenter implements ShopContract.Presenter {
     @Override
     public RealmResults<Flower> loadCartFlowers() {
         return RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.CART);
+    }
+
+    @Override
+    public int countTotalMoney(List<Flower> flowers) {
+        int total = 0;
+        for (Flower flower : flowers) {
+            total = total + (flower.getPrice() * flower.getNumber());
+        }
+        return total;
     }
 
     @Override

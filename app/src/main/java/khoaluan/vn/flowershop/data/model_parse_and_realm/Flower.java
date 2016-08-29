@@ -53,6 +53,8 @@ public class Flower extends RealmObject implements Parcelable {
 
     private boolean isFavorite;
 
+    private int number;
+
     public Flower() {
     }
 
@@ -82,6 +84,32 @@ public class Flower extends RealmObject implements Parcelable {
         this.price = price;
         this.isNewest = isNewest;
         this.isSearch = isSearch;
+    }
+
+    public Flower(String id, String name, String categoryId, String categoryName, String rating, String shortDescription, String fullDescription, String image, int oldPrice, int price, String flag, boolean isNewest, boolean isSearch, boolean isFavorite, int number) {
+        this.id = id;
+        this.name = name;
+        this.categoryId = categoryId;
+        CategoryName = categoryName;
+        this.rating = rating;
+        this.shortDescription = shortDescription;
+        this.fullDescription = fullDescription;
+        this.image = image;
+        this.oldPrice = oldPrice;
+        this.price = price;
+        this.flag = flag;
+        this.isNewest = isNewest;
+        this.isSearch = isSearch;
+        this.isFavorite = isFavorite;
+        this.number = number;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getFlag() {
@@ -231,6 +259,7 @@ public class Flower extends RealmObject implements Parcelable {
         dest.writeByte(this.isNewest ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isSearch ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isFavorite ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.number);
     }
 
     protected Flower(Parcel in) {
@@ -248,6 +277,7 @@ public class Flower extends RealmObject implements Parcelable {
         this.isNewest = in.readByte() != 0;
         this.isSearch = in.readByte() != 0;
         this.isFavorite = in.readByte() != 0;
+        this.number = in.readInt();
     }
 
     public static final Creator<Flower> CREATOR = new Creator<Flower>() {

@@ -190,6 +190,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
                 } else {
                     List<Flower> flowers = new ArrayList<>();
                     flower.setFlag(RealmFlag.CART);
+                    flower.setNumber(1);
                     flowers.add(flower);
                     presenter.addToCart(flowers);
                     MessageUtils.showLong(activity, "Đã Thêm Sản Phẩm Này Vào Trong Giỏ Hàng Của Bạn");

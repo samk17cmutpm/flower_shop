@@ -74,5 +74,20 @@ public class RealmFlowerUtils {
         });
     }
 
+    public static void updateNumberById(final String tag, final String value, final String flowerId, final int number) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Flower flower = realm.where(Flower.class).equalTo(tag, value).equalTo("id", flowerId).findFirst();
+                flower.setNumber(number);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "update number favorite local flowers successfully");
+            }
+        });
+    }
+
 
 }

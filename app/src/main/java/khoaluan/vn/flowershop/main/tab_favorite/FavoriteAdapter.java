@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -18,7 +19,7 @@ import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 /**
  * Created by samnguyen on 8/27/16.
  */
-public class FavoriteAdapter extends BaseQuickAdapter<Flower> {
+public class FavoriteAdapter extends BaseItemDraggableAdapter<Flower> {
     private List<Flower> flowers;
 
     public FavoriteAdapter(Activity  activity, List<Flower> flowers) {

@@ -11,7 +11,8 @@
     card_view:cardElevation="8dp">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:background="@color/white">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -72,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/iv_delete"
                 android:src="@drawable/ic_delete"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_alignBottom="@+id/tv_price_old"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -81,13 +82,34 @@
 
             <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                 android:id="@+id/number_button"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 app:backGroundColor="@color/colorPrimary"
                 app:textSize="8sp"
                 android:layout_height="30dp"
                 android:layout_below="@+id/iv_delete"
                 android:layout_alignLeft="@+id/tv_price_old"
                 android:layout_alignStart="@+id/tv_price_old" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Số lượng:"
+                android:id="@+id/textView6"
+                android:layout_alignBottom="@+id/number_button"
+                android:layout_toRightOf="@+id/number_button"
+                android:layout_toEndOf="@+id/number_button"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/tv_number"
+                android:layout_alignBottom="@+id/number_button"
+                android:layout_toRightOf="@+id/textView6"
+                android:layout_toEndOf="@+id/textView6"
+                android:layout_marginLeft="5dp" />
         </RelativeLayout>
 
 

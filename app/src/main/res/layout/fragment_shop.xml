@@ -22,7 +22,7 @@
             android:visibility="visible"
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:paddingBottom="50dp">
+            android:paddingBottom="100dp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
@@ -36,18 +36,61 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal|bottom"
         android:weightSum="1"
         android:background="@color/white">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:id="@+id/ln_add_to_cart"
+            android:background="@drawable/add_to_cart"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Tổng tiền ước tính"
+                android:id="@+id/textView5"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="5.000.000 VND"
+                android:id="@+id/tv_total"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Đã gồm thuế VAT"
+                android:id="@+id/textView7"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/tv_total"
+                android:layout_alignEnd="@+id/tv_total"
+                android:textColor="@color/white" />
+        </RelativeLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"
+            android:layout_weight="0.5"
             android:id="@+id/ln_buy"
             android:background="@drawable/buy_now"
             android:gravity="center_vertical|center|center_horizontal">
@@ -55,8 +98,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Mua Ngay"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Thanh Toán"
                 android:id="@+id/tv_buy"
                 android:textStyle="bold"
                 android:textColor="@android:color/white" />

@@ -14,7 +14,7 @@ public interface FavoriteContract {
     interface View extends BaseView<Presenter> {
         void showUI();
         void showIndicator(boolean active);
-        void updateChange(RealmResults<Flower> flowers);
+        void updateChange(List<Flower> flowers);
     }
     interface Presenter extends BasePresenter {
         void loadData();

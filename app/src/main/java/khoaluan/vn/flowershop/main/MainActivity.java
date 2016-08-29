@@ -24,12 +24,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
@@ -46,6 +49,10 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends BaseActivity implements ActtachMainView, Base, CommonView.ToolBar {
 
     private BottomBar bottomBar;
+
+    private RealmResults<Flower> flowers;
+
+    private BottomBarBadge nearbyBadge;
 
     @BindView(R.id.vpPager)
     ViewPager viewPager;
@@ -78,8 +85,18 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
         bottomBar.setItems(R.menu.bottom_menu_main);
 
-        BottomBarBadge nearbyBadge = bottomBar.makeBadgeForTabAt(3, R.color.red, 5);
+        flowers = RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.CART);
+
+        nearbyBadge = bottomBar.makeBadgeForTabAt(3, R.color.red, flowers.size());
         nearbyBadge.setAutoShowAfterUnSelection(true);
+
+        flowers.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
+            @Override
+            public void onChange(RealmResults<Flower> element) {
+                if (element.size() != flowers.size())
+                    nearbyBadge.setCount(element.size());
+            }
+        });
 
     }
     @Override
