@@ -137,12 +137,18 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     @Override
+    public void showRealmData(List<MultipleMainItem> multipleMainItems) {
+        this.multipleMainItems.addAll(multipleMainItems);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void noInternetConnectTion() {
         Snackbar.make(recyclerView, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE).
                 setAction(R.string.retry_again, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        presenter.loadData();
+                        presenter.loadAdvertisingItems();
                     }
                 })
                 .setActionTextColor(getResources().getColor(R.color.colorAccent))

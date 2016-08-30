@@ -34,6 +34,7 @@ import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
+import khoaluan.vn.flowershop.realm_data_local.RealmCategoryUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
@@ -210,6 +211,10 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
     public void loadFlowerCategories() {
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
+                ConvertUtils.convertCategoriseToExpandCategories(RealmCategoryUtils.all(RealmFlag.FLOWER))));
+
         Observable<Response<CategoryResponse>> observable =
                 ServiceGenerator.createService(FlowerClient.class).getFlowerCategories();
 
@@ -220,7 +225,6 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
                     private List<Category> categories = new ArrayList<Category>();
                     @Override
                     public void onCompleted() {
-                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                         recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
                                 ConvertUtils.convertCategoriseToExpandCategories(categories)));
                     }

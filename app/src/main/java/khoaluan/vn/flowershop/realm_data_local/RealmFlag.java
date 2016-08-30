@@ -8,5 +8,9 @@ public class RealmFlag {
     public static final String FAVORITE = "FAVORITE";
     public static final String BUY_NOW = "BUY_NOW";
     public static final String CART = "CART";
+    public static final String SEARCH = "SEARCH";
     public static final String FLAG = "flag";
+    public static final String GIFT = "GIFT";
+    public static final String TYPE = "type";
+    public static final String FLOWER = "FLOWER";
 }

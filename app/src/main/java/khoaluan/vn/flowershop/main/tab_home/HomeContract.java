@@ -6,6 +6,7 @@ import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
 import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.action.action_presenter.RealmAction;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 
 /**
@@ -18,6 +19,7 @@ public interface HomeContract {
         void showIndicator(boolean active);
         void showTopProducts(List<MultipleMainItem> multipleMainItems);
         void showError(String message);
+        void showRealmData(List<MultipleMainItem> multipleMainItems);
     }
     interface Presenter extends BasePresenter, RealmAction.Flower<Flower> {
         void loadData();
@@ -25,5 +27,6 @@ public interface HomeContract {
         void loadTopProducts();
         void loadAdvertisingItems();
         void refreshData();
+        List<MultipleMainItem> loadDataLocal();
     }
 }

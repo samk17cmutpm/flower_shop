@@ -13,6 +13,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.request.SearchRequest;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import retrofit2.Response;
@@ -140,7 +141,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
 
     private List<Flower> setFlowersIsSearch(List<Flower> flowers) {
         for (Flower flower : flowers)
-            flower.setSearch(true);
+            flower.setFlag(RealmFlag.SEARCH);
 
         return flowers;
     }

@@ -89,5 +89,22 @@ public class RealmFlowerUtils {
         });
     }
 
+    public static void updateAll(final String tag, final String value, final List<Flower> flowers) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Flower> flowers = realm.where(Flower.class).equalTo(tag, value).findAll();
+                flowers.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                for (Flower flower : flowers)
+                    flower.setFlag(value);
+                save(flowers);
+            }
+        });
+    }
+
 
 }

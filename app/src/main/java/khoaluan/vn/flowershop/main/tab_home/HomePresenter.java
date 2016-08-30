@@ -11,10 +11,14 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
+import khoaluan.vn.flowershop.realm_data_local.RealmAdvertisingUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
@@ -47,6 +51,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     @Override
     public void loadData() {
         this.view.showIndicator(true);
+        this.view.showRealmData(loadDataLocal());
         loadAdvertisingItems();
     }
 
@@ -56,6 +61,21 @@ public class HomePresenter implements HomeContract.Presenter, Base{
         this.multipleMainItems = new ArrayList<>();
         loadAdvertisingItems();
     }
+
+    @Override
+    public List<MultipleMainItem> loadDataLocal() {
+        List<MultipleMainItem> multipleMainItems = new ArrayList<>();
+
+        MultipleMainItem multipleMainItem = new MultipleMainItem();
+        multipleMainItem.setItemType(MultipleMainItem.ADVERTISING);
+        multipleMainItem.setAdvertisings(RealmAdvertisingUtils.all());
+        multipleMainItems.add(multipleMainItem);
+
+        multipleMainItems.addAll(ConvertUtils.convertTopProductsToMultipleItems(
+                RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.NEWEST)));
+        return multipleMainItems;
+    }
+
 
     @Override
     public void loadTopProducts() {
@@ -71,6 +91,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     public void onCompleted() {
                         view.showIndicator(false);
                         view.initilizeMainView();
+                        RealmFlowerUtils.updateAll(RealmFlag.FLAG, RealmFlag.NEWEST, flowers);
                         multipleMainItems.addAll(ConvertUtils.convertTopProductsToMultipleItems(flowers));
                         view.showTopProducts(multipleMainItems);
                     }
@@ -108,6 +129,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                         multipleMainItem.setItemType(MultipleMainItem.ADVERTISING);
                         multipleMainItem.setAdvertisings(advertisings);
                         multipleMainItems.add(multipleMainItem);
+                        RealmAdvertisingUtils.updateAll(advertisings);
                         loadTopProducts();
                     }
 
@@ -115,6 +137,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         view.noInternetConnectTion();
+                        view.showIndicator(false);
                         view.showError(null);
                     }
 
@@ -168,7 +191,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
 
     private List<Flower> setFlowersNewest(List<Flower> flowers) {
         for (Flower flower : flowers)
-            flower.setNewest(true);
+            flower.setFlag(RealmFlag.NEWEST);
 
         return flowers;
     }

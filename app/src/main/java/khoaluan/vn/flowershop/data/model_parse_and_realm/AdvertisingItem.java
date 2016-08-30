@@ -2,10 +2,12 @@ package khoaluan.vn.flowershop.data.model_parse_and_realm;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 /**
  * Created by samnguyen on 8/23/16.
  */
-public class AdvertisingItem {
+public class AdvertisingItem extends RealmObject{
     public static final int PRODUCT = 0;
     public static final int CATEGORY = 1;
     @SerializedName("CategoryId")
@@ -16,6 +18,9 @@ public class AdvertisingItem {
 
     @SerializedName("Image")
     private String image;
+
+    public AdvertisingItem() {
+    }
 
     public AdvertisingItem(String categoryId, String productId, String image) {
         this.categoryId = categoryId;

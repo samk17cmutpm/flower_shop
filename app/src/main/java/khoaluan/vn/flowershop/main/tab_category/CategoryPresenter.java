@@ -10,6 +10,8 @@ import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
+import khoaluan.vn.flowershop.realm_data_local.RealmCategoryUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
@@ -42,7 +44,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void loadData() {
-        view.showCategories(ConvertUtils.convertCategoriseToExpandCategories(loadLocalFlowerCategories()));
+        view.showCategories(ConvertUtils.convertCategoriseToExpandCategories(RealmCategoryUtils.all(RealmFlag.FLOWER)));
         loadFlowerCategories();
         loadGiftCategories();
     }
@@ -59,14 +61,13 @@ public class CategoryPresenter implements CategoryContract.Presenter {
                     private List<Category> categories = new ArrayList<Category>();
                     @Override
                     public void onCompleted() {
-                        updateLocalFlowerCategories(categories);
+                        RealmCategoryUtils.updateAll(RealmFlag.FLOWER, categories);
                         view.showCategories(ConvertUtils.convertCategoriseToExpandCategories(categories));
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        view.noInternetConnectTion();
                     }
 
                     @Override
@@ -89,13 +90,12 @@ public class CategoryPresenter implements CategoryContract.Presenter {
                     private List<Category> categories = new ArrayList<Category>();
                     @Override
                     public void onCompleted() {
-                        updateLocalGiftCategories(categories);
+                        RealmCategoryUtils.updateAll(RealmFlag.GIFT, categories);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        view.noInternetConnectTion();
                     }
 
                     @Override

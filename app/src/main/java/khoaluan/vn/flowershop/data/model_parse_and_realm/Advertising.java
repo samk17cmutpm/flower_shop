@@ -4,10 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 /**
  * Created by samnguyen on 8/23/16.
  */
-public class Advertising {
+public class Advertising extends RealmObject {
 
     @SerializedName("Width")
     private int width;
@@ -16,9 +19,12 @@ public class Advertising {
     private int height;
 
     @SerializedName("AdvertisingItems")
-    private List<AdvertisingItem> advertisingItems;
+    private RealmList<AdvertisingItem> advertisingItems;
 
-    public Advertising(int width, int height, List<AdvertisingItem> advertisingItems) {
+    public Advertising() {
+    }
+
+    public Advertising(int width, int height, RealmList<AdvertisingItem> advertisingItems) {
         this.width = width;
         this.height = height;
         this.advertisingItems = advertisingItems;
@@ -44,7 +50,7 @@ public class Advertising {
         return advertisingItems;
     }
 
-    public void setAdvertisingItems(List<AdvertisingItem> advertisingItems) {
+    public void setAdvertisingItems(RealmList<AdvertisingItem> advertisingItems) {
         this.advertisingItems = advertisingItems;
     }
 }

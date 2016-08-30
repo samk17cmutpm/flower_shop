@@ -47,12 +47,6 @@ public class Flower extends RealmObject implements Parcelable {
 
     private String flag;
 
-    private boolean isNewest;
-
-    private boolean isSearch;
-
-    private boolean isFavorite;
-
     private int number;
 
     public Flower() {
@@ -71,38 +65,6 @@ public class Flower extends RealmObject implements Parcelable {
         this.price = price;
     }
 
-    public Flower(String id, String name, String categoryId, String categoryName, String rating, String shortDescription, String fullDescription, String image, int oldPrice, int price, boolean isNewest, boolean isSearch) {
-        this.id = id;
-        this.name = name;
-        this.categoryId = categoryId;
-        CategoryName = categoryName;
-        this.rating = rating;
-        this.shortDescription = shortDescription;
-        this.fullDescription = fullDescription;
-        this.image = image;
-        this.oldPrice = oldPrice;
-        this.price = price;
-        this.isNewest = isNewest;
-        this.isSearch = isSearch;
-    }
-
-    public Flower(String id, String name, String categoryId, String categoryName, String rating, String shortDescription, String fullDescription, String image, int oldPrice, int price, String flag, boolean isNewest, boolean isSearch, boolean isFavorite, int number) {
-        this.id = id;
-        this.name = name;
-        this.categoryId = categoryId;
-        CategoryName = categoryName;
-        this.rating = rating;
-        this.shortDescription = shortDescription;
-        this.fullDescription = fullDescription;
-        this.image = image;
-        this.oldPrice = oldPrice;
-        this.price = price;
-        this.flag = flag;
-        this.isNewest = isNewest;
-        this.isSearch = isSearch;
-        this.isFavorite = isFavorite;
-        this.number = number;
-    }
 
     public int getNumber() {
         return number;
@@ -120,14 +82,6 @@ public class Flower extends RealmObject implements Parcelable {
         this.flag = flag;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
-    }
-
     public String getRating() {
         return rating;
     }
@@ -142,22 +96,6 @@ public class Flower extends RealmObject implements Parcelable {
 
     public void setCategoryName(String categoryName) {
         CategoryName = categoryName;
-    }
-
-    public boolean isSearch() {
-        return isSearch;
-    }
-
-    public void setSearch(boolean search) {
-        isSearch = search;
-    }
-
-    public boolean isNewest() {
-        return isNewest;
-    }
-
-    public void setNewest(boolean newest) {
-        isNewest = newest;
     }
 
     public String getId() {
@@ -256,9 +194,6 @@ public class Flower extends RealmObject implements Parcelable {
         dest.writeInt(this.oldPrice);
         dest.writeInt(this.price);
         dest.writeString(this.flag);
-        dest.writeByte(this.isNewest ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isSearch ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isFavorite ? (byte) 1 : (byte) 0);
         dest.writeInt(this.number);
     }
 
@@ -274,9 +209,6 @@ public class Flower extends RealmObject implements Parcelable {
         this.oldPrice = in.readInt();
         this.price = in.readInt();
         this.flag = in.readString();
-        this.isNewest = in.readByte() != 0;
-        this.isSearch = in.readByte() != 0;
-        this.isFavorite = in.readByte() != 0;
         this.number = in.readInt();
     }
 
