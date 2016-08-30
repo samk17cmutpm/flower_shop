@@ -9,11 +9,13 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
+import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.request.SearchRequest;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import retrofit2.Response;
@@ -44,7 +46,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
     }
     @Override
     public void loadData() {
-        this.view.showDataSearch(loadAll(20), false);
+        this.view.showDataSearch(RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.SEARCH), false);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
                         view.showIndicator(false);
                         view.setEnableRefresh(!flowers.isEmpty());
                         if (!flowers.isEmpty())
-                            updateData(setFlowersIsSearch(flowers));
+                            RealmFlowerUtils.updateAll(RealmFlag.FLAG, RealmFlag.SEARCH, flowers);
                         searchRequest.setCurrentPage(1);
 
                     }

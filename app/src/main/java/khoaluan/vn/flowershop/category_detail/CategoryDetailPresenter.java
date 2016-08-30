@@ -12,6 +12,8 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import retrofit2.Response;
@@ -45,7 +47,7 @@ public class CategoryDetailPresenter implements CategoryDetailContract.Presenter
     @Override
     public void loadData() {
         this.view.showIndicator(true);
-        this.view.showFlowers(loadLocalFlowersByCategory(category.getId()), false);
+        this.view.showFlowers(RealmFlowerUtils.findBy(RealmFlag.FLAG, category.getName()), false);
         loadRefreshData();
     }
 
@@ -65,7 +67,7 @@ public class CategoryDetailPresenter implements CategoryDetailContract.Presenter
                         view.showIndicator(false);
                         view.setEmptyRecyclerView("Hiện Tại Chưa Có Dữ Liệu Cho Mục Này");
                         view.showFlowers(flowers, hasNext);
-                        updateLocalFlowersByCategory(category.getId(), flowers);
+                        RealmFlowerUtils.updateAll(RealmFlag.FLAG, category.getName(), flowers);
                         currentPage = 1;
                     }
 
