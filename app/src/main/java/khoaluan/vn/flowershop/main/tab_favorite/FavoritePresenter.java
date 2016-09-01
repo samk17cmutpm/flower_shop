@@ -32,14 +32,15 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
     @Override
     public RealmResults<Flower> loadFavoriteFlowers() {
         return RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.FAVORITE);
-//        RealmResults<Flower> flowers = realm.where(Flower.class).equalTo("isSearch", true).findAll();
-//        return flowers;
     }
 
     @Override
     public List<FavoriteItem> convertData(List<Flower> flowersFavorite,
                                           List<Flower> flowersRecommend, String title) {
         List<FavoriteItem> favoriteItems = new ArrayList<>();
+
+        if (flowersFavorite.isEmpty())
+            return favoriteItems;
 
         FavoriteItem favorite = new FavoriteItem();
 
@@ -49,20 +50,21 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
 
         favoriteItems.add(favorite);
 
-        FavoriteItem favoriteTitle = new FavoriteItem();
+        if (!flowersRecommend.isEmpty()) {
+            FavoriteItem favoriteTitle = new FavoriteItem();
 
-        favoriteTitle.setItemType(FavoriteItem.TITLE);
+            favoriteTitle.setItemType(FavoriteItem.TITLE);
 
-        favoriteTitle.setTitle(title);
+            favoriteTitle.setTitle(title);
 
-        favoriteItems.add(favoriteTitle);
+            favoriteItems.add(favoriteTitle);
 
-        FavoriteItem favoriteRecommend = new FavoriteItem();
-        favoriteRecommend.setItemType(FavoriteItem.FLOWER);
-        favoriteRecommend.setFlowers(flowersRecommend);
+            FavoriteItem favoriteRecommend = new FavoriteItem();
+            favoriteRecommend.setItemType(FavoriteItem.FLOWER);
+            favoriteRecommend.setFlowers(flowersRecommend);
 
-        favoriteItems.add(favoriteRecommend);
-
+            favoriteItems.add(favoriteRecommend);
+        }
         return favoriteItems;
     }
 

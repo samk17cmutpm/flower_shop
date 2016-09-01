@@ -69,14 +69,14 @@ public class ConvertUtils {
     public static List<ExpandCategory> convertCategoriseToExpandCategories(List<Category> categories) {
         Set<String> titles = new LinkedHashSet<>();
         for (Category category : categories)
-            titles.add(category.getType());
+            titles.add(category.getName());
 
         List<ExpandCategory> expandCategories = new ArrayList<>();
 
         for (String title : titles) {
             List<Category> categoryTemp = new ArrayList<>();
             for (Category category : categories) {
-                if (title.equals(category.getType()))
+                if (title.equals(category.getName()))
                     categoryTemp.add(category);
 
             }

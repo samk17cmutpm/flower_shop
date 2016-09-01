@@ -24,6 +24,8 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +40,6 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     private FavoriteItemAdapter adapter;
     private RealmResults<Flower> flowerRealmResults;
     private List<Flower> flowers;
-
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -87,12 +88,16 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
         flowerRealmResults = presenter.loadFavoriteFlowers();
         flowers = new ArrayList<>();
         flowers.addAll(flowerRealmResults);
-
         favoriteItems = new ArrayList<>();
-        favoriteItems.addAll(presenter.convertData(flowers, flowers, "Được Mua Nhiều Nhất"));
+        favoriteItems.addAll(presenter.convertData(flowers, new ArrayList<Flower>(), "Được Mua Nhiều Nhất"));
 
         adapter = new FavoriteItemAdapter(activity, favoriteItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+
+        View viewEmpty = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
+                (ViewGroup) recyclerView.getParent(), false);
+        adapter.setEmptyView(viewEmpty);
+
         recyclerView.setAdapter(adapter);
 
         flowerRealmResults.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
@@ -114,7 +119,7 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     public void updateChange(List<Flower> flowers) {
         favoriteItems = null;
         favoriteItems = new ArrayList<FavoriteItem>();
-        favoriteItems.addAll(presenter.convertData(flowers, flowers, "Được Mua Nhiều Nhất"));
+        favoriteItems.addAll(presenter.convertData(flowers, new ArrayList<Flower>(), "Được Mua Nhiều Nhất"));
         adapter.notifyDataSetChanged();
     }
 

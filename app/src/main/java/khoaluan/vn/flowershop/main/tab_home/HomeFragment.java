@@ -75,6 +75,9 @@ public class HomeFragment extends Fragment implements HomeContract.View,
         multipleMainItems = new ArrayList<>();
         adapter = new MultipleMainItemAdapter(activity, multipleMainItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        View view_empty = this.activity.getLayoutInflater().inflate(R.layout.empty_flower_shop,
+                (ViewGroup) recyclerView.getParent(), false);
+        adapter.setEmptyView(view_empty);
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int index) {

@@ -100,7 +100,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     public void onError(Throwable e) {
                         view.showIndicator(false);
                         view.noInternetConnectTion();
-                        view.showError(null);
+//                        view.showError(null);
                         e.printStackTrace();
                     }
 
@@ -138,7 +138,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                         e.printStackTrace();
                         view.noInternetConnectTion();
                         view.showIndicator(false);
-                        view.showError(null);
+//                        view.showError(null);
                     }
 
                     @Override

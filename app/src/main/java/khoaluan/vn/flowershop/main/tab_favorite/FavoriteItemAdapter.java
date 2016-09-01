@@ -71,9 +71,9 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.removeItemDecoration(spacesItemDecoration);
         recyclerView.addItemDecoration(spacesItemDecoration);
-        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
-                (ViewGroup) recyclerView.getParent(), false);
-        adapter.setEmptyView(view_empty);
+//        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
+//                (ViewGroup) recyclerView.getParent(), false);
+//        adapter.setEmptyView(view_empty);
         adapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
