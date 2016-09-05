@@ -9,6 +9,7 @@ import khoaluan.vn.flowershop.BaseView;
 public interface SignInContract {
     interface View extends BaseView<Presenter> {
         void showUI();
+        void showIndicator(boolean active);
     }
     interface Presenter extends BasePresenter {
         void signIn(String email, String password);

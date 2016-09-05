@@ -15,6 +15,7 @@ public class MultipleMainItem extends MultiItemEntity {
     public static final int TITLE = 1;
     public static final int FLOWER = 2;
     public static final int ADVERTISING = 3;
+    public static final int BOTH_TITLE_FLOWER = 4;
 
     private String title;
     private List<Flower> flowers;

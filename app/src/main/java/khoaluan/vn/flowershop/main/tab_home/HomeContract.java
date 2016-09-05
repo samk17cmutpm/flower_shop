@@ -28,5 +28,6 @@ public interface HomeContract {
         void loadAdvertisingItems();
         void refreshData();
         List<MultipleMainItem> loadDataLocal();
+        void loadNewestData();
     }
 }

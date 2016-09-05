@@ -9,6 +9,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Item;
 import khoaluan.vn.flowershop.main.tab_favorite.FavoriteItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleAdvertisingItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
@@ -52,6 +53,36 @@ public class ConvertUtils {
 
     }
 
+    public static List<MultipleMainItem> convertItemsToMultipleItems(List<Item> items) {
+        List<MultipleMainItem> multipleMainItemses = new ArrayList<>();
+
+        for (Item item : items)  {
+            MultipleMainItem multipleMainItem = new MultipleMainItem();
+            switch (item.type()) {
+                case MultipleMainItem.ADVERTISING:
+                    multipleMainItem.setItemType(MultipleMainItem.ADVERTISING);
+                    List<Advertising> advertisings = new ArrayList<>();
+                    advertisings.add(item.getAdvertising());
+                    multipleMainItem.setAdvertisings(advertisings);
+
+                    multipleMainItemses.add(multipleMainItem);
+                    break;
+                case MultipleMainItem.BOTH_TITLE_FLOWER:
+                    multipleMainItem.setItemType(MultipleMainItem.TITLE);
+                    multipleMainItem.setTitle(item.getTitle());
+                    multipleMainItemses.add(multipleMainItem);
+
+                    multipleMainItem = new MultipleMainItem();
+                    multipleMainItem.setItemType(MultipleMainItem.FLOWER);
+                    multipleMainItem.setFlowers(item.getFlowers());
+                    multipleMainItemses.add(multipleMainItem);
+                    break;
+            }
+        }
+
+        return multipleMainItemses;
+    }
+
     public static List<MultipleAdvertisingItem> convertAdvertisingToMultipleAdvertisingItem(List<Advertising> advertisings) {
         List<MultipleAdvertisingItem> multipleAdvertisingItems = new ArrayList<>();
         for (Advertising advertising : advertisings) {
@@ -69,18 +100,46 @@ public class ConvertUtils {
     public static List<ExpandCategory> convertCategoriseToExpandCategories(List<Category> categories) {
         Set<String> titles = new LinkedHashSet<>();
         for (Category category : categories)
-            titles.add(category.getName());
+            titles.add(category.getType());
+
+        final String FLOWER = "FLOWER";
+        final String COLOR = "COLOR";
+        final String TOPIC = "TOPIC";
+        final String BIRTHDAY = "BIRTHDAY";
+        final String GIFT = "GIFT";
 
         List<ExpandCategory> expandCategories = new ArrayList<>();
 
         for (String title : titles) {
             List<Category> categoryTemp = new ArrayList<>();
             for (Category category : categories) {
-                if (title.equals(category.getName()))
+                if (title.equals(category.getType()))
                     categoryTemp.add(category);
 
             }
-            expandCategories.add(new ExpandCategory(title, categoryTemp));
+
+            String tempTitle = "Hoa";
+
+            switch (title) {
+                case FLOWER:
+                    tempTitle = "Hoa";
+                    break;
+                case COLOR:
+                    tempTitle = "Màu Sắc";
+                    break;
+                case TOPIC:
+                    tempTitle = "Chủ Đề";
+                    break;
+                case BIRTHDAY:
+                    tempTitle = "Hoa Sinh Nhật";
+                    break;
+
+                case GIFT:
+                    tempTitle = "Quà Tặng";
+                    break;
+
+            }
+            expandCategories.add(new ExpandCategory(tempTitle, categoryTemp));
 
         }
 

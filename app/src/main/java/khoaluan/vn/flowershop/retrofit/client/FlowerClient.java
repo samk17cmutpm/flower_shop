@@ -4,6 +4,7 @@ import khoaluan.vn.flowershop.data.request.SearchRequest;
 import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
+import khoaluan.vn.flowershop.data.response.NewestResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -43,6 +44,9 @@ public interface FlowerClient {
     Observable<Response<FlowerResponse>> getFlowersByCategory(@Path("id") String id,
                                                               @Path("page") int page,
                                                               @Path("size") int size);
+
+    @GET("/api/v1/summary/get-summary")
+    Observable<Response<NewestResponse>> getNewestData();
 
 
 }

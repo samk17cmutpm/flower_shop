@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
@@ -24,14 +25,27 @@ import khoaluan.vn.flowershop.R;
 public class SignInFragment extends BaseFragment implements SignInContract.View {
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    @BindView(R.id.email)
+    AutoCompleteTextView email;
+
+    @BindView(R.id.password)
+    EditText password;
+
+    @BindView(R.id.email_sign_in_button)
+    Button buttonSignIn;
+
+    @BindView(R.id.login_form)
+    View mLoginFormView;
+
     private View root;
     private SignInContract.Presenter presenter;
     public SignInFragment() {
         // Required empty public constructor
+    }
+
+    public static SignInFragment newInstance() {
+        SignInFragment fragment = new SignInFragment();
+        return fragment;
     }
 
 
@@ -41,62 +55,38 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, root);
-
-        mEmailView = (AutoCompleteTextView) root.findViewById(R.id.email);
-
-        mPasswordView = (EditText) root.findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        Button mEmailSignInButton = (Button) root.findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        mLoginFormView = root.findViewById(R.id.login_form);
-        mProgressView = root.findViewById(R.id.login_progress);
+        showUI();
         return root;
     }
 
     private void attemptLogin() {
 
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        email.setError(null);
+        password.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String email = this.email.getText().toString();
+        String password = this.password.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+            this.password.setError(getString(R.string.error_invalid_password));
+            focusView = this.password;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            this.email.setError(getString(R.string.error_field_required));
+            focusView = this.email;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+            this.email.setError(getString(R.string.error_invalid_email));
+            focusView = this.email;
             cancel = true;
         }
 
@@ -123,6 +113,27 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
 
     @Override
     public void showUI() {
+        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                    attemptLogin();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
+    }
+
+    @Override
+    public void showIndicator(boolean active) {
 
     }
 

@@ -22,13 +22,10 @@
             android:name=".main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".detail.DetailsActivity"
@@ -44,7 +41,8 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".sign_in.SignInActivity"
-            android:label="@string/title_activity_sign_in">
+            android:label="@string/title_activity_sign_in"
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
     </application>

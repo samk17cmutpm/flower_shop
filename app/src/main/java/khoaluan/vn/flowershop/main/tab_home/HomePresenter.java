@@ -13,12 +13,16 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Item;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Items;
 import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
+import khoaluan.vn.flowershop.data.response.NewestResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmAdvertisingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmItemUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
@@ -52,28 +56,80 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     public void loadData() {
         this.view.showIndicator(true);
         this.view.showRealmData(loadDataLocal());
-        loadAdvertisingItems();
+//        loadAdvertisingItems();
+        loadNewestData();
     }
 
     @Override
     public void refreshData() {
         this.view.showIndicator(true);
         this.multipleMainItems = new ArrayList<>();
-        loadAdvertisingItems();
+        loadNewestData();
     }
 
     @Override
     public List<MultipleMainItem> loadDataLocal() {
-        List<MultipleMainItem> multipleMainItems = new ArrayList<>();
+        if (RealmItemUtils.load() != null) {
+            for (Item item : RealmItemUtils.load().getItems()) {
+                if (item.getAdvertising() != null)
+                    Log.d(TAG, item.getAdvertising().getAdvertisingItems().size() + " ADVERTISING ");
+                switch (item.type()) {
+                    case MultipleMainItem.ADVERTISING:
+                        Log.d(TAG, item.getAdvertising().getAdvertisingItems().size() + " ADVERTISING ");
+                        break;
+                    case MultipleMainItem.BOTH_TITLE_FLOWER:
+                        Log.d(TAG, item.getFlowers().size() + " BOTH_TITLE_FLOWER");
+                        break;
+                }
+            }
+            return ConvertUtils.convertItemsToMultipleItems(RealmItemUtils.load().getItems());
+        }
 
-        MultipleMainItem multipleMainItem = new MultipleMainItem();
-        multipleMainItem.setItemType(MultipleMainItem.ADVERTISING);
-        multipleMainItem.setAdvertisings(RealmAdvertisingUtils.all());
-        multipleMainItems.add(multipleMainItem);
 
-        multipleMainItems.addAll(ConvertUtils.convertTopProductsToMultipleItems(
-                RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.NEWEST)));
-        return multipleMainItems;
+        return new ArrayList<>();
+//        List<MultipleMainItem> multipleMainItems = new ArrayList<>();
+//
+//        MultipleMainItem multipleMainItem = new MultipleMainItem();
+//        multipleMainItem.setItemType(MultipleMainItem.ADVERTISING);
+//        multipleMainItem.setAdvertisings(RealmAdvertisingUtils.all());
+//        multipleMainItems.add(multipleMainItem);
+//
+//        multipleMainItems.addAll(ConvertUtils.convertTopProductsToMultipleItems(
+//                RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.NEWEST)));
+//        return multipleMainItems;
+    }
+
+    @Override
+    public void loadNewestData() {
+        Observable<Response<NewestResponse>> observable =
+                client.getNewestData();
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<NewestResponse>>() {
+                    private Items items;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false);
+                        view.initilizeMainView();
+                        RealmItemUtils.updateAll(items);
+                        multipleMainItems.addAll(ConvertUtils.convertItemsToMultipleItems(items.getItems()));
+                        view.showTopProducts(multipleMainItems);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.noInternetConnectTion();
+                        view.showIndicator(false);
+                    }
+
+                    @Override
+                    public void onNext(Response<NewestResponse> newestResponseResponse) {
+                        items = newestResponseResponse.body().getItems();
+                    }
+                });
     }
 
 

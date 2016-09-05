@@ -5,10 +5,10 @@ import android.app.Activity;
 /**
  * Created by samnguyen on 8/31/16.
  */
-public class SignUpPresenter implements SignInContract.Presenter{
+public class SignInPresenter implements SignInContract.Presenter{
     private final SignInContract.View view;
     private final Activity activity;
-    public SignUpPresenter(SignInContract.View view, Activity activity) {
+    public SignInPresenter(SignInContract.View view, Activity activity) {
         this.activity = activity;
         this.view = view;
         this.view.setPresenter(this);
