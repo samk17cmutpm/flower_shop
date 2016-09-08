@@ -56,7 +56,6 @@ public class HomePresenter implements HomeContract.Presenter, Base{
     public void loadData() {
         this.view.showIndicator(true);
         this.view.showRealmData(loadDataLocal());
-//        loadAdvertisingItems();
         loadNewestData();
     }
 

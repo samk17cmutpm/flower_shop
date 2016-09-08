@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "489780219461",
+    "project_id": "flower-1470067713781"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489780219461:android:902b9cfb9ab1c888",
+        "android_client_info": {
+          "package_name": "khoaluan.vn.flowershop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489780219461-6jdf6lrm55q3lfg5d50hkja3tk10mehq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "khoaluan.vn.flowershop",
+            "certificate_hash": "DC8F17AE3373D8E9002E99A4411D5B830526B8FC"
+          }
+        },
+        {
+          "client_id": "489780219461-s737292va219g3b3ibh5gnm3ea5cbruc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPV6PBP5f-r8lhVbDhNDbtIp1R-Fj0rcI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

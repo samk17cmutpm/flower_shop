@@ -1,9 +1,15 @@
 package khoaluan.vn.flowershop.sign_in;
 
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +24,27 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.data.request.UserRequest;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends BaseFragment implements SignInContract.View {
+public class SignInFragment extends BaseFragment implements SignInContract.View, CommonView.ToolBar {
 
     // UI references.
     @BindView(R.id.email)
@@ -34,11 +56,32 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     @BindView(R.id.email_sign_in_button)
     Button buttonSignIn;
 
+    @BindView(R.id.sign_in_fb)
+    Button buttonSignInFb;
+
+    @BindView(R.id.sign_in_google)
+    Button buttonSignInGoogle;
+
     @BindView(R.id.login_form)
     View mLoginFormView;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private LoginButton loginButton;
+
+    private CallbackManager callbackManager;
+
+    private ProgressDialog progressDialog;
+
+    private GoogleApiClient mGoogleApiClient;
+
+    private SignInButton signInButton;
+
     private View root;
     private SignInContract.Presenter presenter;
+
+    private static final int RC_SIGN_IN = 6969;
     public SignInFragment() {
         // Required empty public constructor
     }
@@ -48,6 +91,22 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getContext());
+        AppEventsLogger.activateApp(getContext());
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), null)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        callbackManager = CallbackManager.Factory.create();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,10 +115,11 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
         root = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, root);
         showUI();
+        initilizeToolBar();
         return root;
     }
-
-    private void attemptLogin() {
+    @Override
+    public void attemptLogin() {
 
         // Reset errors.
         email.setError(null);
@@ -95,9 +155,8 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-
+            showIndicator(true, "Vui lòng chờ");
+            presenter.signIn(email, password);
         }
     }
 
@@ -130,15 +189,117 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
                 attemptLogin();
             }
         });
+
+        buttonSignInFb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.signInFb();
+            }
+        });
+
+        buttonSignInGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
+        loginButton = (LoginButton) root.findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+        // If using in a fragment
+        loginButton.setFragment(this);
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.e("=======>", loginResult.getAccessToken().toString());
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+
+        signInButton = (SignInButton) root.findViewById(R.id.sign_in_button);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
     }
 
     @Override
-    public void showIndicator(boolean active) {
+    public void showIndicator(boolean active, String message) {
+        if (active) {
+            progressDialog.setMessage(message);
+            progressDialog.show();
+        } else {
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+        }
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d("============>", "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            Log.e("==========>", acct.getEmail());
+
+        } else {
+            // Signed out, show unauthenticated UI.
+        }
     }
 
     @Override
     public void setPresenter(SignInContract.Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void initilizeToolBar() {
+
+        toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setContentInsetsAbsolute(0, 0);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Đăng Nhập");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
     }
 }

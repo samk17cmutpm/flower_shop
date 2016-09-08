@@ -32,7 +32,7 @@
         <ScrollView
             android:id="@+id/login_form"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/appBar"
             android:padding="16dp">
 
@@ -86,6 +86,42 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Facebook"
+            android:id="@+id/sign_in_fb"
+            android:layout_below="@+id/login_form"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Google"
+            android:id="@+id/sign_in_google"
+            android:layout_alignBottom="@+id/sign_in_fb"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/sign_in_fb"
+            android:layout_alignRight="@+id/sign_in_fb"
+            android:layout_alignEnd="@+id/sign_in_fb" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="46dp" />
     </RelativeLayout>
 
 </FrameLayout>
