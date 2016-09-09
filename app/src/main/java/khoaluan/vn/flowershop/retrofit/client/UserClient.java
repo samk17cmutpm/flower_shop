@@ -13,5 +13,8 @@ import rx.Observable;
 public interface UserClient {
     @POST("/api/v1/account/login")
     Observable<Response<UserResponse>> signIn(@Body UserRequest userRequest);
+
+    @POST("/api/v1/account/register")
+    Observable<Response<UserResponse>> signUp(@Body UserRequest userRequest);
 }
 

@@ -15,12 +15,13 @@ public interface FavoriteContract {
         void showUI();
         void showIndicator(boolean active);
         void updateChange(List<Flower> flowers);
+        void updateTop(List<Flower> flowers);
     }
     interface Presenter extends BasePresenter {
         void loadData();
         RealmResults<Flower> loadFavoriteFlowers();
+        RealmResults<Flower> loadTopFlowers();
         List<FavoriteItem> convertData(List<Flower> flowersFavorite, List<Flower> flowersRecommend, String title);
-
-
+        void loadTopProducts();
     }
 }

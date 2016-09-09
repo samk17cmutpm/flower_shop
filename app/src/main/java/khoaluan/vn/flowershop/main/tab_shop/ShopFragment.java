@@ -17,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -148,6 +150,20 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
 
         adapter.enableSwipeItem();
         adapter.setOnItemSwipeListener(onItemSwipeListener);
+
+        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int i) {
+                ImageView imageView = (ImageView) view.findViewById(R.id.im_delete);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.onItemSwiped(recyclerView.getChildViewHolder(view));
+                    }
+                });
+//                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers), false);
+            }
+        });
 
     }
 

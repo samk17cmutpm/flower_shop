@@ -5,6 +5,7 @@ package khoaluan.vn.flowershop.realm_data_local;
  */
 public class RealmFlag {
     public static final String NEWEST = "NEWEST";
+    public static final String MOST = "MOST";
     public static final String FAVORITE = "FAVORITE";
     public static final String BUY_NOW = "BUY_NOW";
     public static final String CART = "CART";

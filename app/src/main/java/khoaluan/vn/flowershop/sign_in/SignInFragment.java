@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
-import khoaluan.vn.flowershop.data.request.UserRequest;
+import khoaluan.vn.flowershop.utils.ValidationUtils;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -44,7 +44,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends BaseFragment implements SignInContract.View, CommonView.ToolBar {
+public class SignInFragment extends BaseFragment implements SignInContract.View, CommonView.ToolBar,
+        View.OnClickListener{
 
     // UI references.
     @BindView(R.id.email)
@@ -119,7 +120,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         return root;
     }
     @Override
-    public void attemptLogin() {
+    public void attemptSignIn() {
 
         // Reset errors.
         email.setError(null);
@@ -133,7 +134,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !ValidationUtils.isPasswordValid(password)) {
             this.password.setError(getString(R.string.error_invalid_password));
             focusView = this.password;
             cancel = true;
@@ -144,7 +145,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
             this.email.setError(getString(R.string.error_field_required));
             focusView = this.email;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!ValidationUtils.isEmailValid(email)) {
             this.email.setError(getString(R.string.error_invalid_email));
             focusView = this.email;
             cancel = true;
@@ -160,15 +161,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
 
     @Override
     public void showUI() {
@@ -176,41 +169,23 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptSignIn();
                     return true;
                 }
                 return false;
             }
         });
 
-        buttonSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        buttonSignInFb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.signInFb();
-            }
-        });
-
-        buttonSignInGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
+        buttonSignIn.setOnClickListener(this);
+        buttonSignInFb.setOnClickListener(this);
+        buttonSignInGoogle.setOnClickListener(this);
+        
         progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
         loginButton = (LoginButton) root.findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
-        // If using in a fragment
         loginButton.setFragment(this);
 
         // Callback registration
@@ -228,14 +203,6 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
             @Override
             public void onError(FacebookException exception) {
                 // App code
-            }
-        });
-
-        signInButton = (SignInButton) root.findViewById(R.id.sign_in_button);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
             }
         });
     }
@@ -301,5 +268,20 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.email_sign_in_button:
+                attemptSignIn();
+                break;
+            case R.id.sign_in_fb:
+                loginButton.performClick();
+                break;
+            case R.id.sign_in_google:
+                signIn();
+                break;
+        }
     }
 }

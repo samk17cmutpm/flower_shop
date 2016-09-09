@@ -21,9 +21,10 @@
                 android:layout_height="match_parent"
                 android:id="@+id/im_flower"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/rose"
-                android:scaleType="centerCrop"
-                android:layout_above="@+id/relativeLayout2" />
+                android:src="@drawable/loading_stripes"
+                android:scaleType="center"
+                android:layout_above="@+id/relativeLayout2"
+                android:background="@color/white" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

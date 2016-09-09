@@ -2,6 +2,7 @@ package khoaluan.vn.flowershop.main.tab_favorite;
 
 import android.app.Activity;
 import android.graphics.Paint;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 
 /**
@@ -28,7 +31,7 @@ public class FavoriteAdapter extends BaseItemDraggableAdapter<Flower> {
 
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, Flower flower) {
+    protected void convert(BaseViewHolder baseViewHolder, final Flower flower) {
         baseViewHolder.setText(R.id.tv_flower_name, flower.getName())
                 .setText(R.id.tv_price, flower.getMoney(flower.getPrice()));
 
@@ -43,5 +46,7 @@ public class FavoriteAdapter extends BaseItemDraggableAdapter<Flower> {
         ImageView imageView = (ImageView) baseViewHolder.getConvertView().findViewById(R.id.im_flower);
         if (flower.getImage() != null)
             ImageUniversalUtils.imageLoader.displayImage(flower.getImage(), imageView, ImageUniversalUtils.options);
+
+
     }
 }

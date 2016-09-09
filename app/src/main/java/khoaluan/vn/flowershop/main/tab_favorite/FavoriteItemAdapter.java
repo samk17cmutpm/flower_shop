@@ -8,6 +8,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -90,7 +92,7 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
         final FavoriteAdapter favoriteAdapter = new FavoriteAdapter(activity, flowers);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-        RecyclerView recyclerViewFavorite =
+        final RecyclerView recyclerViewFavorite =
                 (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
 
         recyclerViewFavorite.setHasFixedSize(true);
@@ -101,14 +103,7 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
         View view_empty_advertising = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
                 (ViewGroup) recyclerViewFavorite.getParent(), false);
 
-        favoriteAdapter.setEmptyView(view_empty_advertising);
-        favoriteAdapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int i) {
-                OnItemClickUtils.flowerDetail(activity, flowers.get(i),
-                        new FlowerSuggesstion(flowers), false);
-            }
-        });
+
         recyclerViewFavorite.setAdapter(favoriteAdapter);
 
         OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
@@ -132,5 +127,20 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
 
         favoriteAdapter.enableSwipeItem();
         favoriteAdapter.setOnItemSwipeListener(onItemSwipeListener);
+
+        favoriteAdapter.setEmptyView(view_empty_advertising);
+        favoriteAdapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int i) {
+                RelativeLayout relativeLayoutDelete = (RelativeLayout) view.findViewById(R.id.rl_delete);
+                relativeLayoutDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        favoriteAdapter.onItemSwiped(recyclerViewFavorite.getChildViewHolder(view));
+                    }
+                });
+//                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers), false);
+            }
+        });
     }
 }

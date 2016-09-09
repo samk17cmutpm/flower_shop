@@ -10,7 +10,7 @@ public interface SignInContract {
     interface View extends BaseView<Presenter> {
         void showUI();
         void showIndicator(boolean active, String message);
-        void attemptLogin();
+        void attemptSignIn();
     }
     interface Presenter extends BasePresenter {
         void signIn(String email, String password);

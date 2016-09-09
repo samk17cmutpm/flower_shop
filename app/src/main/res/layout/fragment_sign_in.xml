@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:context="khoaluan.vn.flowershop.sign_in.SignInActivity">
+        tools:context="khoaluan.vn.flowershop.sign_in.SignInActivity"
+        android:background="@color/white">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBar"
@@ -32,7 +33,7 @@
         <ScrollView
             android:id="@+id/login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/appBar"
             android:padding="16dp">
 
@@ -82,46 +83,100 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Đăng Nhập"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:background="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:weightSum="3"
+                    android:gravity="center_vertical|center|center_horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_weight="1"
+                        android:background="@color/primary"></LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Kết Nối Qua"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center|center_horizontal" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:weightSum="1"
+                        android:layout_weight="1"
+                        android:background="@color/primary"></LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/google_symbol"
+                        android:text="Google"
+                        android:id="@+id/sign_in_google"
+                        android:layout_alignBottom="@+id/sign_in_fb"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="right"
+                        android:layout_weight="0.5"
+                        android:textColor="@color/white"
+                        android:background="@color/red"
+                        android:padding="10dp"
+                        android:layout_marginRight="10dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/facebook_symbol"
+                        android:text="Facebook"
+                        android:id="@+id/sign_in_fb"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_weight="0.5"
+                        android:textColor="@color/white"
+                        android:background="@color/com_facebook_blue"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="10dp" />
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Facebook"
-            android:id="@+id/sign_in_fb"
-            android:layout_below="@+id/login_form"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Google"
-            android:id="@+id/sign_in_google"
-            android:layout_alignBottom="@+id/sign_in_fb"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/sign_in_fb"
-            android:layout_alignRight="@+id/sign_in_fb"
-            android:layout_alignEnd="@+id/sign_in_fb" />
+            android:visibility="invisible"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="46dp" />
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
 </FrameLayout>

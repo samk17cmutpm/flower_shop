@@ -24,8 +24,6 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +36,8 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     private LinearLayoutManager linearLayoutManager;
     private List<FavoriteItem> favoriteItems;
     private FavoriteItemAdapter adapter;
-    private RealmResults<Flower> flowerRealmResults;
+    private RealmResults<Flower> flowerRealmFavoriteResults;
+    private RealmResults<Flower> flowerRealmTopFlower;
     private List<Flower> flowers;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -65,6 +64,7 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
         root = inflater.inflate(R.layout.fragment_favorite, container, false);
         ButterKnife.bind(this, root);
         showUI();
+        presenter.loadTopProducts();
         return root;
     }
 
@@ -85,22 +85,23 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        flowerRealmResults = presenter.loadFavoriteFlowers();
+        flowerRealmFavoriteResults = presenter.loadFavoriteFlowers();
+        flowerRealmTopFlower = presenter.loadTopFlowers();
         flowers = new ArrayList<>();
-        flowers.addAll(flowerRealmResults);
+        flowers.addAll(flowerRealmFavoriteResults);
         favoriteItems = new ArrayList<>();
-        favoriteItems.addAll(presenter.convertData(flowers, new ArrayList<Flower>(), "Được Mua Nhiều Nhất"));
+        favoriteItems.addAll(presenter.convertData(flowers, flowerRealmTopFlower, "Được Mua Nhiều Nhất"));
 
         adapter = new FavoriteItemAdapter(activity, favoriteItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
 
-        View viewEmpty = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
-                (ViewGroup) recyclerView.getParent(), false);
-        adapter.setEmptyView(viewEmpty);
+//        View viewEmpty = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
+//                (ViewGroup) recyclerView.getParent(), false);
+//        adapter.setEmptyView(viewEmpty);
 
         recyclerView.setAdapter(adapter);
 
-        flowerRealmResults.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
+        flowerRealmFavoriteResults.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
             @Override
             public void onChange(RealmResults<Flower> element) {
                 updateChange(element);
@@ -111,15 +112,29 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
 
 
     @Override
-    public void showIndicator(boolean active) {
-
+    public void showIndicator(final boolean active) {
+        swipeRefreshLayout.setEnabled(active);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(active);
+            }
+        });
     }
 
     @Override
     public void updateChange(List<Flower> flowers) {
         favoriteItems = null;
         favoriteItems = new ArrayList<FavoriteItem>();
-        favoriteItems.addAll(presenter.convertData(flowers, new ArrayList<Flower>(), "Được Mua Nhiều Nhất"));
+        favoriteItems.addAll(presenter.convertData(flowers, this.flowerRealmTopFlower, "Được Mua Nhiều Nhất"));
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateTop(List<Flower> flowers) {
+        favoriteItems = null;
+        favoriteItems = new ArrayList<FavoriteItem>();
+        favoriteItems.addAll(presenter.convertData(this.flowers, flowers, "Được Mua Nhiều Nhất"));
         adapter.notifyDataSetChanged();
     }
 
@@ -135,8 +150,8 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
 
     @Override
     public void onDestroy() {
-        if (flowerRealmResults != null)
-            flowerRealmResults.removeChangeListeners();
+        if (flowerRealmFavoriteResults != null)
+            flowerRealmFavoriteResults.removeChangeListeners();
         super.onDestroy();
     }
 }
