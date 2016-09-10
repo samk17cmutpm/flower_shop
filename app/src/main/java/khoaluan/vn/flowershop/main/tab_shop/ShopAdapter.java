@@ -2,10 +2,14 @@ package khoaluan.vn.flowershop.main.tab_shop;
 
 import android.app.Activity;
 import android.graphics.Paint;
+import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,11 +27,13 @@ import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 /**
  * Created by samnguyen on 8/28/16.
  */
-public class ShopAdapter extends BaseItemDraggableAdapter<Flower> {
+public class ShopAdapter extends BaseQuickAdapter<Flower> {
     private List<Flower> flowers;
+    private Activity activity;
 
     public ShopAdapter(Activity activity, List<Flower> flowers) {
         super(R.layout.shop_item, flowers);
+        this.activity = activity;
     }
 
     @Override
@@ -54,5 +60,24 @@ public class ShopAdapter extends BaseItemDraggableAdapter<Flower> {
         ImageView imageView = (ImageView) baseViewHolder.getConvertView().findViewById(R.id.im_flower);
         if (flower.getImage() != null)
             ImageUniversalUtils.imageLoader.displayImage(flower.getImage(), imageView, ImageUniversalUtils.options);
+
+        ImageView imageViewDelete = (ImageView) baseViewHolder.getConvertView().findViewById(R.id.im_delete);
+        imageViewDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MaterialDialog.Builder(activity)
+                        .title("Livizi")
+                        .content("Bạn muốn xóa sản phẩm " + flower.getName() + " ra khỏi giỏ hàng ?")
+                        .positiveText("Có")
+                        .negativeText("Không")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.CART, flower.getId());
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 }

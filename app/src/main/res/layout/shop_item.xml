@@ -119,7 +119,9 @@
                 android:layout_above="@+id/tv_number"
                 android:layout_alignLeft="@+id/iv_delete"
                 android:layout_alignStart="@+id/iv_delete"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"/>
         </RelativeLayout>
 
 

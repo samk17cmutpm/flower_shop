@@ -36,10 +36,12 @@ import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
+import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 
 
 public class ShopFragment extends Fragment implements ShopContract.View, SwipeRefreshLayout.OnRefreshListener, Base {
@@ -50,7 +52,6 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
     private Activity activity;
     private ShopAdapter adapter;
     private RealmResults<Flower> flowersCart;
-    private List<Flower> flowers;
     private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(PRODUCT_DISTANCE);
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -109,12 +110,10 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
 
         flowersCart = presenter.loadCartFlowers();
 
-        flowers = new ArrayList<>();
-        flowers.addAll(flowersCart);
 
-        textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(flowers)));
+        textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(flowersCart)));
 
-        adapter = new ShopAdapter(activity, flowers);
+        adapter = new ShopAdapter(activity, flowersCart);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_cart,
                 (ViewGroup) recyclerView.getParent(), false);
@@ -123,53 +122,22 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
         recyclerView.addItemDecoration(spaceProduct);
         recyclerView.setAdapter(adapter);
 
+        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                OnItemClickUtils.flowerDetail(activity, flowersCart.get(i), new FlowerSuggesstion(flowersCart), false);
+
+            }
+        });
+
         flowersCart.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
             @Override
             public void onChange(RealmResults<Flower> element) {
-                flowers.clear();
-                flowers.addAll(element);
-                textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(flowers)));
+                textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(element)));
                 adapter.notifyDataSetChanged();
             }
         });
-
-        OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
-            @Override
-            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {}
-            @Override
-            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {}
-            @Override
-            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-                RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.CART, flowers.get(pos).getId());
-            }
-
-            @Override
-            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float v, float v1, boolean b) {
-            }
-        };
-
-        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(adapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        adapter.enableSwipeItem();
-        adapter.setOnItemSwipeListener(onItemSwipeListener);
-
-        adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(final View view, final int i) {
-                ImageView imageView = (ImageView) view.findViewById(R.id.im_delete);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adapter.onItemSwiped(recyclerView.getChildViewHolder(view));
-                    }
-                });
-//                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers), false);
-            }
-        });
-
-
+        
         linearLayoutBuyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
