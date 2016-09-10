@@ -5,4 +5,6 @@ package khoaluan.vn.flowershop.data.parcelable;
  */
 public class Action {
     public static final String TAB = "TAB";
+
+    public static final String ACTION_FOR_USER_DATA = "ACTION_FOR_USER_DATA";
 }

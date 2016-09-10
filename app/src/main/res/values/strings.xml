@@ -3,11 +3,11 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_details">DetailsActivity</string>
 
-    <string name="main.tab.home">Mới Nhất</string>
-    <string name="main.tab.categories">Thể Loại</string>
-    <string name="main.tab.favorite">Yêu Thích</string>
-    <string name="main.tab.cart">Giỏ Hàng</string>
-    <string name="main.tab.info">Thông Tin</string>
+    <string name="main.go.home">Mới Nhất</string>
+    <string name="main.go.categories">Thể Loại</string>
+    <string name="main.go.favorite">Yêu Thích</string>
+    <string name="main.go.cart">Giỏ Hàng</string>
+    <string name="main.go.info">Thông Tin</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -105,4 +105,5 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="title_activity_user_data">UserDataActivity</string>
 </resources>

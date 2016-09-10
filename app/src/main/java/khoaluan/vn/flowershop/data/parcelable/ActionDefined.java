@@ -7,18 +7,18 @@ import android.os.Parcelable;
  * Created by samnguyen on 9/10/16.
  */
 public class ActionDefined implements Parcelable {
-    private int tab;
+    private int go;
 
-    public ActionDefined(int tab) {
-        this.tab = tab;
+    public ActionDefined(int go) {
+        this.go = go;
     }
 
-    public int getTab() {
-        return tab;
+    public int getGo() {
+        return go;
     }
 
-    public void setTab(int tab) {
-        this.tab = tab;
+    public void setGo(int go) {
+        this.go = go;
     }
 
 
@@ -29,11 +29,11 @@ public class ActionDefined implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.tab);
+        dest.writeInt(this.go);
     }
 
     protected ActionDefined(Parcel in) {
-        this.tab = in.readInt();
+        this.go = in.readInt();
     }
 
     public static final Parcelable.Creator<ActionDefined> CREATOR = new Parcelable.Creator<ActionDefined>() {

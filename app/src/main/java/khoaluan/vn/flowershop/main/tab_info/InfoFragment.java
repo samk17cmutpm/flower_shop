@@ -19,8 +19,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.sign_in.SignInActivity;
+import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 
 /**
@@ -32,13 +36,38 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
     private View root;
 
     @BindView(R.id.rl_sign_in)
-    RelativeLayout relativeLayoutSignIn;
-
-    @BindView(R.id.rl_sign_out)
-    RelativeLayout relativeLayoutSignOut;
+    RelativeLayout rl_sign_in;
 
     @BindView(R.id.tv_sign_in)
     TextView tvSignInName;
+
+    @BindView(R.id.rl_sign_out)
+    RelativeLayout rl_sign_out;
+
+    @BindView(R.id.rl_update_info)
+    RelativeLayout rl_update_info;
+
+    @BindView(R.id.rl_billing)
+    RelativeLayout rl_billing;
+
+    @BindView(R.id.rl_payment_address)
+    RelativeLayout rl_payment_address;
+
+    @BindView(R.id.rl_delivery_address)
+    RelativeLayout rl_delivery_address;
+
+    @BindView(R.id.rl_info_payment)
+    RelativeLayout rl_info_payment;
+
+    @BindView(R.id.rl_policy)
+    RelativeLayout rl_policy;
+
+    @BindView(R.id.rl_contact)
+    RelativeLayout rl_contact;
+
+    @BindView(R.id.rl_idea)
+    RelativeLayout rl_idea;
+
 
     private Activity activity;
 
@@ -72,14 +101,24 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
     public void showUI() {
         activity = getActivity();
 
-        relativeLayoutSignIn.setOnClickListener(this);
-        relativeLayoutSignOut.setOnClickListener(this);
+        rl_sign_in.setOnClickListener(this);
+
+        rl_sign_out.setOnClickListener(this);
+
+        rl_update_info.setOnClickListener(this);
+        rl_billing.setOnClickListener(this);
+        rl_payment_address.setOnClickListener(this);
+        rl_delivery_address.setOnClickListener(this);
+        rl_info_payment.setOnClickListener(this);
+        rl_policy.setOnClickListener(this);
+        rl_contact.setOnClickListener(this);
+        rl_idea.setOnClickListener(this);
 
         if (UserSharedPrefrence.isSignedIn(activity)) {
-            relativeLayoutSignIn.setEnabled(false);
+            rl_sign_in.setEnabled(false);
             tvSignInName.setText(UserSharedPrefrence.getUser(activity).getEmail());
         } else {
-            relativeLayoutSignOut.setVisibility(View.GONE);
+            rl_sign_out.setVisibility(View.GONE);
         }
     }
 
@@ -97,11 +136,39 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                 activity.startActivity(intent);
                 activity.finish();
                 break;
+            case R.id.rl_update_info:
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.UPDATE_INFO));
+                activity.startActivity(intent);
+                break;
             case R.id.rl_billing:
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLLING));
+                activity.startActivity(intent);
                 break;
             case R.id.rl_payment_address:
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.PAYMENT_ADDRESS));
+                activity.startActivity(intent);
                 break;
             case R.id.rl_delivery_address:
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.DELIVERY_ADDRESS));
+                activity.startActivity(intent);
+                break;
+            case R.id.rl_info_payment:
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLING_INFO));
+                activity.startActivity(intent);
+                break;
+            case R.id.rl_policy:
+                break;
+            case R.id.rl_contact:
+                break;
+            case R.id.rl_idea:
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.IDEA));
+                activity.startActivity(intent);
                 break;
             case R.id.rl_sign_out:
                 new MaterialDialog.Builder(activity)
@@ -117,7 +184,6 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                             }
                         })
                         .show();
-
                 break;
         }
     }

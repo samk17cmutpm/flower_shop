@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -82,7 +81,7 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
         actionDefined = (ActionDefined) getIntent().getParcelableExtra(Action.TAB);
         if (actionDefined != null) {
-            viewPager.setCurrentItem(actionDefined.getTab(), false);
+            viewPager.setCurrentItem(actionDefined.getGo(), false);
         }
 
     }
