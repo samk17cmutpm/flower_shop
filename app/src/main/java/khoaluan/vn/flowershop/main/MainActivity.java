@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -33,6 +34,8 @@ import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.realm_data_local.RealmCategoryUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
@@ -64,6 +67,8 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
     @BindView(R.id.left_drawer)
     RecyclerView recyclerView;
 
+    private ActionDefined actionDefined;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +79,12 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         setUpViewPager();
         injectBottomTabsToViewPager();
         loadFlowerCategories();
+
+        actionDefined = (ActionDefined) getIntent().getParcelableExtra(Action.TAB);
+        if (actionDefined != null) {
+            viewPager.setCurrentItem(actionDefined.getTab(), false);
+        }
+
     }
 
     @Override

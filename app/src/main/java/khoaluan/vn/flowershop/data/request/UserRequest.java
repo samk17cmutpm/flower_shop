@@ -6,14 +6,20 @@ import com.google.gson.annotations.SerializedName;
  * Created by samnguyen on 9/7/16.
  */
 public class UserRequest {
-    @SerializedName("Email")
+    @SerializedName("email")
     private String email;
 
-    @SerializedName("Password")
+    @SerializedName("password")
     private String password;
 
-    @SerializedName("DeviceId")
+    @SerializedName("deviceId")
     private String deviceId;
+
+    @SerializedName("provider")
+    private String provider;
+
+    @SerializedName("externaltoken")
+    private String externalToken;
 
     public UserRequest(String email, String password) {
         this.email = email;
@@ -23,6 +29,21 @@ public class UserRequest {
     public UserRequest(String email, String password, String deviceId) {
         this.email = email;
         this.password = password;
+        this.deviceId = deviceId;
+    }
+
+    public UserRequest(String email, String provider, String externalToken, String deviceId) {
+        this.email = email;
+        this.provider = provider;
+        this.externalToken = externalToken;
+        this.deviceId = deviceId;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 
@@ -40,5 +61,21 @@ public class UserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getExternalToken() {
+        return externalToken;
+    }
+
+    public void setExternalToken(String externalToken) {
+        this.externalToken = externalToken;
     }
 }

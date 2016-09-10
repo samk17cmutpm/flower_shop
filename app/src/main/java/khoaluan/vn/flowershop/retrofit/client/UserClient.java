@@ -16,5 +16,8 @@ public interface UserClient {
 
     @POST("/api/v1/account/register")
     Observable<Response<UserResponse>> signUp(@Body UserRequest userRequest);
+
+    @POST("/api/v1/account/loginexternal")
+    Observable<Response<UserResponse>> signSocial(@Body UserRequest userRequest);
 }
 

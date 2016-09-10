@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,9 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
 
     @BindView(R.id.tv_total)
     TextView textViewTotal;
+
+    @BindView(R.id.ln_pay_now)
+    LinearLayout linearLayoutBuyNow;
 
     public ShopFragment() {
         // Required empty public constructor
@@ -162,6 +166,14 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
                     }
                 });
 //                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers), false);
+            }
+        });
+
+
+        linearLayoutBuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

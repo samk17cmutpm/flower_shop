@@ -25,13 +25,17 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.ValidationUtils;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -40,6 +44,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,6 +109,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         FacebookSdk.sdkInitialize(getContext());
         AppEventsLogger.activateApp(getContext());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("489780219461-s737292va219g3b3ibh5gnm3ea5cbruc.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -161,6 +173,10 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         }
     }
 
+    @Override
+    public void finish() {
+        ActionUtils.go(getActivity(), 4);
+    }
 
 
     @Override
@@ -185,24 +201,47 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         progressDialog.setCancelable(false);
 
         loginButton = (LoginButton) root.findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email");
+//        loginButton.setReadPermissions("email");
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email"));
         loginButton.setFragment(this);
+
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.e("=======>", loginResult.getAccessToken().toString());
+            public void onSuccess(final LoginResult loginResult) {
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                try {
+                                    String email = object.getString("email");
+                                    String name = object.getString("name");
+                                    showIndicator(true, "Đang kết nối qua tài khoản Facebook");
+                                    presenter.signInSocial(email, Credentials.FACEBOOK, loginResult.getAccessToken().getToken(), "", name);
+                                    // Log out
+                                    LoginManager.getInstance().logOut();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,email,name");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
             public void onCancel() {
-                // App code
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                exception.printStackTrace();
             }
         });
     }
@@ -226,6 +265,15 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            Log.d("TAG", "signOut:onResult:" + status);
+                        }
+                    });
+
         }
     }
 
@@ -235,14 +283,11 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d("============>", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Log.e("==========>", acct.getEmail());
-
+            showIndicator(true, "Đang kết nối qua tài khoản Google");
+            presenter.signInSocial(acct.getEmail(), Credentials.GOOGLE, acct.getIdToken(), "", acct.getDisplayName());
         } else {
-            // Signed out, show unauthenticated UI.
         }
     }
 
@@ -264,7 +309,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                finish();
             }
         });
 

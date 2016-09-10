@@ -101,7 +101,8 @@
                     android:text="Đăng Ký Tài Khoản"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:background="@color/colorPrimary" />
+                    android:background="@drawable/action_user_bg"
+                    android:foreground="?selectableItemBackground"  />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

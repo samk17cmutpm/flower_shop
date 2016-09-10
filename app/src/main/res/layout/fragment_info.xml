@@ -11,8 +11,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_sign_in"
                 android:gravity="center_vertical"
                 android:padding="10dp"
@@ -53,8 +54,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_sign_up"
                 android:gravity="center_vertical"
                 android:padding="10dp"
@@ -95,8 +97,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_billing"
                 android:gravity="center_vertical"
                 android:padding="10dp"
@@ -137,8 +140,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_policy"
                 android:gravity="center_vertical"
                 android:padding="10dp"
@@ -179,8 +183,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_contact"
                 android:gravity="center_vertical"
                 android:padding="10dp"
@@ -221,8 +226,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_sign_out"
                 android:gravity="center_vertical"
                 android:padding="10dp"

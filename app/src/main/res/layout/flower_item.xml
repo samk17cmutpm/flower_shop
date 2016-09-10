@@ -7,7 +7,7 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:transitionName="profile"
-    card_view:cardBackgroundColor="#E6E6E6"
+    card_view:cardBackgroundColor="@color/white"
     card_view:cardElevation="8dp">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

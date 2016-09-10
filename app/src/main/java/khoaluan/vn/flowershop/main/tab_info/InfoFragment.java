@@ -126,6 +126,7 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
             case R.id.rl_sign_in:
                 intent = new Intent(activity, SignInActivity.class);
                 activity.startActivity(intent);
+                activity.finish();
                 break;
             case R.id.rl_sign_up:
                 intent = new Intent(activity, SignUpActivity.class);

@@ -65,7 +65,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.3"
             android:id="@+id/ln_buy"
-            android:background="@drawable/buy_now"
+            android:background="@drawable/action_user_bg"
+            android:foreground="?selectableItemBackground"
             android:gravity="center_vertical|center|center_horizontal">
 
             <TextView
@@ -85,6 +86,7 @@
             android:layout_weight="0.7"
             android:id="@+id/ln_add_to_cart"
             android:background="@drawable/add_to_cart"
+            android:foreground="?selectableItemBackground"
             android:gravity="center_vertical|center|center_horizontal"
             android:layout_marginLeft="2dp">
 

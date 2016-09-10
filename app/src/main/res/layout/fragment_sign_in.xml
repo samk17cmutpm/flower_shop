@@ -85,7 +85,8 @@
                     android:text="Đăng Nhập"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:background="@color/colorPrimary" />
+                    android:background="@drawable/action_user_bg"
+                    android:foreground="?selectableItemBackground" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -137,7 +138,8 @@
                         android:layout_gravity="right"
                         android:layout_weight="0.5"
                         android:textColor="@color/white"
-                        android:background="@color/red"
+                        android:background="@drawable/google_sign_in_bg"
+                        android:foreground="?selectableItemBackground"
                         android:padding="10dp"
                         android:layout_marginRight="10dp" />
 
@@ -151,7 +153,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_weight="0.5"
                         android:textColor="@color/white"
-                        android:background="@color/com_facebook_blue"
+                        android:background="@drawable/fb_login_bg"
+                        android:foreground="?selectableItemBackground"
                         android:paddingRight="10dp"
                         android:layout_marginLeft="10dp" />
                 </LinearLayout>

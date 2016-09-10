@@ -11,10 +11,11 @@ public interface SignInContract {
         void showUI();
         void showIndicator(boolean active, String message);
         void attemptSignIn();
+        void finish();
     }
     interface Presenter extends BasePresenter {
         void signIn(String email, String password);
-        void signInFb();
+        void signInSocial(String email, String provider, String externaltoken, String deviceId, String fullName);
         void siginInGoogle();
     }
 }

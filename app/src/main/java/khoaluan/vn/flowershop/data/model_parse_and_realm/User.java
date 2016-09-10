@@ -35,6 +35,8 @@ public class User extends RealmObject{
         this.deviceId = deviceId;
     }
 
+
+
     public User() {
     }
 

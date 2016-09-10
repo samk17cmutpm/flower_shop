@@ -91,8 +91,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:id="@+id/ln_buy"
-            android:background="@drawable/buy_now"
+            android:id="@+id/ln_pay_now"
+            android:background="@drawable/action_user_bg"
+            android:foreground="?selectableItemBackground"
             android:gravity="center_vertical|center|center_horizontal">
 
             <TextView
