@@ -1,11 +1,11 @@
 package khoaluan.vn.flowershop.sign_in;
 
 import android.app.Activity;
-import android.util.Log;
+
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
 import khoaluan.vn.flowershop.data.request.UserRequest;
 import khoaluan.vn.flowershop.data.response.UserResponse;
-import khoaluan.vn.flowershop.realm_data_local.RealmUserUtils;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.UserClient;
 import khoaluan.vn.flowershop.utils.MessageUtils;
@@ -45,7 +45,8 @@ public class SignInPresenter implements SignInContract.Presenter{
                         view.showIndicator(false, null);
                         if (userResponse.isSuccess()) {
                             User user = userResponse.getResult();
-                            RealmUserUtils.updateAll(user);
+                            UserSharedPrefrence.setSignedIn(activity, true);
+                            UserSharedPrefrence.saveUser(user, activity);
                             MessageUtils.showLong(activity, "Đăng nhập thành công !");
                             view.finish();
                         } else {
@@ -87,7 +88,8 @@ public class SignInPresenter implements SignInContract.Presenter{
                             if (user.getFullName() == null)
                                 user.setFullName(fullName);
                             MessageUtils.showLong(activity, "Đăng nhập bằng tài khoản " + provider + " thành công !");
-                            RealmUserUtils.updateAll(user);
+                            UserSharedPrefrence.setSignedIn(activity, true);
+                            UserSharedPrefrence.saveUser(user, activity);
                             view.finish();
                         } else {
                             MessageUtils.showLong(activity, "Đã xảy ra lỗi, wtf");

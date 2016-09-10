@@ -2,6 +2,7 @@ package khoaluan.vn.flowershop.sign_up;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.sign_in.SignInActivity;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.ValidationUtils;
 
 /**
@@ -42,6 +45,15 @@ public class SignUpFragment extends BaseFragment implements CommonView.ToolBar, 
 
     @BindView(R.id.sign_up)
     Button buttonSignUp;
+
+    @BindView(R.id.full_name)
+    EditText fullName;
+
+    @BindView(R.id.address)
+    EditText address;
+
+    @BindView(R.id.phone)
+    EditText phone;
 
     private View root;
 
@@ -78,7 +90,7 @@ public class SignUpFragment extends BaseFragment implements CommonView.ToolBar, 
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        passwordConfirm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        phone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.sign_up || id == EditorInfo.IME_NULL) {
@@ -106,14 +118,38 @@ public class SignUpFragment extends BaseFragment implements CommonView.ToolBar, 
         email.setError(null);
         password.setError(null);
         passwordConfirm.setError(null);
+        fullName.setError(null);
+        address.setError(null);
+        phone.setError(null);
 
         // Store values at the time of the login attempt.
         String email = this.email.getText().toString();
         String password = this.password.getText().toString();
         String passwordConfirm = this.passwordConfirm.getText().toString();
+        String fullName = this.fullName.getText().toString();
+        String address = this.address.getText().toString();
+        String phone = this.phone.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
+
+        if (TextUtils.isEmpty(phone)) {
+            this.phone.setError(getString(R.string.error_field_required));
+            focusView = this.phone;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(address)) {
+            this.address.setError(getString(R.string.error_field_required));
+            focusView = this.address;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(fullName)) {
+            this.fullName.setError(getString(R.string.error_field_required));
+            focusView = this.fullName;
+            cancel = true;
+        }
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !ValidationUtils.isPasswordValid(password)) {
@@ -134,9 +170,6 @@ public class SignUpFragment extends BaseFragment implements CommonView.ToolBar, 
             }
         }
 
-
-
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             this.email.setError(getString(R.string.error_field_required));
             focusView = this.email;
@@ -147,14 +180,20 @@ public class SignUpFragment extends BaseFragment implements CommonView.ToolBar, 
             cancel = true;
         }
 
+        // Check for a valid email address.
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
             showIndicator(true, "Vui lòng chờ");
-            presenter.signUp(email, password, passwordConfirm);
+            presenter.signUp(email, password, passwordConfirm, address, phone, fullName, "");
         }
+    }
+
+    @Override
+    public void finish() {
+        ActionUtils.go(getActivity(), 4);
     }
 
     @Override
@@ -174,7 +213,9 @@ public class SignUpFragment extends BaseFragment implements CommonView.ToolBar, 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                Intent intent = new Intent(getActivity(), SignInActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().finish();
             }
         });
     }

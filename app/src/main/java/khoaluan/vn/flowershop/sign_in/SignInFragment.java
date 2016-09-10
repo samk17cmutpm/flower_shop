@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.sign_up.SignUpActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.ValidationUtils;
 
@@ -79,6 +81,9 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.ln_sign_up)
+    LinearLayout linearLayoutSignUp;
 
     private LoginButton loginButton;
 
@@ -195,6 +200,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         buttonSignIn.setOnClickListener(this);
         buttonSignInFb.setOnClickListener(this);
         buttonSignInGoogle.setOnClickListener(this);
+        linearLayoutSignUp.setOnClickListener(this);
         
         progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
@@ -326,6 +332,11 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
                 break;
             case R.id.sign_in_google:
                 signIn();
+                break;
+            case R.id.ln_sign_up:
+                Intent intent = new Intent(getActivity(), SignUpActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().finish();
                 break;
         }
     }

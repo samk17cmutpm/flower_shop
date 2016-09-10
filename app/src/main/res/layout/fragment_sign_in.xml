@@ -52,6 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="email"
+                        android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:singleLine="true" />
@@ -157,6 +158,26 @@
                         android:foreground="?selectableItemBackground"
                         android:paddingRight="10dp"
                         android:layout_marginLeft="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/category_drawer_background"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center_vertical|center|center_horizontal"
+                    android:id="@+id/ln_sign_up">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Đăng Ký Tài Khoản Mới"
+                        android:id="@+id/textView3"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/primary" />
                 </LinearLayout>
 
             </LinearLayout>

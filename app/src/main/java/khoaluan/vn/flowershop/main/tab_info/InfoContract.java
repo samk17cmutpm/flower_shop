@@ -12,10 +12,9 @@ import khoaluan.vn.flowershop.data.InfoType;
 public interface InfoContract {
     interface View extends BaseView<Presenter> {
         void showUI();
-        void initilizeRecyclerView();
-        void showInfoTypes(List<InfoType> infoTypes);
     }
     interface Presenter extends BasePresenter {
         void loadData();
+        void signOut();
     }
 }

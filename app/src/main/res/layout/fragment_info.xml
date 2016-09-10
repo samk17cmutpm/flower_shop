@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Đăng nhập"
+                    android:text="Đăng nhập &amp; Đăng ký"
                     android:id="@+id/tv_sign_in"
                     android:layout_alignBottom="@+id/iv_avatar"
                     android:layout_toRightOf="@+id/iv_avatar"
@@ -57,56 +57,13 @@
                 android:layout_height="60dp"
                 android:background="@drawable/category_drawer_background"
                 android:foreground="?selectableItemBackground"
-                android:id="@+id/rl_sign_up"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:layout_below="@+id/rl_sign_in"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="20dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView3"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_sign_up_info" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Đăng ký tài khoản mới "
-                    android:id="@+id/textView9"
-                    android:layout_alignBottom="@+id/imageView3"
-                    android:layout_toRightOf="@+id/imageView3"
-                    android:layout_toEndOf="@+id/imageView3"
-                    android:layout_marginLeft="10dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView4"
-                    android:layout_alignBottom="@+id/imageView3"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_arrow_info" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/category_drawer_background"
-                android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_billing"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:layout_below="@+id/rl_sign_up"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/rl_sign_in">
 
                 <ImageView
                     android:layout_width="wrap_content"

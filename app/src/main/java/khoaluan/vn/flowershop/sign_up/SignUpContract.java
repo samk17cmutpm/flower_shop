@@ -11,8 +11,10 @@ public interface SignUpContract {
         void showUI();
         void showIndicator(boolean active, String message);
         void attemptSignUp();
+        void finish();
     }
     interface Presenter extends BasePresenter {
-        void signUp(String email, String password, String passwordConfirm);
+        void signUp(String email, String password, String passwordConfirm,
+                    String address, String phone, String fullName, String deviceId);
     }
 }

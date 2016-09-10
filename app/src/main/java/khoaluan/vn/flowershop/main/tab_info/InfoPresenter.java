@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import khoaluan.vn.flowershop.data.InfoType;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.main.MainActivity;
 
 /**
@@ -22,7 +23,12 @@ public class InfoPresenter implements InfoContract.Presenter {
     }
     @Override
     public void loadData() {
-        this.view.showInfoTypes(loadDumpData());
+
+    }
+
+    @Override
+    public void signOut() {
+        UserSharedPrefrence.setSignedIn(activity, false);
     }
 
     private List<InfoType> loadDumpData() {

@@ -2,8 +2,9 @@ package khoaluan.vn.flowershop.sign_up;
 
 import android.app.Activity;
 
-import khoaluan.vn.flowershop.data.request.UserRequest;
+import khoaluan.vn.flowershop.data.request.UserSignUpRequest;
 import khoaluan.vn.flowershop.data.response.UserResponse;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.UserClient;
 import khoaluan.vn.flowershop.utils.MessageUtils;
@@ -27,8 +28,9 @@ public class SignUpPresenter implements SignUpContract.Presenter {
         this.client = ServiceGenerator.createService(UserClient.class);
     }
     @Override
-    public void signUp(String email, String password, String passwordConfirm) {
-        final UserRequest userRequest = new UserRequest(email, password);
+    public void signUp(String email, String password, String passwordConfirm,
+                       String address, String phone, String fullName, String deviceId) {
+        final UserSignUpRequest userRequest = new UserSignUpRequest(email, fullName, address, phone, deviceId, password);
 
         Observable<Response<UserResponse>> observable =
                 client.signUp(userRequest);
@@ -43,6 +45,9 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                         view.showIndicator(false, null);
                         if (userResponse.isSuccess()) {
                             MessageUtils.showLong(activity, "Đăng ký tài khoản thành công !");
+                            UserSharedPrefrence.setSignedIn(activity, true);
+                            UserSharedPrefrence.saveUser(userResponse.getResult(), activity);
+                            view.finish();
                         } else {
                             MessageUtils.showLong(activity, "Email này đã được đăng ký, vui lòng kiểm tra lại !");
                         }
