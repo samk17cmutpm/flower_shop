@@ -38,7 +38,6 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     private FavoriteItemAdapter adapter;
     private RealmResults<Flower> flowerRealmFavoriteResults;
     private RealmResults<Flower> flowerRealmTopFlower;
-    private List<Flower> flowers;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -87,10 +86,8 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
 
         flowerRealmFavoriteResults = presenter.loadFavoriteFlowers();
         flowerRealmTopFlower = presenter.loadTopFlowers();
-        flowers = new ArrayList<>();
-        flowers.addAll(flowerRealmFavoriteResults);
         favoriteItems = new ArrayList<>();
-        favoriteItems.addAll(presenter.convertData(flowers, flowerRealmTopFlower, "Được Mua Nhiều Nhất"));
+        favoriteItems.addAll(presenter.convertData(flowerRealmFavoriteResults, flowerRealmTopFlower, "Được Mua Nhiều Nhất"));
 
         adapter = new FavoriteItemAdapter(activity, favoriteItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
@@ -134,7 +131,7 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
     public void updateTop(List<Flower> flowers) {
         favoriteItems = null;
         favoriteItems = new ArrayList<FavoriteItem>();
-        favoriteItems.addAll(presenter.convertData(this.flowers, flowers, "Được Mua Nhiều Nhất"));
+        favoriteItems.addAll(presenter.convertData(this.flowerRealmFavoriteResults, flowers, "Được Mua Nhiều Nhất"));
         adapter.notifyDataSetChanged();
     }
 

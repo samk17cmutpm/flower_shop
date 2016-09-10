@@ -105,41 +105,11 @@ public class FavoriteItemAdapter extends BaseMultiItemQuickAdapter<FavoriteItem>
 
 
         recyclerViewFavorite.setAdapter(favoriteAdapter);
-
-        OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
-            @Override
-            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {}
-            @Override
-            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {}
-            @Override
-            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-                RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.FAVORITE, flowers.get(pos).getId());
-            }
-
-            @Override
-            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float v, float v1, boolean b) {
-            }
-        };
-
-        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(favoriteAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerViewFavorite);
-
-        favoriteAdapter.enableSwipeItem();
-        favoriteAdapter.setOnItemSwipeListener(onItemSwipeListener);
-
         favoriteAdapter.setEmptyView(view_empty_advertising);
         favoriteAdapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(final View view, final int i) {
-                RelativeLayout relativeLayoutDelete = (RelativeLayout) view.findViewById(R.id.rl_delete);
-                relativeLayoutDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        favoriteAdapter.onItemSwiped(recyclerViewFavorite.getChildViewHolder(view));
-                    }
-                });
-//                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers), false);
+                OnItemClickUtils.flowerDetail(activity, flowers.get(i), new FlowerSuggesstion(flowers), false);
             }
         });
     }

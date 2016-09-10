@@ -52,6 +52,7 @@ dependencies {
     compile 'com.facebook.android:audience-network-sdk:4.+'
     compile 'com.facebook.android:account-kit-sdk:4.+'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
 
