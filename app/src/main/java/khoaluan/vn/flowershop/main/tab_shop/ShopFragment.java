@@ -137,7 +137,7 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
                 adapter.notifyDataSetChanged();
             }
         });
-        
+
         linearLayoutBuyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

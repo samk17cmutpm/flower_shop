@@ -4,6 +4,7 @@ package khoaluan.vn.flowershop.main.tab_info;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,16 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.sign_in.SignInActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 
@@ -112,8 +118,20 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
             case R.id.rl_contact:
                 break;
             case R.id.rl_sign_out:
-                presenter.signOut();
-                ActionUtils.go(activity, TAB_INFO);
+                new MaterialDialog.Builder(activity)
+                        .title("Livizi")
+                        .content("Bạn muốn đăng xuất ra khỏi ứng dụng ?")
+                        .positiveText("Có")
+                        .negativeText("Không")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                presenter.signOut();
+                                ActionUtils.go(activity, TAB_INFO);
+                            }
+                        })
+                        .show();
+
                 break;
         }
     }
