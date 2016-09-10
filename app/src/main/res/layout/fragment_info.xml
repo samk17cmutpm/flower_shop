@@ -4,14 +4,19 @@
     android:layout_height="match_parent"
     tools:context="khoaluan.vn.flowershop.main.tab_info.InfoFragment">
 
-        <RelativeLayout
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/material_grey_300">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/info"
                 android:background="@drawable/category_drawer_background"
                 android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_sign_in"
@@ -54,16 +59,59 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/info"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
+                android:id="@+id/rl_update_info"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:layout_below="@+id/rl_sign_in"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="2dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView3"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_sign_in_info" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Cập nhập thông tin cá nhân"
+                    android:id="@+id/textView9"
+                    android:layout_alignBottom="@+id/imageView3"
+                    android:layout_toRightOf="@+id/imageView3"
+                    android:layout_toEndOf="@+id/imageView3"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    android:layout_alignBottom="@+id/imageView3"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_arrow_info" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/info"
                 android:background="@drawable/category_drawer_background"
                 android:foreground="?selectableItemBackground"
                 android:id="@+id/rl_billing"
                 android:gravity="center_vertical"
                 android:padding="10dp"
+                android:layout_below="@+id/rl_update_info"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/rl_sign_in">
+                android:layout_marginTop="28dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -97,10 +145,10 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/info"
                 android:background="@drawable/category_drawer_background"
                 android:foreground="?selectableItemBackground"
-                android:id="@+id/rl_policy"
+                android:id="@+id/rl_payment_address"
                 android:gravity="center_vertical"
                 android:padding="10dp"
                 android:layout_below="@+id/rl_billing"
@@ -121,7 +169,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Chính sách"
+                    android:text="Đị chỉ thanh toán"
                     android:id="@+id/textView11"
                     android:layout_alignBottom="@+id/imageView7"
                     android:layout_toRightOf="@+id/imageView7"
@@ -140,13 +188,13 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/info"
                 android:background="@drawable/category_drawer_background"
                 android:foreground="?selectableItemBackground"
-                android:id="@+id/rl_contact"
+                android:id="@+id/rl_delivery_address"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:layout_below="@+id/rl_policy"
+                android:layout_below="@+id/rl_payment_address"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="2dp">
@@ -164,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Liên hệ &amp; hợp tác"
+                    android:text="Địa chỉ giao hàng"
                     android:id="@+id/textView12"
                     android:layout_alignBottom="@+id/imageView9"
                     android:layout_toRightOf="@+id/imageView9"
@@ -183,16 +231,59 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/info"
                 android:background="@drawable/category_drawer_background"
                 android:foreground="?selectableItemBackground"
-                android:id="@+id/rl_sign_out"
+                android:id="@+id/rl_info_payment"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:layout_below="@+id/rl_contact"
+                android:layout_below="@+id/rl_delivery_address"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="65dp">
+                android:layout_marginTop="2dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView13"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_shopping_info" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Thông tin xuất hóa đơn "
+                    android:id="@+id/textView14"
+                    android:layout_alignBottom="@+id/imageView13"
+                    android:layout_toRightOf="@+id/imageView13"
+                    android:layout_toEndOf="@+id/imageView13"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView14"
+                    android:layout_alignBottom="@+id/imageView13"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_arrow_info" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/info"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
+                android:id="@+id/rl_policy"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:layout_below="@+id/rl_info_payment"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -201,13 +292,13 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_sign_out_info" />
+                    android:src="@drawable/ic_shopping_info" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Đăng xuất"
+                    android:text="Chính sách"
                     android:id="@+id/textView13"
                     android:layout_alignBottom="@+id/imageView11"
                     android:layout_toRightOf="@+id/imageView11"
@@ -224,6 +315,137 @@
                     android:src="@drawable/ic_arrow_info" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/info"
+                android:background="@drawable/category_drawer_background"
+                android:foreground="?selectableItemBackground"
+                android:id="@+id/rl_contact"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:layout_below="@+id/rl_policy"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="2dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView15"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_shopping_info" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Liên hệ và hợp tác"
+                    android:id="@+id/textView15"
+                    android:layout_alignBottom="@+id/imageView15"
+                    android:layout_toRightOf="@+id/imageView15"
+                    android:layout_toEndOf="@+id/imageView15"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView16"
+                    android:layout_alignBottom="@+id/imageView15"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_arrow_info" />
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/info"
+            android:background="@drawable/category_drawer_background"
+            android:foreground="?selectableItemBackground"
+            android:id="@+id/rl_idea"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:layout_below="@+id/rl_contact"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView17"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_shopping_info" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Thông tin xuất hóa đơn "
+                android:id="@+id/textView16"
+                android:layout_alignBottom="@+id/imageView17"
+                android:layout_toRightOf="@+id/imageView17"
+                android:layout_toEndOf="@+id/imageView17"
+                android:layout_marginLeft="10dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView18"
+                android:layout_alignBottom="@+id/imageView17"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_arrow_info" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/info"
+            android:background="@drawable/category_drawer_background"
+            android:foreground="?selectableItemBackground"
+            android:id="@+id/rl_sign_out"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:layout_below="@+id/rl_idea"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView19"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_shopping_info" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Đăng xuất"
+                android:id="@+id/textView17"
+                android:layout_alignBottom="@+id/imageView19"
+                android:layout_toRightOf="@+id/imageView19"
+                android:layout_toEndOf="@+id/imageView19"
+                android:layout_marginLeft="10dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView20"
+                android:layout_alignBottom="@+id/imageView19"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_arrow_info" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    </ScrollView>
+
 
 </FrameLayout>

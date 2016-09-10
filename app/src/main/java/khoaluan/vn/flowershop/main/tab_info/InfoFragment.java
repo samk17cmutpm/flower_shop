@@ -20,8 +20,6 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.sign_in.SignInActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 
@@ -35,15 +33,6 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
 
     @BindView(R.id.rl_sign_in)
     RelativeLayout relativeLayoutSignIn;
-
-    @BindView(R.id.rl_billing)
-    RelativeLayout relativeLayoutBilling;
-
-    @BindView(R.id.rl_policy)
-    RelativeLayout relativeLayoutPolicy;
-
-    @BindView(R.id.rl_contact)
-    RelativeLayout relativeLayoutContact;
 
     @BindView(R.id.rl_sign_out)
     RelativeLayout relativeLayoutSignOut;
@@ -84,9 +73,6 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
         activity = getActivity();
 
         relativeLayoutSignIn.setOnClickListener(this);
-        relativeLayoutBilling.setOnClickListener(this);
-        relativeLayoutPolicy.setOnClickListener(this);
-        relativeLayoutContact.setOnClickListener(this);
         relativeLayoutSignOut.setOnClickListener(this);
 
         if (UserSharedPrefrence.isSignedIn(activity)) {
@@ -113,9 +99,9 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                 break;
             case R.id.rl_billing:
                 break;
-            case R.id.rl_policy:
+            case R.id.rl_payment_address:
                 break;
-            case R.id.rl_contact:
+            case R.id.rl_delivery_address:
                 break;
             case R.id.rl_sign_out:
                 new MaterialDialog.Builder(activity)

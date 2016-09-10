@@ -14,4 +14,6 @@
     <dimen name="detail_padding">10dp</dimen>
     <dimen name="detail_padding_relative">2dp</dimen>
     <dimen name="detail_magrin">5dp</dimen>
+
+    <dimen name="info">60dp</dimen>
 </resources>
