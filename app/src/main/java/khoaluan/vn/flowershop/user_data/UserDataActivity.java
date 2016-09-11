@@ -1,24 +1,25 @@
 package khoaluan.vn.flowershop.user_data;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
+import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
+import khoaluan.vn.flowershop.user_data.billings.UserDataBillingDetailFragment;
+import khoaluan.vn.flowershop.user_data.billings.UserDataBillingsFragment;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
-public class UserDataActivity extends AppCompatActivity {
+public class UserDataActivity extends AppCompatActivity implements Base{
 
     private UserDataContract.Presenter presenter;
     private ActionDefined actionDefined;
     private UserDataContract.View view;
+    private Billing billing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,14 @@ public class UserDataActivity extends AppCompatActivity {
                         getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
                 view = UserDataIdeaFragment.newInstance();
+                break;
+
+            case ActionForUserData.BILLING_DETAIL:
+                billing = (Billing) getIntent().getParcelableExtra(BILLING_PARCELABLE);
+
+                view = (UserDataBillingDetailFragment)
+                        getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+                view = UserDataBillingDetailFragment.newInstance(billing);
                 break;
         }
 

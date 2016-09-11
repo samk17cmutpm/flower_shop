@@ -9,11 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,6 +78,36 @@ public class UserDataIdeaFragment extends BaseFragment implements UserDataContra
 
     @Override
     public void showUI() {
+
+    }
+
+    @Override
+    public void showIndicator(boolean active, String message) {
+
+    }
+
+    @Override
+    public void done() {
+
+    }
+
+    @Override
+    public void initilizeRecyclerView() {
+
+    }
+
+    @Override
+    public void showIndicator(boolean active) {
+
+    }
+
+    @Override
+    public void showBillingDetail(List<MultipleBillingItem> list) {
+
+    }
+
+    @Override
+    public void noInternetConnectTion() {
 
     }
 }

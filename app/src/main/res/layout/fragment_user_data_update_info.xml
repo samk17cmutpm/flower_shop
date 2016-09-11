@@ -84,8 +84,8 @@
                         android:layout_height="wrap_content"
                         android:hint="số điện thoại"
                         android:imeActionId="@+id/sign_up"
-                        android:imeActionLabel="Đăng Ký"
-                        android:imeOptions="actionUnspecified"
+                        android:imeActionLabel="Xong"
+                        android:imeOptions="actionDone"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:singleLine="true" />

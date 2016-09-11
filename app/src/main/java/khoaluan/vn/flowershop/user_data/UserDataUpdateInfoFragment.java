@@ -1,8 +1,11 @@
 package khoaluan.vn.flowershop.user_data;
 
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,13 +15,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.sign_in.SignInActivity;
+import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
+import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +54,10 @@ public class UserDataUpdateInfoFragment extends BaseFragment implements UserData
     @BindView(R.id.phone)
     EditText phone;
 
+    private Activity activity;
+
+    private ProgressDialog progressDialog;
+
     public UserDataUpdateInfoFragment() {
         // Required empty public constructor
     }
@@ -68,6 +81,63 @@ public class UserDataUpdateInfoFragment extends BaseFragment implements UserData
 
     @Override
     public void showUI() {
+        activity = getActivity();
+        progressDialog = new ProgressDialog(activity, ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
+        final User user = UserSharedPrefrence.getUser(getActivity());
+
+        fullName.setText(user.getFullName());
+        address.setText(user.getAddress());
+        phone.setText(user.getPhone());
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!fullName.getText().toString().isEmpty())
+                    user.setFullName(fullName.getText().toString());
+
+                if (!address.getText().toString().isEmpty())
+                    user.setAddress(address.getText().toString());
+
+                if (!phone.getText().toString().isEmpty())
+                    user.setPhone(phone.getText().toString());
+                showIndicator(true, "Đang cập nhập profile vui lòng chờ !");
+                presenter.updateInfoProfile(user.getId(), user.getFullName(), user.getAddress(), user.getPhone());
+            }
+        });
+
+    }
+
+    @Override
+    public void showIndicator(boolean active, String message) {
+        if (active) {
+            progressDialog.setMessage(message);
+            progressDialog.show();
+        } else {
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void done() {
+        activity.onBackPressed();
+    }
+
+    @Override
+    public void initilizeRecyclerView() {
+
+    }
+
+    @Override
+    public void showIndicator(boolean active) {
+
+    }
+
+    @Override
+    public void showBillingDetail(List<MultipleBillingItem> list) {
 
     }
 
@@ -91,5 +161,19 @@ public class UserDataUpdateInfoFragment extends BaseFragment implements UserData
                 getActivity().onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void noInternetConnectTion() {
+        Snackbar.make(root, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE).
+                setAction(R.string.retry_again, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        presenter.loadData();
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                .setDuration(5000)
+                .show();
     }
 }

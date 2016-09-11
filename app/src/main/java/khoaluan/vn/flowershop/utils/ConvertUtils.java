@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
@@ -13,6 +14,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Item;
 import khoaluan.vn.flowershop.main.tab_favorite.FavoriteItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleAdvertisingItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
+import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 
 /**
  * Created by samnguyen on 8/23/16.
@@ -144,6 +146,31 @@ public class ConvertUtils {
         }
 
         return expandCategories;
+    }
+
+    public static List<MultipleBillingItem> convertBillingToMultipleBillingItem(Billing billing) {
+        List<MultipleBillingItem> list = new ArrayList<>();
+
+        MultipleBillingItem header = new MultipleBillingItem();
+        header.setItemType(MultipleBillingItem.HEADER);
+        header.setBilling(billing);
+
+        list.add(header);
+
+        MultipleBillingItem products = new MultipleBillingItem();
+        products.setItemType(MultipleBillingItem.PROODUCT);
+        products.setBilling(billing);
+
+        list.add(products);
+
+        MultipleBillingItem info = new MultipleBillingItem();
+        info.setItemType(MultipleBillingItem.INFO);
+        info.setBilling(billing);
+
+        list.add(info);
+
+        return list;
+
     }
 
 }

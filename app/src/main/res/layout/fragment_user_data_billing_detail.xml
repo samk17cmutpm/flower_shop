@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user_data.billings.UserDataBillingsFragment">
+    tools:context="khoaluan.vn.flowershop.user_data.billings.UserDataBillingDetailFragment">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
