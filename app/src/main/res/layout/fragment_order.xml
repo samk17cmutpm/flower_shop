@@ -34,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/appBar"
-            android:padding="16dp">
+            android:padding="10dp"
+            android:background="@color/card_view_background">
 
             <LinearLayout
                 android:id="@+id/form_order"
@@ -45,7 +46,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:padding="10dp"
+                    android:background="@color/white">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -76,22 +80,6 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="địa chỉ"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:singleLine="true" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
                             android:id="@+id/phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -104,16 +92,271 @@
                             android:singleLine="true" />
 
                     </android.support.design.widget.TextInputLayout>
-
                     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
                         android:id="@+id/spinner_cities"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:hint="tỉnh/tp"
                         app:met_floatingLabel="normal"
                         app:met_underlineColor="@color/secondary_text"
-                        />
+                        app:met_floatingLabelTextColor="@color/secondary_text" />
+
+
+                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                        android:id="@+id/spinner_dictricts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:hint="quận/huyện"
+                        app:met_floatingLabel="normal"
+                        app:met_underlineColor="@color/secondary_text"
+                        app:met_floatingLabelTextColor="@color/secondary_text" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="địa chỉ"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:visibility="visible"
+                    android:padding="10dp"
+                    android:background="@color/white">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/checkBoxExportBill"
+                        android:text="Yêu cầu xuất hóa đơn"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Chọn từ mẩu"
+                        android:id="@+id/tv_choose_form_bill"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/primary" />
+
+                </RelativeLayout>
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="1000"
+                    app:el_expanded="true"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:background="@color/white">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/company_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="tên công ty"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/id_billing"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="mã số thuế"
+                                android:imeOptions="actionNext"
+                                android:inputType="phone"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/company_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="địa chỉ công ty"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lưu vào mẩu mới"
+                            android:id="@+id/check_box_save_new_bill"
+                            android:layout_gravity="right" />
+
+
+                    </LinearLayout>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:padding="10dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="20dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Thông tin người nhận"
+                            android:textColor="@color/primary_text"
+                            android:id="@+id/textView34" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Chọn từ mẩu"
+                            android:id="@+id/tv_choose_from_rc"
+                            android:layout_alignBottom="@+id/textView34"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/primary" />
+                    </RelativeLayout>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giống thông tin người gởi "
+                        android:id="@+id/check_box_same_rc"
+                        android:layout_gravity="right" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/full_name_rc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="tên đầy đủ"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/phone_rc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="số điện thoại"
+                            android:imeActionId="@+id/sign_up"
+                            android:imeActionLabel="Đăng Ký"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                        android:id="@+id/spinner_cities_rc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:hint="tỉnh/tp"
+                        app:met_floatingLabel="normal"
+                        app:met_underlineColor="@color/secondary_text"
+                        app:met_floatingLabelTextColor="@color/secondary_text" />
+
+
+                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                        android:id="@+id/spinner_dictricts_rc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:hint="quận/huyện"
+                        app:met_floatingLabel="normal"
+                        app:met_underlineColor="@color/secondary_text"
+                        app:met_floatingLabelTextColor="@color/secondary_text" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/address_rc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="địa chỉ"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lưu vào mẫu mới"
+                        android:id="@+id/check_box_save_new_rc"
+                        android:layout_gravity="right" />
 
                 </LinearLayout>
 
@@ -128,6 +371,7 @@
                     android:textColor="@color/white"
                     android:background="@drawable/action_user_bg"
                     android:foreground="?selectableItemBackground"  />
+
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
