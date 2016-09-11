@@ -30,6 +30,6 @@ public class OrderItemAdapter extends BaseQuickAdapter<OrderItemsDTO>{
 
         baseViewHolder.setText(R.id.tv_name, orderItemsDTO.getProductName())
                 .setText(R.id.tv_number, "Số lượng : " + orderItemsDTO.getProductQuantity())
-                .setText(R.id.tv_price, orderItemsDTO.getProductCost() + " x " + orderItemsDTO.getProductQuantity());
+                .setText(R.id.tv_price, orderItemsDTO.getProductCost() + " VND x " + orderItemsDTO.getProductQuantity());
     }
 }

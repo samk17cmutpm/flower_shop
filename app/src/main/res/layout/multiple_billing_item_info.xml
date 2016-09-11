@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/relativeLayout5">
+        android:id="@+id/relativeLayout5"
+        android:paddingLeft="10dp"
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,7 +21,8 @@
             android:id="@+id/textView27"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +32,10 @@
             android:id="@+id/textView28"
             android:layout_below="@+id/textView27"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +45,8 @@
             android:id="@+id/tv_name_order"
             android:layout_alignBottom="@+id/textView28"
             android:layout_toRightOf="@+id/textView28"
-            android:layout_toEndOf="@+id/textView28" />
+            android:layout_toEndOf="@+id/textView28"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +56,10 @@
             android:id="@+id/textView29"
             android:layout_below="@+id/textView28"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +69,8 @@
             android:id="@+id/tv_phone_order"
             android:layout_alignBottom="@+id/textView29"
             android:layout_toRightOf="@+id/textView29"
-            android:layout_toEndOf="@+id/textView29" />
+            android:layout_toEndOf="@+id/textView29"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,7 +80,10 @@
             android:id="@+id/textView30"
             android:layout_below="@+id/textView29"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,13 +93,14 @@
             android:id="@+id/tv_city_order"
             android:layout_alignBottom="@+id/textView30"
             android:layout_toRightOf="@+id/textView30"
-            android:layout_toEndOf="@+id/textView30" />
+            android:layout_toEndOf="@+id/textView30"
+            android:layout_marginTop="10dp" />
     </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/colorPrimary"
         android:layout_below="@+id/relativeLayout5"
         android:layout_alignParentLeft="true"
@@ -96,7 +112,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout4"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:paddingLeft="10dp"
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,7 +124,8 @@
             android:id="@+id/textView32"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -116,7 +135,10 @@
             android:id="@+id/textView33"
             android:layout_below="@+id/textView32"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,7 +148,8 @@
             android:id="@+id/tv_name_delivery"
             android:layout_alignBottom="@+id/textView33"
             android:layout_toRightOf="@+id/textView33"
-            android:layout_toEndOf="@+id/textView33" />
+            android:layout_toEndOf="@+id/textView33"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -136,7 +159,10 @@
             android:id="@+id/textView35"
             android:layout_below="@+id/textView33"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,7 +172,8 @@
             android:id="@+id/tv_phone_delivery"
             android:layout_alignBottom="@+id/textView35"
             android:layout_toRightOf="@+id/textView35"
-            android:layout_toEndOf="@+id/textView35" />
+            android:layout_toEndOf="@+id/textView35"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -156,7 +183,10 @@
             android:id="@+id/textView37"
             android:layout_below="@+id/textView35"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -166,7 +196,8 @@
             android:id="@+id/tv_city_delivery"
             android:layout_alignBottom="@+id/textView37"
             android:layout_toRightOf="@+id/textView37"
-            android:layout_toEndOf="@+id/textView37" />
+            android:layout_toEndOf="@+id/textView37"
+            android:layout_marginTop="10dp" />
     </RelativeLayout>
 
 </RelativeLayout>

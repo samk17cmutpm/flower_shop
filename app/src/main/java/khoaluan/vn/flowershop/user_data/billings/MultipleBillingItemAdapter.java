@@ -3,6 +3,8 @@ package khoaluan.vn.flowershop.user_data.billings;
 import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -18,7 +20,7 @@ import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
  */
 public class MultipleBillingItemAdapter extends BaseMultiItemQuickAdapter<MultipleBillingItem> implements Base{
     private final Activity activity;
-    private final SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
+    private final SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(1);
     public MultipleBillingItemAdapter(Activity activity, List<MultipleBillingItem> data) {
         super(data);
         this.activity = activity;
@@ -36,12 +38,22 @@ public class MultipleBillingItemAdapter extends BaseMultiItemQuickAdapter<Multip
                 holder.setText(R.id.tv_id, item.getBilling().getOrderCode())
                         .setText(R.id.tv_status, item.getBilling().getOrderStatusString())
                         .setText(R.id.tv_date_odered, item.getBilling().getDateSetPayment())
-                        .setText(R.id.tv_date_dilevery, item.getBilling().getExtraInformationDTO().getDeliveryDate() + "")
+                        .setText(R.id.tv_date_dilevery, item.getBilling().getExtraInformationDTO().getDataDelivery() + "")
                         .setText(R.id.tv_temp_cost, item.getBilling().getTotalCost() + " VND")
                         .setText(R.id.tv_cost_ship, item.getBilling().getShippingCost() + " VND")
                         .setText(R.id.tv_voucher, item.getBilling().getVoucherCost() + " VND")
                         .setText(R.id.tv_total, item.getBilling().getTotalCost() + " VND")
                         .setText(R.id.tv_method_payment, item.getBilling().getExtraInformationDTO().getPaymentMethodString());
+                TextView textViewList = (TextView) holder.getConvertView().findViewById(R.id.tv_list);
+                if (item.getBilling().getExtraInformationDTO().getPaymentMethodId() == 2)
+                    textViewList.setVisibility(View.VISIBLE);
+
+                textViewList.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
                 break;
             case MultipleBillingItem.PROODUCT:
                 OrderItemAdapter adapter = new OrderItemAdapter(activity, item.getBilling().getOrderItemsDTO());
@@ -49,6 +61,8 @@ public class MultipleBillingItemAdapter extends BaseMultiItemQuickAdapter<Multip
                 RecyclerView recyclerView = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.removeItemDecoration(spacesItemDecoration);
+                recyclerView.addItemDecoration(spacesItemDecoration);
                 recyclerView.setAdapter(adapter);
                 break;
             case MultipleBillingItem.INFO:

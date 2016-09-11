@@ -5,6 +5,10 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.realm.RealmObject;
 
 /**
@@ -50,6 +54,16 @@ public class ExtraInformationDTO extends RealmObject implements Parcelable {
     private long DeliveryDate;
 
     public ExtraInformationDTO() {
+    }
+
+    public String getDataDelivery() {
+        Date date = new Date(DeliveryDate);
+        Format format = new SimpleDateFormat("yyyy MM dd");
+        String delivery =  format.format(date);
+        String year = delivery.substring(0, 4);
+        String month = delivery.substring(5, 7);
+        String day = delivery.substring(8, 10);
+        return "Giao hàng ngày " + day + " tháng " + month + " năm " + year;
     }
 
     public String getId() {
