@@ -2,6 +2,7 @@ package khoaluan.vn.flowershop.main.tab_shop;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.order.OrderActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
@@ -141,7 +143,8 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
         linearLayoutBuyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(activity, OrderActivity.class);
+                startActivity(intent);
             }
         });
 

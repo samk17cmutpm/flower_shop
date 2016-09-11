@@ -53,6 +53,7 @@ dependencies {
     compile 'com.facebook.android:account-kit-sdk:4.+'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
+    compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
 

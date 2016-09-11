@@ -106,4 +106,5 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_user_data">UserDataActivity</string>
+    <string name="title_activity_order">OrderActivity</string>
 </resources>

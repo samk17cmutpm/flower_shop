@@ -55,7 +55,7 @@
         <activity
             android:name=".sign_in.SignInActivity"
             android:label="@string/title_activity_sign_in"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".payment.PaymentActivity"
             android:label="@string/title_activity_payment"
@@ -63,10 +63,14 @@
         <activity
             android:name=".sign_up.SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".user_data.UserDataActivity"
             android:label="@string/title_activity_user_data"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".order.OrderActivity"
+            android:label="@string/title_activity_order"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
