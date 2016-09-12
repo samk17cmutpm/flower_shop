@@ -1,34 +1,20 @@
 package khoaluan.vn.flowershop.main.tab_shop;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,14 +22,11 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
+import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.order.OrderActivity;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
-import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 
 
 public class ShopFragment extends Fragment implements ShopContract.View, SwipeRefreshLayout.OnRefreshListener, Base {
@@ -53,7 +36,7 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
     private LinearLayoutManager linearLayoutManager;
     private Activity activity;
     private ShopAdapter adapter;
-    private RealmResults<Flower> flowersCart;
+    private RealmResults<Cart> carts;
     private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(PRODUCT_DISTANCE);
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -91,6 +74,10 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
         root = inflater.inflate(R.layout.fragment_shop, container, false);
         ButterKnife.bind(this, root);
         showUI();
+        if (CartSharedPrefrence.isCartIdExisted(activity)) {
+            showIndicator(true);
+            presenter.syncCarts(CartSharedPrefrence.getCartId(activity));
+        }
         return root;
     }
 
@@ -103,19 +90,17 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeRefreshLayout.setEnabled(false);
 
 
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        flowersCart = presenter.loadCartFlowers();
+        carts = presenter.loadCartFlowers();
 
+        textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(carts)));
 
-        textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(flowersCart)));
-
-        adapter = new ShopAdapter(activity, flowersCart);
+        adapter = new ShopAdapter(activity, carts, presenter);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_cart,
                 (ViewGroup) recyclerView.getParent(), false);
@@ -127,16 +112,21 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-                OnItemClickUtils.flowerDetail(activity, flowersCart.get(i), new FlowerSuggesstion(flowersCart), false);
+//                OnItemClickUtils.flowerDetail(activity, carts.get(i), new FlowerSuggesstion(carts), false);
 
             }
         });
 
-        flowersCart.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
+        carts.addChangeListener(new RealmChangeListener<RealmResults<Cart>>() {
             @Override
-            public void onChange(RealmResults<Flower> element) {
+            public void onChange(RealmResults<Cart> element) {
                 textViewTotal.setText(MoneyUtils.getMoney(presenter.countTotalMoney(element)));
-                adapter.notifyDataSetChanged();
+                if (presenter.isChanged()) {
+                    adapter.notifyItemChanged(presenter.getPosition());
+                    presenter.notifyDataChange(presenter.getPosition(), false);
+                }
+                else
+                    adapter.notifyDataSetChanged();
             }
         });
 
@@ -151,12 +141,30 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
     }
 
     @Override
+    public void showIndicator(final boolean active) {
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(active);
+            }
+        });
+    }
+
+    @Override
     public void setPresenter(ShopContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
     public void onRefresh() {
+        showIndicator(false);
+    }
 
+    @Override
+    public void noInternetConnectTion() {
+        Snackbar.make(linearLayoutBuyNow, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE)
+                .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                .setDuration(5000)
+                .show();
     }
 }

@@ -9,7 +9,9 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +42,7 @@ import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
+import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItemAdapter;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
@@ -49,7 +52,7 @@ import khoaluan.vn.flowershop.utils.MessageUtils;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailsFragment extends BaseFragment implements DetailsContract.View, Base, View.OnClickListener {
+public class DetailsFragment extends BaseFragment implements DetailsContract.View, Base, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private View root;
     private DetailsContract.Presenter presenter;
     private Flower flower;
@@ -70,6 +73,9 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -137,6 +143,12 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     @Override
     public void showUI() {
         activity = getActivity();
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setNestedScrollingEnabled(true);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -154,6 +166,16 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         ActionItemBadge.update(activity, menu.findItem(R.id.item_samplebadge),
                 activity.getResources().getDrawable(R.drawable.ic_shopping_cart),
                 ActionItemBadge.BadgeStyles.RED, number);
+    }
+
+    @Override
+    public void showIndicator(final boolean active) {
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(active);
+            }
+        });
     }
 
 
@@ -185,17 +207,43 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
             case R.id.ln_buy:
                 break;
             case R.id.ln_add_to_cart:
-                if (presenter.isExistedInCart(flower)) {
-                    MessageUtils.showLong(activity, "Sản Phầm Này Đã Tồn Tại Trong Giỏ Hàng Của Bạn");
-                } else {
-                    List<Flower> flowers = new ArrayList<>();
-                    flower.setFlag(RealmFlag.CART);
-                    flower.setNumber(1);
-                    flowers.add(flower);
-                    presenter.addToCart(flowers);
-                    MessageUtils.showLong(activity, "Đã Thêm Sản Phẩm Này Vào Trong Giỏ Hàng Của Bạn");
+                if (!CartSharedPrefrence.isCartIdExisted(activity)) {
+                    CartSharedPrefrence.saveCartId(java.util.UUID.randomUUID().toString(), activity);
                 }
+                showIndicator(true);
+                presenter.addToCart(CartSharedPrefrence.getCartId(activity), flower.getId());
+
+
+
+//                if (presenter.isExistedInCart(flower)) {
+//                    MessageUtils.showLong(activity, "Sản Phầm Này Đã Tồn Tại Trong Giỏ Hàng Của Bạn");
+//                } else {
+//                    List<Flower> flowers = new ArrayList<>();
+//                    flower.setFlag(RealmFlag.CART);
+//                    flower.setNumber(1);
+//                    flowers.add(flower);
+//                    presenter.addToCart(flowers);
+//                    MessageUtils.showLong(activity, "Đã Thêm Sản Phẩm Này Vào Trong Giỏ Hàng Của Bạn");
+//                }
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        showIndicator(false);
+    }
+
+    @Override
+    public void noInternetConnectTion() {
+        Snackbar.make(recyclerView, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE).
+                setAction(R.string.retry_again, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                .setDuration(5000)
+                .show();
     }
 }

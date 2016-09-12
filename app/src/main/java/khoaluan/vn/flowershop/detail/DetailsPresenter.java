@@ -8,11 +8,21 @@ import java.util.logging.MemoryHandler;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
+import khoaluan.vn.flowershop.data.response.CartResponse;
+import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
+import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
+import khoaluan.vn.flowershop.retrofit.client.CartClient;
 import khoaluan.vn.flowershop.utils.MessageUtils;
+import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by samnguyen on 7/28/16.
@@ -22,11 +32,13 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     private final DetailsContract.View view;
     private final Activity activity;
     private final Realm realm;
+    private final CartClient client;
     public DetailsPresenter(DetailsContract.View view, Activity activity) {
         this.view = view;
         this.activity = activity;
         this.view.setPresenter(this);
         this.realm = Realm.getDefaultInstance();
+        this.client = ServiceGenerator.createService(CartClient.class);
     }
 
     @Override
@@ -62,6 +74,43 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     public RealmResults<Flower> getFlowersCart() {
         return RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.CART);
     }
+
+    @Override
+    public void addToCart(String idCart, String idProduct) {
+        Observable<Response<CartResponse>> observable =
+                client.addToCart(idCart, idProduct);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<CartResponse>>() {
+                    private CartResponse cartResponse;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false);
+                        if (cartResponse.isSuccess()) {
+                            MessageUtils.showLong(activity, "Đã Thêm Sản Phẩm Này Vào Trong Giỏ Hàng Của Bạn");
+                            RealmCartUtils.updateAll(cartResponse.getResult());
+                        }else {
+                            MessageUtils.showLong(activity, "Không thể thêm, xảy ra lỗi");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(false);
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<CartResponse> cartResponseResponse) {
+                        if (cartResponseResponse.isSuccessful())
+                            cartResponse = cartResponseResponse.body();
+                    }
+                });
+
+    }
+
 
 
     @Override

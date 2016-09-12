@@ -124,6 +124,7 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
         ButterKnife.bind(this, root);
         showUI();
         initilizeToolBar();
+        Log.e("=========>", java.util.UUID.randomUUID().toString());
         return root;
     }
 

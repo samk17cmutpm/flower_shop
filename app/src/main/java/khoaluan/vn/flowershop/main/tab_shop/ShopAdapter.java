@@ -19,61 +19,66 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
+import khoaluan.vn.flowershop.utils.MoneyUtils;
 
 /**
  * Created by samnguyen on 8/28/16.
  */
-public class ShopAdapter extends BaseQuickAdapter<Flower> {
-    private List<Flower> flowers;
+public class ShopAdapter extends BaseQuickAdapter<Cart> {
+    private List<Cart> carts;
     private Activity activity;
+    private final ShopContract.Presenter presenter;
 
-    public ShopAdapter(Activity activity, List<Flower> flowers) {
-        super(R.layout.shop_item, flowers);
+    public ShopAdapter(Activity activity, List<Cart> carts, ShopContract.Presenter presenter) {
+        super(R.layout.shop_item, carts);
         this.activity = activity;
+        this.presenter = presenter;
     }
 
     @Override
-    protected void convert(final BaseViewHolder baseViewHolder, final Flower flower) {
-        baseViewHolder.setText(R.id.tv_flower_name, flower.getName())
-                .setText(R.id.tv_price, flower.getMoney(flower.getPrice()));
+    protected void convert(final BaseViewHolder baseViewHolder, final Cart cart) {
+        baseViewHolder.setText(R.id.tv_flower_name, cart.getProductName())
+                .setText(R.id.tv_price, MoneyUtils.getMoney(cart.getProductCost()));
 
-        TextView textViewOldPrice = (TextView) baseViewHolder.getConvertView().findViewById(R.id.tv_price_old);
-        textViewOldPrice.setText(flower.getMoney(flower.getOldPrice()));
-        textViewOldPrice.setPaintFlags(textViewOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//        TextView textViewOldPrice = (TextView) baseViewHolder.getConvertView().findViewById(R.id.tv_price_old);
+//        textViewOldPrice.setText(cart.getMoney(cart.getOldPrice()));
+//        textViewOldPrice.setPaintFlags(textViewOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         final TextView textViewNumber = (TextView) baseViewHolder.getConvertView().findViewById(R.id.tv_number);
-        ElegantNumberButton elegantNumberButton = (ElegantNumberButton) baseViewHolder.getConvertView().findViewById(R.id.number_button);
+        final ElegantNumberButton elegantNumberButton = (ElegantNumberButton) baseViewHolder.getConvertView().findViewById(R.id.number_button);
         elegantNumberButton.setRange(1, 100);
-        elegantNumberButton.setNumber(flower.getNumber() + "");
+        elegantNumberButton.setNumber(cart.getProductQuantity() + "");
         textViewNumber.setText(elegantNumberButton.getNumber());
         elegantNumberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
             @Override
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                RealmFlowerUtils.updateNumberById(RealmFlag.FLAG, RealmFlag.CART, flower.getId(), newValue);
-                textViewNumber.setText("" + newValue);
+                elegantNumberButton.setNumber(cart.getProductQuantity() + "");
+                presenter.updateQuantity(cart.getId(), cart.getCartId(), cart.getProductId(), newValue);
+                presenter.notifyDataChange(baseViewHolder.getAdapterPosition(), true);
             }
         });
         ImageView imageView = (ImageView) baseViewHolder.getConvertView().findViewById(R.id.im_flower);
-        if (flower.getImage() != null)
-            ImageUniversalUtils.imageLoader.displayImage(flower.getImage(), imageView, ImageUniversalUtils.options);
+        if (cart.getProductImage() != null)
+            ImageUniversalUtils.imageLoader.displayImage(cart.getProductImage(), imageView, ImageUniversalUtils.options);
 
         ImageView imageViewDelete = (ImageView) baseViewHolder.getConvertView().findViewById(R.id.im_delete);
         imageViewDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 new MaterialDialog.Builder(activity)
                         .title("Livizi")
-                        .content("Bạn muốn xóa sản phẩm " + flower.getName() + " ra khỏi giỏ hàng ?")
+                        .content("Bạn muốn xóa sản phẩm " + cart.getProductName() + " ra khỏi giỏ hàng ?")
                         .positiveText("Có")
                         .negativeText("Không")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                RealmFlowerUtils.deleteById(RealmFlag.FLAG, RealmFlag.CART, flower.getId());
+                                presenter.removeCartItem(cart.getId(), cart.getCartId(), cart.getProductId());
                             }
                         })
                         .show();

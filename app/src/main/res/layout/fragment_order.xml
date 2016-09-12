@@ -57,7 +57,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Thông tin người gởi"
                         android:id="@+id/textView24"
-                        android:textColor="@color/primary_text" />
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -148,7 +149,8 @@
                         android:text="Yêu cầu xuất hóa đơn"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -258,7 +260,8 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Thông tin người nhận"
                             android:textColor="@color/primary_text"
-                            android:id="@+id/textView34" />
+                            android:id="@+id/textView34"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
