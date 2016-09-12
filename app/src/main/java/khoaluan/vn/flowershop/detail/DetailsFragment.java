@@ -236,12 +236,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
 
     @Override
     public void noInternetConnectTion() {
-        Snackbar.make(recyclerView, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE).
-                setAction(R.string.retry_again, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                    }
-                })
+        Snackbar.make(linearLayoutAddToCart, R.string.no_internet_connecttion, Snackbar.LENGTH_INDEFINITE)
                 .setActionTextColor(getResources().getColor(R.color.colorAccent))
                 .setDuration(5000)
                 .show();
