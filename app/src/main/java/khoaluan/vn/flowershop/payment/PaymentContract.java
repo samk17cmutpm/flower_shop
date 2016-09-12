@@ -6,7 +6,7 @@ import khoaluan.vn.flowershop.BaseView;
 /**
  * Created by samnguyen on 9/8/16.
  */
-public class PaymentContract {
+public interface PaymentContract {
     interface View extends BaseView<Presenter> {
         void showUI();
     }

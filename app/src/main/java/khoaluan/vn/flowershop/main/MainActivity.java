@@ -246,4 +246,11 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
                 ConvertUtils.convertCategoriseToExpandCategories(categories)));
     }
+
+    @Override
+    protected void onDestroy() {
+        if (categories != null)
+            categories.removeChangeListeners();
+        super.onDestroy();
+    }
 }

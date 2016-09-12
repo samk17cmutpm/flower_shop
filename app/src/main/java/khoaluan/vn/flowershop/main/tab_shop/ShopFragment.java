@@ -151,6 +151,13 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
     }
 
     @Override
+    public void onDestroy() {
+        if (carts != null)
+            carts.removeChangeListeners();
+        super.onDestroy();
+    }
+
+    @Override
     public void setPresenter(ShopContract.Presenter presenter) {
         this.presenter = presenter;
     }
