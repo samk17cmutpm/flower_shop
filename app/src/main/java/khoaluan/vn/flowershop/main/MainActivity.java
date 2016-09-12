@@ -15,8 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
+import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import java.util.ArrayList;
@@ -31,17 +33,20 @@ import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
+import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCategoryUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import khoaluan.vn.flowershop.search.SearchActivity;
+import khoaluan.vn.flowershop.utils.CartUtils;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
 import retrofit2.Response;
 import rx.Observable;
@@ -53,9 +58,11 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
     private BottomBar bottomBar;
 
-    private RealmResults<Flower> flowers;
+    private RealmResults<Cart> carts;
 
     private BottomBarBadge nearbyBadge;
+
+    private RealmResults<Category> categories;
 
     @BindView(R.id.vpPager)
     ViewPager viewPager;
@@ -68,6 +75,8 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
     private ActionDefined actionDefined;
 
+    private Menu menu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +86,15 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         setUpBottomTabBar(savedInstanceState);
         setUpViewPager();
         injectBottomTabsToViewPager();
+
+        categories = RealmCategoryUtils.all(RealmFlag.FLOWER);
+        categories.addChangeListener(new RealmChangeListener<RealmResults<Category>>() {
+            @Override
+            public void onChange(RealmResults<Category> element) {
+                loadFlowerCategories();
+            }
+        });
+
         loadFlowerCategories();
 
         actionDefined = (ActionDefined) getIntent().getParcelableExtra(Action.TAB);
@@ -95,20 +113,6 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
                 0.25f); // Tab Item Alpha
 
         bottomBar.setItems(R.menu.bottom_menu_main);
-
-        flowers = RealmFlowerUtils.findBy(RealmFlag.FLAG, RealmFlag.CART);
-
-        nearbyBadge = bottomBar.makeBadgeForTabAt(3, R.color.red, flowers.size());
-        nearbyBadge.setAutoShowAfterUnSelection(true);
-
-        flowers.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
-            @Override
-            public void onChange(RealmResults<Flower> element) {
-                if (element.size() != flowers.size())
-                    nearbyBadge.setCount(element.size());
-            }
-        });
-
     }
     @Override
     public void setUpViewPager() {
@@ -194,8 +198,23 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        carts = RealmCartUtils.all();
+        carts.addChangeListener(new RealmChangeListener<RealmResults<Cart>>() {
+            @Override
+            public void onChange(RealmResults<Cart> element) {
+                updateBadge(CartUtils.getSum(element));
+            }
+        });
+        updateBadge(CartUtils.getSum(carts));
         return true;
+    }
+
+    public void updateBadge(int number) {
+        ActionItemBadge.update(this, menu.findItem(R.id.item_samplebadge),
+                this.getResources().getDrawable(R.drawable.ic_shopping_cart),
+                ActionItemBadge.BadgeStyles.RED, number);
     }
 
     @Override
@@ -204,6 +223,9 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
             case R.id.action_search:
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.item_samplebadge:
+                viewPager.setCurrentItem(3);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -220,35 +242,8 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
     }
 
     public void loadFlowerCategories() {
-
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
-                ConvertUtils.convertCategoriseToExpandCategories(RealmCategoryUtils.all(RealmFlag.FLOWER))));
-
-        Observable<Response<CategoryResponse>> observable =
-                ServiceGenerator.createService(FlowerClient.class).getFlowerCategories();
-
-        observable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<CategoryResponse>>() {
-                    private List<Category> categories = new ArrayList<Category>();
-                    @Override
-                    public void onCompleted() {
-                        recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
-                                ConvertUtils.convertCategoriseToExpandCategories(categories)));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Response<CategoryResponse> categoryResponseResponse) {
-                        if (categoryResponseResponse.isSuccessful())
-                            categories.addAll(categoryResponseResponse.body().getResult());
-                    }
-                });
+                ConvertUtils.convertCategoriseToExpandCategories(categories)));
     }
 }

@@ -16,7 +16,7 @@ public class RealmCategoryUtils {
     private static final Realm realm = Realm.getDefaultInstance();
     public static final String TAG = RealmCategoryUtils.class.getName();
 
-    public static List<Category> all(String tag) {
+    public static RealmResults<Category> all(String tag) {
         switch (tag) {
             case RealmFlag.GIFT:
                 return realm.where(Category.class).equalTo(RealmFlag.TYPE, RealmFlag.GIFT).findAll();

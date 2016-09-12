@@ -1,11 +1,8 @@
 package khoaluan.vn.flowershop.detail;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,17 +18,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,14 +31,12 @@ import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
-import khoaluan.vn.flowershop.main.tab_home.MultipleMainItemAdapter;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
-import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
-import khoaluan.vn.flowershop.utils.MessageUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
+import khoaluan.vn.flowershop.utils.CartUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +50,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     private LinearLayoutManager linearLayoutManager;
     private Menu menu;
     private Activity activity;
-    private RealmResults<Flower> flowersCart;
+    private RealmResults<Cart> carts;
     @BindView(R.id.ln_buy)
     LinearLayout linearLayoutBuyNow;
 
@@ -84,11 +73,11 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        flowersCart = presenter.getFlowersCart();
-        flowersCart.addChangeListener(new RealmChangeListener<RealmResults<Flower>>() {
+        carts = RealmCartUtils.all();
+        carts.addChangeListener(new RealmChangeListener<RealmResults<Cart>>() {
             @Override
-            public void onChange(RealmResults<Flower> element) {
-                updateBadge(element.size());
+            public void onChange(RealmResults<Cart> element) {
+                updateBadge(CartUtils.getSum(carts));
             }
         });
         setHasOptionsMenu(true);
@@ -121,7 +110,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         // Inflate the menu; this adds items to the action bar.
         inflater.inflate(R.menu.menu_flower_detail, menu);
         this.menu = menu;
-        updateBadge(flowersCart.size());
+        updateBadge(CartUtils.getSum(carts));
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -207,24 +196,12 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
             case R.id.ln_buy:
                 break;
             case R.id.ln_add_to_cart:
+                recyclerView.scrollToPosition(0);
                 if (!CartSharedPrefrence.isCartIdExisted(activity)) {
                     CartSharedPrefrence.saveCartId(java.util.UUID.randomUUID().toString(), activity);
                 }
                 showIndicator(true);
                 presenter.addToCart(CartSharedPrefrence.getCartId(activity), flower.getId());
-
-
-
-//                if (presenter.isExistedInCart(flower)) {
-//                    MessageUtils.showLong(activity, "Sản Phầm Này Đã Tồn Tại Trong Giỏ Hàng Của Bạn");
-//                } else {
-//                    List<Flower> flowers = new ArrayList<>();
-//                    flower.setFlag(RealmFlag.CART);
-//                    flower.setNumber(1);
-//                    flowers.add(flower);
-//                    presenter.addToCart(flowers);
-//                    MessageUtils.showLong(activity, "Đã Thêm Sản Phẩm Này Vào Trong Giỏ Hàng Của Bạn");
-//                }
                 break;
         }
     }
