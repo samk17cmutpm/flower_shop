@@ -36,6 +36,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.CartUtils;
 
 /**
@@ -98,6 +99,9 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         switch (item.getItemId()) {
             case R.id.action_search:
                 // Handle this selection
+                return true;
+            case R.id.item_samplebadge:
+                ActionUtils.go(getActivity(), 3);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -194,6 +198,12 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ln_buy:
+                recyclerView.scrollToPosition(0);
+                if (!CartSharedPrefrence.isCartIdExisted(activity)) {
+                    CartSharedPrefrence.saveCartId(java.util.UUID.randomUUID().toString(), activity);
+                }
+                showIndicator(true);
+                presenter.addToCart(CartSharedPrefrence.getCartId(activity), flower.getId(), true);
                 break;
             case R.id.ln_add_to_cart:
                 recyclerView.scrollToPosition(0);
@@ -201,7 +211,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
                     CartSharedPrefrence.saveCartId(java.util.UUID.randomUUID().toString(), activity);
                 }
                 showIndicator(true);
-                presenter.addToCart(CartSharedPrefrence.getCartId(activity), flower.getId());
+                presenter.addToCart(CartSharedPrefrence.getCartId(activity), flower.getId(), false);
                 break;
         }
     }

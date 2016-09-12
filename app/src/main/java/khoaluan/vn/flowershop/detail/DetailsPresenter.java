@@ -17,6 +17,7 @@ import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.CartClient;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
 import retrofit2.Response;
 import rx.Observable;
@@ -76,7 +77,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     @Override
-    public void addToCart(String idCart, String idProduct) {
+    public void addToCart(String idCart, String idProduct, final boolean buyNow) {
         Observable<Response<CartResponse>> observable =
                 client.addToCart(idCart, idProduct);
 
@@ -89,6 +90,9 @@ public class DetailsPresenter implements DetailsContract.Presenter {
                     public void onCompleted() {
                         view.showIndicator(false);
                         if (cartResponse.isSuccess()) {
+                            if (buyNow) {
+                                ActionUtils.go(activity, 3);
+                            }
                             MessageUtils.showLong(activity, "Đã Thêm Sản Phẩm Này Vào Trong Giỏ Hàng Của Bạn");
                             RealmCartUtils.updateAll(cartResponse.getResult());
                         }else {

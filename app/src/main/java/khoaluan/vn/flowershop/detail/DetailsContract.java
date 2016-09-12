@@ -30,6 +30,6 @@ public interface DetailsContract {
         boolean isExistedInCart(Flower flower);
         RealmResults<Flower> getFlowersCart();
 
-        void addToCart(String idCart, String idProduct);
+        void addToCart(String idCart, String idProduct, boolean buyNow);
     }
 }
