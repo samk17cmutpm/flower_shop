@@ -9,10 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -36,6 +39,7 @@ import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
+import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.utils.ActionUtils;
@@ -122,9 +126,15 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
     @BindView(R.id.ln_receive)
     LinearLayout linearLayoutReceive;
 
+    @BindView(R.id.pay)
+    Button buttonPay;
+
     private ExpandableLayout expandableLayout;
+    private ExpandableLayout expandableLayoutRc;
 
     private RealmResults<City> cities;
+    private List<District> districts;
+    private List<District> districtsRc;
 
     private ProgressDialog progressDialog;
 
@@ -150,6 +160,7 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
         initilizeToolBar();
         setUpDropData();
         setSenderInfo();
+        setUpBilling(false);
         return root;
     }
 
@@ -164,6 +175,22 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
         for (City city : cities)
             if (city.getName().equals(name))
                 return city.getId();
+
+        return null;
+    }
+
+    private String getIdDistrict(String name) {
+        for (District district : districts )
+            if (district.getName().equals(name))
+                return district.getId();
+
+        return null;
+    }
+
+    private String getIdDistrictRc(String name) {
+        for (District district : districtsRc )
+            if (district.getName().equals(name))
+                return district.getId();
 
         return null;
     }
@@ -191,10 +218,13 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         expandableLayout = (ExpandableLayout) root.findViewById(R.id.expandable_layout);
+        expandableLayoutRc = (ExpandableLayout) root.findViewById(R.id.expandable_layout_rc);
+
 
         checkBoxExportBill.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    setUpBilling(b);
                     if (b) {
                         expandableLayout.expand(true);
                     } else {
@@ -206,12 +236,43 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
         checkBoxSameRc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
                 flag = b;
                 if (isSenderInfoDone()) {
                     setSameRc(!b);
+                    if (b) {
+                        expandableLayoutRc.collapse();
+                    } else {
+                        expandableLayoutRc.expand();
+                    }
                 } else {
                     checkBoxSameRc.setChecked(false);
                     setSameRc(true);
+                }
+
+            }
+        });
+
+
+
+
+        phoneRc.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.order || id == EditorInfo.IME_NULL) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+        buttonPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isSenderInfoDone()) {
+                    if (isBillingDone())
+                        sendDataBilling();
                 }
 
             }
@@ -221,6 +282,7 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
 
     @Override
     public void updateDistrict(List<District> districts, boolean problem) {
+        this.districts = districts;
         ITEMS_DISTRICTS = new String[districts.size()];
         for (int i = 0; i < districts.size(); i++) {
             ITEMS_DISTRICTS[i] = districts.get(i).getName();
@@ -235,6 +297,7 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
 
     @Override
     public void updateDistrictRc(List<District> districts, boolean problem) {
+        this.districtsRc = districts;
         ITEMS_DISTRICTS_RC = new String[districts.size()];
         for (int i = 0; i < districts.size(); i++) {
             ITEMS_DISTRICTS_RC[i] = districts.get(i).getName();
@@ -315,6 +378,13 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
     }
 
     @Override
+    public void setUpBilling(boolean active) {
+        companyName.setEnabled(active);
+        idBilling.setEnabled(active);
+        companyAddress.setEnabled(active);
+    }
+
+    @Override
     public void setSenderInfo() {
         User user = UserSharedPrefrence.getUser(getActivity());
         fullName.setText(user.getFullName());
@@ -330,12 +400,24 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
             spinnerDictrictsRc.setText(null);
             phoneRc.setText(null);
             addressRc.setText(null);
+
+            fullNameRc.setEnabled(true);
+            spinnerCitiesRc.setEnabled(true);
+            spinnerDictrictsRc.setEnabled(true);
+            phoneRc.setEnabled(true);
+            addressRc.setEnabled(true);
         } else {
             fullNameRc.setText(fullName.getText().toString());
             spinnerCitiesRc.setText(spinnerCities.getText().toString());
             spinnerDictrictsRc.setText(spinnerDictricts.getText().toString());
             phoneRc.setText(phone.getText().toString());
             addressRc.setText(address.getText().toString());
+
+            fullNameRc.setEnabled(false);
+            spinnerCitiesRc.setEnabled(false);
+            spinnerDictrictsRc.setEnabled(false);
+            phoneRc.setEnabled(false);
+            addressRc.setEnabled(false);
         }
 
     }
@@ -384,6 +466,92 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
         }
 
         return !cancel;
+    }
+
+    @Override
+    public boolean isBillingDone() {
+        View focusView = null;
+        boolean cancel = false;
+        if (addressRc.getText().toString().isEmpty()) {
+            addressRc.setError(getString(R.string.error_field_required));
+
+            focusView = this.addressRc;
+            cancel = true;
+        }
+
+        if (spinnerDictrictsRc.getText().toString().isEmpty()) {
+            spinnerDictrictsRc.setError(getString(R.string.error_field_required));
+
+            focusView = this.spinnerDictrictsRc;
+            cancel = true;
+        }
+
+        if (spinnerCitiesRc.getText().toString().isEmpty()) {
+            spinnerCitiesRc.setError(getString(R.string.error_field_required));
+
+            focusView = this.spinnerCitiesRc;
+            cancel = true;
+        }
+
+        if (phoneRc.getText().toString().isEmpty()) {
+            phoneRc.setError(getString(R.string.error_field_required));
+
+            focusView = this.phoneRc;
+            cancel = true;
+        }
+
+        if (fullNameRc.getText().toString().isEmpty()) {
+            fullNameRc.setError(getString(R.string.error_field_required));
+
+            focusView = this.fullNameRc;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        }
+
+        return !cancel;
+    }
+
+    @Override
+    public void sendDataBilling() {
+        String cartId = CartSharedPrefrence.getCartId(getActivity());
+        String email = UserSharedPrefrence.getUser(getActivity()).getEmail();
+        String userId = UserSharedPrefrence.getUser(getActivity()).getId();
+        String fullName = this.fullName.getText().toString();
+        String phone = this.phone.getText().toString();
+        String cityId = getIdCity(spinnerCities.getText().toString());
+        String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
+        String address = this.address.getText().toString();
+
+        showIndicator("Đang tạo đơn hàng ...", true);
+        Log.d("================>", districtsId);
+        presenter.setBillingOrder(cartId, userId, fullName, phone, email, cityId, districtsId, address);
+
+
+    }
+
+    @Override
+    public void sendDataShipping() {
+        String cartId = CartSharedPrefrence.getCartId(getActivity());
+        String email = UserSharedPrefrence.getUser(getActivity()).getEmail();
+        String userId = UserSharedPrefrence.getUser(getActivity()).getId();
+
+        String fullNameRc = this.fullNameRc.getText().toString();
+        String phoneRc = this.phoneRc.getText().toString();
+        String cityIdRc = getIdCity(spinnerCitiesRc.getText().toString());
+        String districtsRc = null;
+        if (checkBoxSameRc.isChecked()) {
+            districtsRc = getIdDistrict(spinnerDictrictsRc.getText().toString());
+        } else {
+            districtsRc = getIdDistrictRc(spinnerDictrictsRc.getText().toString());
+        }
+
+        String addressRc = this.addressRc.getText().toString();
+
+        showIndicator("Đang tạo đơn hàng ...", true);
+        presenter.setShippingOrder(cartId, userId, fullNameRc, phoneRc, email, cityIdRc, districtsRc, addressRc);
     }
 
     @Override

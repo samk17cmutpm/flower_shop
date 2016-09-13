@@ -85,9 +85,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="số điện thoại"
-                            android:imeActionId="@+id/sign_up"
-                            android:imeActionLabel="Đăng Ký"
-                            android:imeOptions="actionUnspecified"
+                            android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLines="1"
                             android:singleLine="true" />
@@ -126,6 +124,8 @@
                             android:layout_height="wrap_content"
                             android:hint="địa chỉ"
                             android:imeOptions="actionNext"
+                            android:nextFocusDown="@+id/full_name_rc"
+                            android:nextFocusForward="@+id/full_name_rc"
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true" />
@@ -281,96 +281,120 @@
                         android:layout_height="wrap_content"
                         android:text="Giống thông tin người gởi "
                         android:id="@+id/check_box_same_rc"
-                        android:layout_gravity="right" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/full_name_rc"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="tên đầy đủ"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:singleLine="true" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/phone_rc"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="số điện thoại"
-                            android:imeActionId="@+id/sign_up"
-                            android:imeActionLabel="Đăng Ký"
-                            android:imeOptions="actionUnspecified"
-                            android:inputType="phone"
-                            android:maxLines="1"
-                            android:singleLine="true" />
-
-                    </android.support.design.widget.TextInputLayout>
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/spinner_cities_rc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:hint="tỉnh/tp"
-                        app:met_floatingLabel="normal"
-                        app:met_underlineColor="@color/secondary_text"
-                        app:met_floatingLabelTextColor="@color/secondary_text" />
+                        android:layout_gravity="left" />
 
 
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/spinner_dictricts_rc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:hint="quận/huyện"
-                        app:met_floatingLabel="normal"
-                        app:met_underlineColor="@color/secondary_text"
-                        app:met_floatingLabelTextColor="@color/secondary_text" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/address_rc"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="địa chỉ"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:singleLine="true" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Lưu vào mẫu mới"
-                        android:id="@+id/check_box_save_new_rc"
-                        android:layout_gravity="right" />
 
                 </LinearLayout>
 
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_rc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:el_duration="1000"
+                    app:el_expanded="true"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/full_name_rc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="tên đầy đủ"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/phone_rc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="số điện thoại"
+                                android:imeActionId="@+id/sign_up"
+                                android:imeActionLabel="Đăng Ký"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="phone"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_cities_rc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:hint="tỉnh/tp"
+                            app:met_floatingLabel="normal"
+                            app:met_underlineColor="@color/secondary_text"
+                            app:met_floatingLabelTextColor="@color/secondary_text" />
+
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_dictricts_rc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:hint="quận/huyện"
+                            app:met_floatingLabel="normal"
+                            app:met_underlineColor="@color/secondary_text"
+                            app:met_floatingLabelTextColor="@color/secondary_text" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/address_rc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="địa chỉ"
+                                android:imeActionId="@+id/order"
+                                android:imeActionLabel="Đặt hàng"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lưu vào mẫu mới"
+                            android:id="@+id/check_box_save_new_rc"
+                            android:layout_gravity="right" />
+
+
+                    </LinearLayout>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
                 <Button
-                    android:id="@+id/sign_up"
+                    android:id="@+id/pay"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Đăng Ký Tài Khoản"
+                    android:text="Gởi tin nhắn và thanh toán"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:background="@drawable/action_user_bg"
