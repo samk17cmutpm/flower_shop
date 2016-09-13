@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
@@ -34,6 +35,8 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 
@@ -113,11 +116,19 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
     @BindView(R.id.check_box_save_new_rc)
     CheckBox checkBoxSaveNewRc;
 
+    @BindView(R.id.check_box_same_rc)
+    CheckBox checkBoxSameRc;
+
+    @BindView(R.id.ln_receive)
+    LinearLayout linearLayoutReceive;
+
     private ExpandableLayout expandableLayout;
 
     private RealmResults<City> cities;
 
     private ProgressDialog progressDialog;
+
+    private boolean flag;
 
     public OrderFragment() {
         // Required empty public constructor
@@ -137,52 +148,8 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
         ButterKnife.bind(this, root);
         showUI();
         initilizeToolBar();
-
-        cities = RealmCityUtils.all();
-        cities.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
-            @Override
-            public void onChange(RealmResults<City> element) {
-                if (element != null && element.size() > 0)
-                    setUpCities(element);
-            }
-        });
-        setUpCities(cities);
-        spinnerCities.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                showIndicator("Đang tải dữ liệu địa điểm", true);
-                presenter.loadDistricts(getIdCity(charSequence.toString()));
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        spinnerCitiesRc.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                showIndicator("Đang tải dữ liệu địa điểm", true);
-                presenter.loadDistrictsRc(getIdCity(charSequence.toString()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        updateDistrict(new ArrayList<District>(), false);
-        updateDistrictRc(new ArrayList<District>(), false);
-        presenter.loadCities();
+        setUpDropData();
+        setSenderInfo();
         return root;
     }
 
@@ -236,6 +203,20 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
             }
         });
 
+        checkBoxSameRc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                flag = b;
+                if (isSenderInfoDone()) {
+                    setSameRc(!b);
+                } else {
+                    checkBoxSameRc.setChecked(false);
+                    setSameRc(true);
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -275,6 +256,134 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void setUpDropData() {
+        cities = RealmCityUtils.all();
+        cities.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
+            @Override
+            public void onChange(RealmResults<City> element) {
+                if (element != null && element.size() > 0)
+                    setUpCities(element);
+            }
+        });
+        setUpCities(cities);
+        spinnerCities.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                showIndicator("Đang tải dữ liệu địa điểm", true);
+                presenter.loadDistricts(getIdCity(charSequence.toString()));
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        spinnerCitiesRc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (flag) {
+                    // Do nothing here
+                } else {
+                    if (!charSequence.toString().isEmpty()) {
+                        showIndicator("Đang tải dữ liệu địa điểm", true);
+                        presenter.loadDistrictsRc(getIdCity(charSequence.toString()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        updateDistrict(new ArrayList<District>(), false);
+        updateDistrictRc(new ArrayList<District>(), false);
+        presenter.loadCities();
+    }
+
+    @Override
+    public void setSenderInfo() {
+        User user = UserSharedPrefrence.getUser(getActivity());
+        fullName.setText(user.getFullName());
+        phone.setText(user.getPhone());
+        address.setText(user.getAddress());
+    }
+
+    @Override
+    public void setSameRc(boolean reset) {
+        if (reset) {
+            fullNameRc.setText(null);
+            spinnerCitiesRc.setText(null);
+            spinnerDictrictsRc.setText(null);
+            phoneRc.setText(null);
+            addressRc.setText(null);
+        } else {
+            fullNameRc.setText(fullName.getText().toString());
+            spinnerCitiesRc.setText(spinnerCities.getText().toString());
+            spinnerDictrictsRc.setText(spinnerDictricts.getText().toString());
+            phoneRc.setText(phone.getText().toString());
+            addressRc.setText(address.getText().toString());
+        }
+
+    }
+
+    @Override
+    public boolean isSenderInfoDone() {
+        View focusView = null;
+        boolean cancel = false;
+        if (address.getText().toString().isEmpty()) {
+            address.setError(getString(R.string.error_field_required));
+
+            focusView = this.address;
+            cancel = true;
+        }
+
+        if (spinnerDictricts.getText().toString().isEmpty()) {
+            spinnerDictricts.setError(getString(R.string.error_field_required));
+
+            focusView = this.spinnerDictricts;
+            cancel = true;
+        }
+
+        if (spinnerCities.getText().toString().isEmpty()) {
+            spinnerCities.setError(getString(R.string.error_field_required));
+
+            focusView = this.spinnerCities;
+            cancel = true;
+        }
+
+        if (phone.getText().toString().isEmpty()) {
+            phone.setError(getString(R.string.error_field_required));
+
+            focusView = this.phone;
+            cancel = true;
+        }
+
+        if (fullName.getText().toString().isEmpty()) {
+            fullName.setError(getString(R.string.error_field_required));
+
+            focusView = this.fullName;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        }
+
+        return !cancel;
     }
 
     @Override

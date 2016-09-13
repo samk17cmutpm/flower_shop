@@ -16,6 +16,10 @@ public interface OrderContract {
         void updateDistrict(List<District> districts, boolean problem);
         void updateDistrictRc(List<District> districts, boolean problem);
         void showIndicator(String message, boolean active);
+        void setUpDropData();
+        void setSenderInfo();
+        void setSameRc(boolean reset);
+        boolean isSenderInfoDone();
     }
 
     interface Presenter extends BasePresenter {
