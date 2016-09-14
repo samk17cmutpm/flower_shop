@@ -23,6 +23,9 @@ import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.order.OrderActivity;
@@ -134,6 +137,7 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, OrderActivity.class);
+                intent.putExtra(Action.ACTION_FOR_ORDER, new ActionDefined(ActionForOrder.INITIALIZE));
                 startActivity(intent);
             }
         });

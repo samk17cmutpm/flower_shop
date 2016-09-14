@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="khoaluan.vn.flowershop.order.AnotherOrderFragment">
+    tools:context=".order.ExtraInfoFragment">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -32,7 +32,7 @@
         <ScrollView
             android:id="@+id/login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/appBar"
             android:padding="10dp"
             android:background="@color/card_view_background">
@@ -40,31 +40,127 @@
             <LinearLayout
                 android:id="@+id/form_order"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:visibility="visible"
-                    android:padding="10dp"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp">
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/rl_change_date"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="ngày giao hàng (bạn có thể thay đổi nếu bạn muốn )"
+                                android:editable="false"
+                                android:focusable="false"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textColor="@color/primary_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
+
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:id="@+id/payment">
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/is_pay_rc"
+                            android:checked="true"
+                            android:text="Thanh toán khi nhận hàng " />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/is_pay_credit"
+                            android:text="Thanh toán qua thẻ" />
+
+                    </RadioGroup>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/message"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="lời nhắn đến người nhận"
+                            android:inputType="textMultiLine"
+                            android:lines="2"
+                            android:maxLines="5"
+                            android:scrollbars="vertical"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/note"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="thêm ghi chú cho gói quà"
+                            android:inputType="textMultiLine"
+                            android:lines="2"
+                            android:maxLines="5"
+                            android:scrollbars="vertical"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ẩn thông tin người gởi "
+                        android:id="@+id/hide_info"
+                        android:layout_gravity="right" />
+
+
+                    <Button
+                        android:id="@+id/pay"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Thanh toán "
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:background="@drawable/action_user_bg"
+                        android:foreground="?selectableItemBackground"  />
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/pay"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Gởi tin nhắn và thanh toán"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:background="@drawable/action_user_bg"
-                    android:foreground="?selectableItemBackground"  />
+
 
             </LinearLayout>
         </ScrollView>

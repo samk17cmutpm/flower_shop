@@ -42,12 +42,11 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
-import khoaluan.vn.flowershop.utils.ActionUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OrderFragment extends BaseFragment implements OrderContract.View, CommonView.ToolBar {
+public class InitializeFragment extends BaseFragment implements OrderContract.View, CommonView.ToolBar {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -140,12 +139,12 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
 
     private boolean flag;
 
-    public OrderFragment() {
+    public InitializeFragment() {
         // Required empty public constructor
     }
 
-    public static OrderFragment newInstance() {
-        OrderFragment fragment = new OrderFragment();
+    public static InitializeFragment newInstance() {
+        InitializeFragment fragment = new InitializeFragment();
         return fragment;
     }
 
@@ -271,8 +270,9 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
             @Override
             public void onClick(View view) {
                 if (isSenderInfoDone()) {
-                    if (isBillingDone())
-                        sendDataBilling();
+                    if (isInvoice())
+                        if (isBillingDone())
+                            sendDataBilling();
                 }
 
             }
@@ -515,6 +515,42 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
     }
 
     @Override
+    public boolean isInvoice() {
+        if (checkBoxExportBill.isChecked()) {
+            View focusView = null;
+            boolean cancel = false;
+
+            if (companyAddress.getText().toString().isEmpty()) {
+                companyAddress.setError(getString(R.string.error_field_required));
+
+                focusView = this.companyAddress;
+                cancel = true;
+            }
+
+            if (idBilling.getText().toString().isEmpty()) {
+                idBilling.setError(getString(R.string.error_field_required));
+
+                focusView = this.idBilling;
+                cancel = true;
+            }
+
+            if (companyName.getText().toString().isEmpty()) {
+                companyName.setError(getString(R.string.error_field_required));
+
+                focusView = this.companyName;
+                cancel = true;
+            }
+
+            if (cancel) {
+                focusView.requestFocus();
+            }
+
+            return !cancel;
+        } else
+            return true;
+    }
+
+    @Override
     public void sendDataBilling() {
         String cartId = CartSharedPrefrence.getCartId(getActivity());
         String email = UserSharedPrefrence.getUser(getActivity()).getEmail();
@@ -552,6 +588,25 @@ public class OrderFragment extends BaseFragment implements OrderContract.View, C
 
         showIndicator("Đang tạo đơn hàng ...", true);
         presenter.setShippingOrder(cartId, userId, fullNameRc, phoneRc, email, cityIdRc, districtsRc, addressRc);
+    }
+
+    @Override
+    public void sendInvoice() {
+        String userId = UserSharedPrefrence.getUser(getActivity()).getId();
+        String cityId = getIdCity(spinnerCities.getText().toString());
+        String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
+        String idBilling = this.idBilling.getText().toString();
+        String companyName = this.companyName.getText().toString();
+        String companyAddress = this.companyAddress.getText().toString();
+
+        showIndicator("Đang tạo hóa đơn ...", true);
+        presenter.setInvoiceAddress(userId, companyName, idBilling, cityId, districtsId, companyAddress);
+
+    }
+
+    @Override
+    public void showDateTimePicker() {
+
     }
 
     @Override

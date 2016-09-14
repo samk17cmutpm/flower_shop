@@ -23,8 +23,11 @@ public interface OrderContract {
         void setSameRc(boolean reset);
         boolean isSenderInfoDone();
         boolean isBillingDone();
+        boolean isInvoice();
         void sendDataBilling();
         void sendDataShipping();
+        void sendInvoice();
+        void showDateTimePicker();
     }
 
     interface Presenter extends BasePresenter {
@@ -49,6 +52,24 @@ public interface OrderContract {
                              String cityid,
                              String districtid,
                              String address);
+
+
+        void setInfoOrder(String cartId,
+                              String userId,
+                              long deliverydate,
+                              int hidesender,
+                              String note,
+                              String message,
+                              int paymentId);
+
+        void setInvoiceAddress(
+                String userId,
+                String companyName,
+                String taxCode,
+                String cityid,
+                String districtid,
+                String address
+        );
 
 
     }

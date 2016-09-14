@@ -1,9 +1,11 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ExtraInformationDTO;
 import khoaluan.vn.flowershop.data.request.UserRequest;
 import khoaluan.vn.flowershop.data.request.UserSignUpRequest;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
+import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -41,6 +43,8 @@ public interface UserClient {
 
     @GET("api/v1/product/get-order-detail/{orderId}")
     Observable<Response<BillingDetailResponse>> getBillingDetail(@Path("orderId") String orderId);
+
+
 
 }
 

@@ -1,7 +1,10 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
+import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
+import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
+import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.OrderResponse;
 import retrofit2.Response;
 import retrofit2.http.Field;
@@ -44,6 +47,41 @@ public interface OrderClient {
             @Field("name") String name,
             @Field("phone") String phone,
             @Field("mail") String mail,
+            @Field("cityid") String cityid,
+            @Field("districtid") String districtid,
+            @Field("address") String address
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/product/update-extra-information")
+    Observable<Response<ExtraInformationDTOResponse>> setExtraInfo(
+            @Field("cartId") String cartId,
+            @Field("userId") String userId,
+            @Field("deliverydate") long deliverydate,
+            @Field("hidesender") int hidesender,
+            @Field("note") String note,
+            @Field("message") String message,
+            @Field("paymentmethodId") int paymentmethodId
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-invoice-address")
+    Observable<Response<InvoiceAddressDTOResponse>> setInvoice(
+            @Field("userId") String userId,
+            @Field("companyName") String companyName,
+            @Field("taxCode") String taxCode,
+            @Field("cityid") String cityid,
+            @Field("districtid") String districtid,
+            @Field("address") String address
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-invoice-address")
+    Observable<Response<InvoiceAddressDTOResponse>> UpdateInvoice(
+            @Field("id") String id,
+            @Field("userId") String userId,
+            @Field("companyName") String companyName,
+            @Field("taxCode") String taxCode,
             @Field("cityid") String cityid,
             @Field("districtid") String districtid,
             @Field("address") String address
