@@ -6,22 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.ExtraInformationDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
+import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
 import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
-import khoaluan.vn.flowershop.data.response.OrderResponse;
+import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
+import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
+import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.OrderClient;
-import khoaluan.vn.flowershop.retrofit.client.UserClient;
 import khoaluan.vn.flowershop.utils.ActionUtils;
-import khoaluan.vn.flowershop.utils.ActivityUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
 import retrofit2.Response;
 import rx.Observable;
@@ -46,7 +49,6 @@ public class OrderPresenter implements OrderContract.Presenter{
 
     @Override
     public void loadData() {
-
     }
 
     @Override
@@ -84,17 +86,19 @@ public class OrderPresenter implements OrderContract.Presenter{
 
     @Override
     public void setBillingOrder(String cartId, String userId, String name, String phone, String mail, String cityid, String districtid, String address, final boolean isInvoice) {
-        Observable<Response<OrderResponse>> observable =
+        Observable<Response<BillingAdressResponse>> observable =
                 client.setBillingOrder(cartId, userId, name, phone, mail, cityid, districtid, address);
 
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<OrderResponse>>() {
+                .subscribe(new Subscriber<Response<BillingAdressResponse>>() {
                     private boolean success;
+                    private BillingAddressDTO billingAddressDTO;
                     @Override
                     public void onCompleted() {
                         view.showIndicator(null, false);
                         if (success) {
+                            RealmBillingUtils.updateBillingAddressDTO(billingAddressDTO);
                             if (isInvoice)
                                 view.sendInvoice();
                             else
@@ -109,26 +113,30 @@ public class OrderPresenter implements OrderContract.Presenter{
                     }
 
                     @Override
-                    public void onNext(Response<OrderResponse> orderResponseResponse) {
-                        if (orderResponseResponse.isSuccessful())
-                            success = orderResponseResponse.body().isSuccess();
+                    public void onNext(Response<BillingAdressResponse> billingAdressResponseResponse) {
+                        if (billingAdressResponseResponse.isSuccessful()) {
+                            success = billingAdressResponseResponse.body().isSuccess();
+                            billingAddressDTO = billingAdressResponseResponse.body().getResult();
+                        }
                     }
                 });
     }
 
     @Override
     public void setShippingOrder(String cartId, String userId, String name, String phone, String mail, String cityid, String districtid, final String address) {
-        Observable<Response<OrderResponse>> observable =
+        Observable<Response<ShippingAdressResponse>> observable =
                 client.setShippingOrder(cartId, userId, name, phone, mail, cityid, districtid, address);
 
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<OrderResponse>>() {
+                .subscribe(new Subscriber<Response<ShippingAdressResponse>>() {
                     private boolean success;
+                    private ShippingAddressDTO shippingAddressDTO;
                     @Override
                     public void onCompleted() {
                         view.showIndicator(null, false);
                         if (success) {
+                            RealmBillingUtils.updateShippingAddressDTO(shippingAddressDTO);
                             MessageUtils.showLong(activity, "Đã lưu trữ thành công ");
                             ActionUtils.goOrder(activity, ActionForOrder.EXTRA);
                         }
@@ -143,9 +151,12 @@ public class OrderPresenter implements OrderContract.Presenter{
                     }
 
                     @Override
-                    public void onNext(Response<OrderResponse> orderResponseResponse) {
-                        if (orderResponseResponse.isSuccessful())
-                            success = orderResponseResponse.body().isSuccess();
+                    public void onNext(Response<ShippingAdressResponse> shippingAdressResponseResponse) {
+                        if (shippingAdressResponseResponse.isSuccessful()) {
+                            success = shippingAdressResponseResponse.body().isSuccess();
+                            shippingAddressDTO = shippingAdressResponseResponse.body().getResult();
+                        }
+
                     }
                 });
     }
@@ -171,6 +182,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                     public void onCompleted() {
                         view.showIndicator(null, false);
                         if (response.isSuccess()) {
+                            RealmBillingUtils.updateExtraInformationDTO(response.getResult());
                             ActionUtils.goOrder(activity, ActionForOrder.CONFIRM);
                         }
                     }
@@ -190,19 +202,25 @@ public class OrderPresenter implements OrderContract.Presenter{
     }
 
     @Override
-    public void setInvoiceAddress(String userId, String companyName, String taxCode, String cityid, String districtid, String address) {
+    public void setInvoiceAddress(InvoiceRequest invoiceAddress) {
         Observable<Response<InvoiceAddressDTOResponse>> observable =
-                client.setInvoice(userId, companyName, taxCode, cityid, districtid, address);
+                client.setInvoice(invoiceAddress);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<Response<InvoiceAddressDTOResponse>>() {
-                    private InvoiceAddressDTO invoiceAddressDTO;
+                    private InvoiceAddressDTOResponse invoiceAddressDTOResponse;
                     @Override
                     public void onCompleted() {
                         view.showIndicator(null, false);
-                        view.sendDataShipping();
+                        if (invoiceAddressDTOResponse.isSuccess()) {
+                            RealmBillingUtils.updateInvoiceAddressDTO(invoiceAddressDTOResponse.getResult());
+                            view.sendDataShipping();
+                        } else {
+                            MessageUtils.showLong(activity, "Địa chỉ công ty trong phần thêm hóa đơn thuế không đúng, vui lòng kiểm tra lại");
+                        }
+
                     }
 
                     @Override
@@ -214,7 +232,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                     @Override
                     public void onNext(Response<InvoiceAddressDTOResponse> invoiceAddressDTOResponseResponse) {
                         if (invoiceAddressDTOResponseResponse.isSuccessful()) {
-                            invoiceAddressDTO = invoiceAddressDTOResponseResponse.body().getResult();
+                            invoiceAddressDTOResponse = invoiceAddressDTOResponseResponse.body();
                         }
                     }
                 });

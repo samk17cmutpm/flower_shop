@@ -1,12 +1,14 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
-import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
+import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
 import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
-import khoaluan.vn.flowershop.data.response.OrderResponse;
+import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
+import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -27,7 +29,7 @@ public interface OrderClient {
 
     @FormUrlEncoded
     @POST("api/v1/product/update-billing-address")
-    Observable<Response<OrderResponse>> setBillingOrder(
+    Observable<Response<BillingAdressResponse>> setBillingOrder(
             @Field("cartId") String cartId,
             @Field("userId") String userId,
             @Field("name") String name,
@@ -41,7 +43,7 @@ public interface OrderClient {
 
     @FormUrlEncoded
     @POST("api/v1/product/update-shipping-address")
-    Observable<Response<OrderResponse>> setShippingOrder(
+    Observable<Response<ShippingAdressResponse>> setShippingOrder(
             @Field("cartId") String cartId,
             @Field("userId") String userId,
             @Field("name") String name,
@@ -70,20 +72,21 @@ public interface OrderClient {
             @Field("userId") String userId,
             @Field("companyName") String companyName,
             @Field("taxCode") String taxCode,
-            @Field("cityid") String cityid,
-            @Field("districtid") String districtid,
             @Field("address") String address
     );
 
-    @FormUrlEncoded
+
     @POST("api/v1/account/update-my-invoice-address")
-    Observable<Response<InvoiceAddressDTOResponse>> UpdateInvoice(
-            @Field("id") String id,
-            @Field("userId") String userId,
-            @Field("companyName") String companyName,
-            @Field("taxCode") String taxCode,
-            @Field("cityid") String cityid,
-            @Field("districtid") String districtid,
-            @Field("address") String address
-    );
+    Observable<Response<InvoiceAddressDTOResponse>> setInvoice(@Body InvoiceRequest invoiceRequest);
+
+//    @FormUrlEncoded
+//    @POST("api/v1/account/update-my-invoice-address")
+//    Observable<Response<InvoiceAddressDTOResponse>> UpdateInvoice(
+//            @Field("id") String id,
+//            @Field("userId") String userId,
+//            @Field("companyName") String companyName,
+//            @Field("taxCode") String taxCode,
+//            @Field("districtid") String districtid,
+//            @Field("address") String address
+//    );
 }

@@ -7,6 +7,7 @@ import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
 import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
+import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 
 /**
@@ -29,5 +30,6 @@ public interface UserDataContract  {
         void loadBillings(String idUser);
         RealmResults<Billing> loadBillingsLocal();
         void loadBillingDetail(String orderId);
+        void showBillingConfirm(List<MultipleOrderBillingItem> list);
     }
 }

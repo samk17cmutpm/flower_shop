@@ -11,6 +11,7 @@ import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.UserClient;
@@ -141,6 +142,11 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                             billing = billingDetailResponseResponse.body().getResult();
                     }
                 });
+    }
+
+    @Override
+    public void showBillingConfirm(List<MultipleOrderBillingItem> list) {
+
     }
 
     @Override

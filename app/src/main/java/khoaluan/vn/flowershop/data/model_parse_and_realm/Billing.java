@@ -5,8 +5,11 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 /**
  * Created by samnguyen on 9/11/16.
@@ -68,18 +71,34 @@ public class Billing extends RealmObject implements Parcelable {
     private InvoiceAddressDTO invoiceAddressDTO;
 
     @SerializedName("orderItemsDTO")
-    private RealmList<OrderItemsDTO> orderItemsDTO;
+    private RealmList<Cart> carts;
+
+    private String flag;
 
     public Billing() {
     }
 
-
+    public Billing(BillingAddressDTO billingAddressDTO, ShippingAddressDTO shippingAddressDTO, ExtraInformationDTO extraInformationDTO, InvoiceAddressDTO invoiceAddressDTO, RealmList<Cart> carts) {
+        this.billingAddressDTO = billingAddressDTO;
+        this.shippingAddressDTO = shippingAddressDTO;
+        this.extraInformationDTO = extraInformationDTO;
+        this.invoiceAddressDTO = invoiceAddressDTO;
+        this.carts = carts;
+    }
 
     public String getDateSetPayment() {
         String year = getCreatedDate().substring(0, 4);
         String month = getCreatedDate().substring(5, 7);
         String date = getCreatedDate().substring(8, 10);
         return "Đặt hàng ngày " + date + " tháng " + month + " năm " + year;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
     public String getId() {
@@ -226,12 +245,12 @@ public class Billing extends RealmObject implements Parcelable {
         this.invoiceAddressDTO = invoiceAddressDTO;
     }
 
-    public RealmList<OrderItemsDTO> getOrderItemsDTO() {
-        return orderItemsDTO;
+    public RealmList<Cart> getCarts() {
+        return carts;
     }
 
-    public void setOrderItemsDTO(RealmList<OrderItemsDTO> orderItemsDTO) {
-        this.orderItemsDTO = orderItemsDTO;
+    public void setCarts(RealmList<Cart> carts) {
+        this.carts = carts;
     }
 
 
@@ -260,6 +279,7 @@ public class Billing extends RealmObject implements Parcelable {
         dest.writeParcelable(this.shippingAddressDTO, flags);
         dest.writeParcelable(this.extraInformationDTO, flags);
         dest.writeParcelable(this.invoiceAddressDTO, flags);
+        dest.writeList(this.carts);
     }
 
     protected Billing(Parcel in) {
@@ -281,9 +301,10 @@ public class Billing extends RealmObject implements Parcelable {
         this.shippingAddressDTO = in.readParcelable(ShippingAddressDTO.class.getClassLoader());
         this.extraInformationDTO = in.readParcelable(ExtraInformationDTO.class.getClassLoader());
         this.invoiceAddressDTO = in.readParcelable(InvoiceAddressDTO.class.getClassLoader());
+        in.readList(this.carts, Cart.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Billing> CREATOR = new Parcelable.Creator<Billing>() {
+    public static final Creator<Billing> CREATOR = new Creator<Billing>() {
         @Override
         public Billing createFromParcel(Parcel source) {
             return new Billing(source);

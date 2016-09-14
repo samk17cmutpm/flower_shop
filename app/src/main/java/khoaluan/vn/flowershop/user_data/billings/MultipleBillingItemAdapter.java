@@ -56,7 +56,7 @@ public class MultipleBillingItemAdapter extends BaseMultiItemQuickAdapter<Multip
                 });
                 break;
             case MultipleBillingItem.PROODUCT:
-                OrderItemAdapter adapter = new OrderItemAdapter(activity, item.getBilling().getOrderItemsDTO());
+                OrderItemAdapter adapter = new OrderItemAdapter(activity, item.getBilling().getCarts());
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
                 RecyclerView recyclerView = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
                 recyclerView.setHasFixedSize(true);

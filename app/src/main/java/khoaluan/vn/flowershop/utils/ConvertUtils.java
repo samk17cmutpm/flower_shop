@@ -14,6 +14,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Item;
 import khoaluan.vn.flowershop.main.tab_favorite.FavoriteItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleAdvertisingItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
+import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 
 /**
@@ -172,5 +173,38 @@ public class ConvertUtils {
         return list;
 
     }
+
+    public static List<MultipleOrderBillingItem> convertBillingToMultipleOrderItem(Billing billing) {
+        List<MultipleOrderBillingItem> list = new ArrayList<>();
+
+        MultipleOrderBillingItem header = new MultipleOrderBillingItem();
+        header.setItemType(MultipleOrderBillingItem.HEADER);
+        header.setBilling(billing);
+
+        list.add(header);
+
+        MultipleOrderBillingItem products = new MultipleOrderBillingItem();
+        products.setItemType(MultipleOrderBillingItem.PROODUCT);
+        products.setBilling(billing);
+
+        list.add(products);
+
+        MultipleOrderBillingItem info = new MultipleOrderBillingItem();
+        info.setItemType(MultipleOrderBillingItem.INFO);
+        info.setBilling(billing);
+
+        list.add(info);
+
+
+        MultipleOrderBillingItem action = new MultipleOrderBillingItem();
+        action.setItemType(MultipleOrderBillingItem.ACTION);
+        action.setBilling(billing);
+
+        list.add(action);
+
+        return list;
+
+    }
+
 
 }

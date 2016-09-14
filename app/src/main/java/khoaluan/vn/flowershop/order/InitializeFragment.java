@@ -3,6 +3,7 @@ package khoaluan.vn.flowershop.order;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,11 +37,15 @@ import io.realm.RealmResults;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
+import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 
 /**
@@ -139,8 +144,15 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     private boolean flag;
 
+    private Billing billing;
     public InitializeFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        RealmBillingUtils.createConfirmBilling();
     }
 
     public static InitializeFragment newInstance() {
@@ -599,7 +611,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         String companyAddress = this.companyAddress.getText().toString();
 
         showIndicator("Đang tạo hóa đơn ...", true);
-        presenter.setInvoiceAddress(userId, companyName, idBilling, cityId, districtsId, companyAddress);
+        presenter.setInvoiceAddress(new InvoiceRequest(userId, companyName, idBilling, companyAddress));
 
     }
 
