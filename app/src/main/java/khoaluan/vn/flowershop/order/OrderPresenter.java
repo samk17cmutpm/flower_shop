@@ -83,7 +83,7 @@ public class OrderPresenter implements OrderContract.Presenter{
     }
 
     @Override
-    public void setBillingOrder(String cartId, String userId, String name, String phone, String mail, String cityid, String districtid, String address) {
+    public void setBillingOrder(String cartId, String userId, String name, String phone, String mail, String cityid, String districtid, String address, final boolean isInvoice) {
         Observable<Response<OrderResponse>> observable =
                 client.setBillingOrder(cartId, userId, name, phone, mail, cityid, districtid, address);
 
@@ -94,8 +94,12 @@ public class OrderPresenter implements OrderContract.Presenter{
                     @Override
                     public void onCompleted() {
                         view.showIndicator(null, false);
-                        if (success)
-                            view.sendInvoice();
+                        if (success) {
+                            if (isInvoice)
+                                view.sendInvoice();
+                            else
+                                view.sendDataShipping();
+                        }
                     }
 
                     @Override

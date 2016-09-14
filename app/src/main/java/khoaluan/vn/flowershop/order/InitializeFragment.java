@@ -562,8 +562,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         String address = this.address.getText().toString();
 
         showIndicator("Đang tạo đơn hàng ...", true);
-        Log.d("================>", districtsId);
-        presenter.setBillingOrder(cartId, userId, fullName, phone, email, cityId, districtsId, address);
+        presenter.setBillingOrder(cartId, userId, fullName, phone, email, cityId, districtsId, address, checkBoxExportBill.isChecked());
 
 
     }

@@ -42,7 +42,8 @@ public interface OrderContract {
                              String mail,
                              String cityid,
                              String districtid,
-                             String address);
+                             String address,
+                             boolean isInvoice);
 
         void setShippingOrder(String cartId,
                              String userId,
