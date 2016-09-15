@@ -700,8 +700,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                RealmBillingUtils.clearBillingConfirm();
-                ActionUtils.go(getActivity(), 4);
+                RealmBillingUtils.clearBillingConfirm();
+                ActionUtils.go(getActivity(), 3);
             }
         });
     }
