@@ -14,6 +14,7 @@ import java.util.List;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.utils.MoneyUtils;
 
 /**
  * Created by samnguyen on 9/11/16.
@@ -39,7 +40,7 @@ public class MultipleBillingItemAdapter extends BaseMultiItemQuickAdapter<Multip
                         .setText(R.id.tv_status, item.getBilling().getOrderStatusString())
                         .setText(R.id.tv_date_odered, item.getBilling().getDateSetPayment())
                         .setText(R.id.tv_date_dilevery, item.getBilling().getExtraInformationDTO().getDataDelivery() + "")
-                        .setText(R.id.tv_temp_cost, item.getBilling().getTotalCost() + " VND")
+                        .setText(R.id.tv_temp_cost, MoneyUtils.getMoney(item.getBilling().getTotalCost()))
                         .setText(R.id.tv_cost_ship, item.getBilling().getShippingCost() + " VND")
                         .setText(R.id.tv_voucher, item.getBilling().getVoucherCost() + " VND")
                         .setText(R.id.tv_total, item.getBilling().getTotalCost() + " VND")

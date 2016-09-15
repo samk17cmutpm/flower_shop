@@ -12,6 +12,7 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.OrderItemsDTO;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
+import khoaluan.vn.flowershop.utils.MoneyUtils;
 
 /**
  * Created by samnguyen on 9/11/16.
@@ -31,6 +32,6 @@ public class OrderItemAdapter extends BaseQuickAdapter<Cart>{
 
         baseViewHolder.setText(R.id.tv_name, orderItemsDTO.getProductName())
                 .setText(R.id.tv_number, "Số lượng : " + orderItemsDTO.getProductQuantity())
-                .setText(R.id.tv_price, orderItemsDTO.getProductCost() + " VND x " + orderItemsDTO.getProductQuantity());
+                .setText(R.id.tv_price, MoneyUtils.getMoney(orderItemsDTO.getProductCost()) + " x " + orderItemsDTO.getProductQuantity());
     }
 }

@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
+import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
@@ -79,14 +80,22 @@ public interface OrderClient {
     @POST("api/v1/account/update-my-invoice-address")
     Observable<Response<InvoiceAddressDTOResponse>> setInvoice(@Body InvoiceRequest invoiceRequest);
 
-//    @FormUrlEncoded
-//    @POST("api/v1/account/update-my-invoice-address")
-//    Observable<Response<InvoiceAddressDTOResponse>> UpdateInvoice(
-//            @Field("id") String id,
-//            @Field("userId") String userId,
-//            @Field("companyName") String companyName,
-//            @Field("taxCode") String taxCode,
-//            @Field("districtid") String districtid,
-//            @Field("address") String address
-//    );
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-invoice-address")
+    Observable<Response<InvoiceAddressDTOResponse>> UpdateInvoice(
+            @Field("id") String id,
+            @Field("userId") String userId,
+            @Field("companyName") String companyName,
+            @Field("taxCode") String taxCode,
+            @Field("districtid") String districtid,
+            @Field("address") String address
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/v1/product/create-order")
+    Observable<Response<BillingDetailResponse>> makeAnOrder(
+            @Field("cartId") String cartId,
+            @Field("userId") String userId
+    );
 }

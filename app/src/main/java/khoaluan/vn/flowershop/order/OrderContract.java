@@ -81,6 +81,8 @@ public interface OrderContract {
                 InvoiceRequest invoiceRequest
         );
 
+        void makeAnOrder();
+
 
     }
 }

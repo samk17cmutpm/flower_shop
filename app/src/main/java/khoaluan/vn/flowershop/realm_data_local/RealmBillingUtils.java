@@ -38,7 +38,7 @@ public class RealmBillingUtils {
     }
 
     public static RealmResults<Billing> all() {
-        return realm.where(Billing.class).findAll();
+        return realm.where(Billing.class).notEqualTo("flag", RealmFlag.BILLING_CONFIRM).findAll();
     }
 
     public static void updateAll(final List<Billing> newBillings) {

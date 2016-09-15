@@ -126,7 +126,7 @@
         android:layout_alignParentStart="true"
         android:paddingLeft="10dp"
         android:padding="10dp"
-        android:id="@+id/relativeLayout6">
+        android:id="@+id/rl_invoice">
 
         <TextView
             android:layout_width="wrap_content"
@@ -139,88 +139,96 @@
             android:layout_alignParentStart="true"
             android:textColor="@color/primary_text" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Tên công ty : "
-            android:id="@+id/textView36"
-            android:layout_below="@+id/tv_invoice_title"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/primary_text"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="tv_name_delivery"
-            android:id="@+id/tv_company_name"
-            android:layout_alignBottom="@+id/textView36"
-            android:layout_toRightOf="@+id/textView36"
-            android:layout_toEndOf="@+id/textView36"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Mã số thuế : "
-            android:id="@+id/textView39"
-            android:layout_below="@+id/textView36"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/primary_text"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="tv_phone_delivery"
-            android:id="@+id/tv_id_invoice"
-            android:layout_alignBottom="@+id/textView39"
-            android:layout_toRightOf="@+id/textView39"
-            android:layout_toEndOf="@+id/textView39"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Địa chỉ : "
-            android:id="@+id/textView41"
-            android:layout_below="@+id/textView39"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/primary_text"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="tv_city_delivery"
-            android:id="@+id/company_address"
-            android:layout_alignBottom="@+id/textView41"
-            android:layout_toRightOf="@+id/textView41"
-            android:layout_toEndOf="@+id/textView41"
-            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="thay đổi"
-            android:id="@+id/textView43"
+            android:id="@+id/tv_change_invoice"
             android:layout_alignBottom="@+id/tv_invoice_title"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textColor="@color/colorPrimary" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_invoice_title"
+            android:id="@+id/rl_invoice_detail">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Tên công ty : "
+                android:id="@+id/textView36"
+                android:layout_below="@+id/tv_invoice_title"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/primary_text"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="tv_name_delivery"
+                android:id="@+id/tv_company_name"
+                android:layout_alignBottom="@+id/textView36"
+                android:layout_toRightOf="@+id/textView36"
+                android:layout_toEndOf="@+id/textView36"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Mã số thuế : "
+                android:id="@+id/textView39"
+                android:layout_below="@+id/textView36"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/primary_text"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="tv_phone_delivery"
+                android:id="@+id/tv_id_invoice"
+                android:layout_alignBottom="@+id/textView39"
+                android:layout_toRightOf="@+id/textView39"
+                android:layout_toEndOf="@+id/textView39"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Địa chỉ : "
+                android:id="@+id/textView41"
+                android:layout_below="@+id/textView39"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/primary_text"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="tv_city_delivery"
+                android:id="@+id/company_address"
+                android:layout_alignBottom="@+id/textView41"
+                android:layout_toRightOf="@+id/textView41"
+                android:layout_toEndOf="@+id/textView41"
+                android:layout_marginTop="10dp" />
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -230,7 +238,7 @@
         android:layout_height="1dp"
         android:background="@color/colorPrimary"
         android:id="@+id/linearLayout5"
-        android:layout_below="@+id/relativeLayout6"
+        android:layout_below="@+id/rl_invoice"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -334,13 +342,23 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="thay đổi"
-            android:id="@+id/textView31"
+            android:id="@+id/tv_change_rc"
             android:textColor="@color/colorPrimary"
             android:layout_alignBottom="@+id/textView32"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/linearLayout100"
+        android:layout_below="@+id/dmcs"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -350,7 +368,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/relativeLayout7"
-        android:layout_below="@+id/dmcs">
+        android:layout_below="@+id/linearLayout100">
 
         <TextView
             android:layout_width="wrap_content"
@@ -368,7 +386,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="thay đổi"
-            android:id="@+id/textView51"
+            android:id="@+id/tv_change_info"
             android:textColor="@color/colorPrimary"
             android:layout_alignBottom="@+id/textView44"
             android:layout_alignParentRight="true"

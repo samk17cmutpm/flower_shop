@@ -13,12 +13,15 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
+import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
 import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
+import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
@@ -234,6 +237,41 @@ public class OrderPresenter implements OrderContract.Presenter{
                         if (invoiceAddressDTOResponseResponse.isSuccessful()) {
                             invoiceAddressDTOResponse = invoiceAddressDTOResponseResponse.body();
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void makeAnOrder() {
+        view.showIndicator("Đang tạo đơn hàng, Vui lòng chờ ...", true);
+
+        Observable<Response<BillingDetailResponse>> observable =
+                client.makeAnOrder(CartSharedPrefrence.getCartId(activity), UserSharedPrefrence.getUser(activity).getId());
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<BillingDetailResponse>>() {
+                    private BillingDetailResponse billingDetailResponse;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(null, false);
+                        if (billingDetailResponse.isSuccess())
+                            MessageUtils.showLong(activity, "Đã tạo đơn hàng thành công");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(null, false);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
+                    }
+
+                    @Override
+                    public void onNext(Response<BillingDetailResponse> billingDetailResponseResponse) {
+                        if (billingDetailResponseResponse.isSuccessful()) {
+                            billingDetailResponse = billingDetailResponseResponse.body();
+                        }
+
                     }
                 });
     }

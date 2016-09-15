@@ -92,7 +92,7 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new MultipleOrderBillingItemAdapter(activity, ConvertUtils.convertBillingToMultipleOrderItem(RealmBillingUtils.getBillCofirm()));
+        adapter = new MultipleOrderBillingItemAdapter(activity, ConvertUtils.convertBillingToMultipleOrderItem(RealmBillingUtils.getBillCofirm()), presenter);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recyclerView.setAdapter(adapter);
 

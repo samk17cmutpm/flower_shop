@@ -57,7 +57,7 @@ public class ExtraInformationDTO extends RealmObject implements Parcelable {
     }
 
     public String getDataDelivery() {
-        Date date = new Date(DeliveryDate);
+        Date date = new Date(DeliveryDate*1000);
         Format format = new SimpleDateFormat("yyyy MM dd");
         String delivery =  format.format(date);
         String year = delivery.substring(0, 4);
