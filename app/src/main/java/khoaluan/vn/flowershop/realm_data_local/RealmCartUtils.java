@@ -77,4 +77,19 @@ public class RealmCartUtils {
             }
         });
     }
+
+    public static void clear() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Cart> carts = realm.where(Cart.class).findAll();
+                carts.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "Remove Cart Successfully");
+            }
+        });
+    }
 }

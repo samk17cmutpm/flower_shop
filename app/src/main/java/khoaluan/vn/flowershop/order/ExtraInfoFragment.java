@@ -3,6 +3,7 @@ package khoaluan.vn.flowershop.order;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -35,9 +37,19 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ExtraInformationDTO;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
@@ -93,6 +105,12 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
     @BindView(R.id.note)
     EditText note;
 
+    @BindView(R.id.is_pay_credit)
+    RadioButton is_pay_credit;
+
+    @BindView(R.id.is_pay_rc)
+    RadioButton is_pay_rc;
+
     private SublimePickerFragment pickerFrag;
 
     private View root;
@@ -107,15 +125,31 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
 
     private ProgressDialog progressDialog;
 
+    private ActionDefined actionDefined;
+
+    private Billing billing;
+
 
 
     public ExtraInfoFragment() {
         // Required empty public constructor
     }
 
-    public static ExtraInfoFragment newInstance() {
+    public static ExtraInfoFragment newInstance(ActionDefined actionDefined) {
         ExtraInfoFragment fragment = new ExtraInfoFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Action.ACTION_FOR_ORDER, actionDefined);
+        fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        actionDefined = (ActionDefined) getArguments().getParcelable(Action.ACTION_FOR_ORDER);
+        if (actionDefined.isEdit()) {
+            billing = RealmBillingUtils.getBillCofirm();
+        }
     }
 
     @Override
@@ -126,7 +160,8 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
         ButterKnife.bind(this, root);
         initilizeToolBar();
         showUI();
-
+        if (actionDefined.isEdit())
+            editFormExtra(billing.getExtraInformationDTO());
         return root;
     }
 
@@ -148,11 +183,11 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Thông tin đặt hàng");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Thông tin khác");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                ActionUtils.goOrder(getActivity(), new ActionDefined(ActionForOrder.INITIALIZE, true));
             }
         });
     }
@@ -199,21 +234,6 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
         });
 
 
-        radioGroupPayment.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i) {
-                    case R.id.is_pay_rc:
-                        paymentMethod = 1;
-                        break;
-                    case R.id.is_pay_credit:
-                        paymentMethod = 2;
-                        break;
-                }
-            }
-        });
-
-
         buttonPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -225,6 +245,11 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
                 int hiddenInfo = 1;
                 if (hide_info.isChecked())
                     hiddenInfo = 2;
+
+                if (is_pay_credit.isChecked())
+                    paymentMethod = 2;
+                else
+                    paymentMethod = 1;
 
                 showIndicator("Đang cập thông tin", true);
                 presenter.setInfoOrder(
@@ -321,6 +346,42 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
     @Override
     public void showDateTimePicker() {
         pickerFrag.show(getActivity().getSupportFragmentManager(), "SUBLIME_PICKER");
+    }
+
+    @Override
+    public void editFormSender(BillingAddressDTO billingAddressDTO) {
+
+    }
+
+    @Override
+    public void editFormInvoice(InvoiceAddressDTO invoiceAddressDTO) {
+
+    }
+
+    @Override
+    public void editFormShipping(ShippingAddressDTO shippingAddressDTO) {
+
+    }
+
+    @Override
+    public void editFormExtra(ExtraInformationDTO extraInformationDTO) {
+        editTextDate.setText(getDataDelivery(extraInformationDTO.getDeliveryDate()*1000));
+        if (extraInformationDTO.getPaymentMethodId() == 1)
+            is_pay_rc.setChecked(true);
+        else
+            is_pay_credit.setChecked(true);
+
+        message.setText(extraInformationDTO.getMessage());
+        note.setText(extraInformationDTO.getNote());
+        if (extraInformationDTO.getHideSender() == 2)
+            hide_info.setChecked(true);
+
+        buttonPay.setText("Cập nhập");
+    }
+
+    @Override
+    public boolean isEdited() {
+        return actionDefined.isEdit();
     }
 
     @Override

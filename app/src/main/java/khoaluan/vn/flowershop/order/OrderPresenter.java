@@ -1,6 +1,10 @@
 package khoaluan.vn.flowershop.order;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +15,11 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
+import khoaluan.vn.flowershop.data.response.BankResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
@@ -22,6 +29,7 @@ import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.realm_data_local.RealmBankUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
@@ -140,8 +148,15 @@ public class OrderPresenter implements OrderContract.Presenter{
                         view.showIndicator(null, false);
                         if (success) {
                             RealmBillingUtils.updateShippingAddressDTO(shippingAddressDTO);
-                            MessageUtils.showLong(activity, "Đã lưu trữ thành công ");
-                            ActionUtils.goOrder(activity, ActionForOrder.EXTRA);
+                            if (view.isEdited()) {
+                                MessageUtils.showLong(activity, "Cập nhập thành công ");
+                                ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.CONFIRM, false));
+                            } else {
+                                MessageUtils.showLong(activity, "Đã lưu trữ thành công ");
+                                ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.EXTRA, false));
+                            }
+
+
                         }
 
                     }
@@ -186,7 +201,18 @@ public class OrderPresenter implements OrderContract.Presenter{
                         view.showIndicator(null, false);
                         if (response.isSuccess()) {
                             RealmBillingUtils.updateExtraInformationDTO(response.getResult());
-                            ActionUtils.goOrder(activity, ActionForOrder.CONFIRM);
+
+                            if (view.isEdited()) {
+                                MessageUtils.showLong(activity, "Cập nhập thành công ");
+                                ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.CONFIRM, false));
+                            } else {
+                                if (response.getResult().getPaymentMethodId()  == 2)
+                                    ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.BANK, false));
+                                else
+                                    ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.CONFIRM, false));
+                            }
+
+
                         }
                     }
 
@@ -202,6 +228,11 @@ public class OrderPresenter implements OrderContract.Presenter{
                             response = extraInformationDTOResponseResponse.body();
                     }
                 });
+    }
+
+    @Override
+    public void setInvoiceAddress(String userId, String companyName, String taxCode, String address) {
+
     }
 
     @Override
@@ -256,8 +287,23 @@ public class OrderPresenter implements OrderContract.Presenter{
                     @Override
                     public void onCompleted() {
                         view.showIndicator(null, false);
-                        if (billingDetailResponse.isSuccess())
-                            MessageUtils.showLong(activity, "Đã tạo đơn hàng thành công");
+                        if (billingDetailResponse.isSuccess()) {
+                            RealmBillingUtils.clearBillingConfirm();
+                            RealmCartUtils.clear();
+                            CartSharedPrefrence.saveCartId(null, activity);
+                            new MaterialDialog.Builder(activity)
+                                    .title("Livizi")
+                                    .content("Đã tạo đơn hàng thành công")
+                                    .positiveText("Xác nhận")
+                                    .cancelable(false)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            ActionUtils.go(activity, 0);
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
 
                     @Override
@@ -274,6 +320,38 @@ public class OrderPresenter implements OrderContract.Presenter{
 
                     }
                 });
+    }
+
+    @Override
+    public void loadBanks() {
+        Observable<Response<BankResponse>> observable =
+                client.getBanks();
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<BankResponse>>() {
+                    private BankResponse bankResponse;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(null, false);
+                        if (bankResponse.isSuccess())
+                            RealmBankUtils.updateAll(bankResponse.getResult());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(null, false);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
+                    }
+
+                    @Override
+                    public void onNext(Response<BankResponse> bankResponseResponse) {
+                        if (bankResponseResponse.isSuccessful())
+                            bankResponse = bankResponseResponse.body();
+                    }
+                });
+
     }
 
 

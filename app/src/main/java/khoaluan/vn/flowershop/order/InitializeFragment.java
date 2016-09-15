@@ -38,15 +38,23 @@ import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ExtraInformationDTO;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.realm_data_local.RealmBankUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -145,6 +153,9 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     private boolean flag;
 
     private Billing billing;
+
+    private ActionDefined actionDefined;
+
     public InitializeFragment() {
         // Required empty public constructor
     }
@@ -152,11 +163,19 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RealmBillingUtils.createConfirmBilling();
+        actionDefined = (ActionDefined) getArguments().getParcelable(Action.ACTION_FOR_ORDER);
+        if (actionDefined.isEdit()) {
+            billing = RealmBillingUtils.getBillCofirm();
+        } else {
+            RealmBillingUtils.createConfirmBilling();
+        }
     }
 
-    public static InitializeFragment newInstance() {
+    public static InitializeFragment newInstance(ActionDefined actionDefined) {
         InitializeFragment fragment = new InitializeFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Action.ACTION_FOR_ORDER, actionDefined);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -172,6 +191,12 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         setUpDropData();
         setSenderInfo();
         setUpBilling(false);
+        if (actionDefined.isEdit()) {
+            editFormSender(billing.getBillingAddressDTO());
+            if (billing.getInvoiceAddressDTO() != null)
+                editFormInvoice(billing.getInvoiceAddressDTO());
+            editFormShipping(billing.getShippingAddressDTO());
+        }
         return root;
     }
 
@@ -621,6 +646,44 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     }
 
     @Override
+    public void editFormSender(BillingAddressDTO billingAddressDTO) {
+        fullName.setText(billingAddressDTO.getName());
+        phone.setText(billingAddressDTO.getPhone());
+        address.setText(billingAddressDTO.getAddress());
+        spinnerCities.setText(billingAddressDTO.getCityString());
+        spinnerDictricts.setText(billingAddressDTO.getDistrictString());
+    }
+
+    @Override
+    public void editFormInvoice(InvoiceAddressDTO invoiceAddressDTO) {
+        checkBoxExportBill.setChecked(true);
+        companyName.setText(invoiceAddressDTO.getCompanyName());
+        companyAddress.setText(invoiceAddressDTO.getAddress());
+        idBilling.setText(invoiceAddressDTO.getTaxCode());
+    }
+
+    @Override
+    public void editFormShipping(ShippingAddressDTO shippingAddressDTO) {
+        fullNameRc.setText(shippingAddressDTO.getName());
+        phoneRc.setText(shippingAddressDTO.getPhone());
+        addressRc.setText(shippingAddressDTO.getAddress());
+        spinnerCitiesRc.setText(shippingAddressDTO.getCityString());
+        spinnerDictrictsRc.setText(shippingAddressDTO.getDistrictString());
+
+        buttonPay.setText("Cập nhập");
+    }
+
+    @Override
+    public void editFormExtra(ExtraInformationDTO extraInformationDTO) {
+
+    }
+
+    @Override
+    public boolean isEdited() {
+        return actionDefined.isEdit();
+    }
+
+    @Override
     public void setPresenter(OrderContract.Presenter presenter) {
         this.presenter = presenter;
     }
@@ -637,7 +700,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+//                RealmBillingUtils.clearBillingConfirm();
+                ActionUtils.go(getActivity(), 4);
             }
         });
     }

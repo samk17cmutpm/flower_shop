@@ -9,6 +9,8 @@ import android.os.Parcelable;
 public class ActionDefined implements Parcelable {
     private int go;
 
+    private boolean edit;
+
     public ActionDefined(int go) {
         this.go = go;
     }
@@ -21,6 +23,19 @@ public class ActionDefined implements Parcelable {
         this.go = go;
     }
 
+    public ActionDefined(int go, boolean edit) {
+        this.go = go;
+        this.edit = edit;
+    }
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+
 
     @Override
     public int describeContents() {
@@ -30,13 +45,15 @@ public class ActionDefined implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.go);
+        dest.writeByte(this.edit ? (byte) 1 : (byte) 0);
     }
 
     protected ActionDefined(Parcel in) {
         this.go = in.readInt();
+        this.edit = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<ActionDefined> CREATOR = new Parcelable.Creator<ActionDefined>() {
+    public static final Creator<ActionDefined> CREATOR = new Creator<ActionDefined>() {
         @Override
         public ActionDefined createFromParcel(Parcel source) {
             return new ActionDefined(source);

@@ -2,8 +2,8 @@ package khoaluan.vn.flowershop.order;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,17 +13,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
+import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Bank;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExtraInformationDTO;
@@ -31,15 +37,15 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
-import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItemAdapter;
-import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
+import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
+import khoaluan.vn.flowershop.order.order_confirm.BankAdapter;
+import khoaluan.vn.flowershop.realm_data_local.RealmBankUtils;
 import khoaluan.vn.flowershop.utils.ActionUtils;
-import khoaluan.vn.flowershop.utils.ConvertUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConfirmFragment extends BaseFragment implements OrderContract.View, CommonView.ToolBar {
+public class BankFragment extends BaseFragment implements OrderContract.View, CommonView.ToolBar, Base {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -58,19 +64,22 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
 
     private Activity activity;
 
-    private Billing billing;
+    private BankAdapter adapter;
 
-    private ProgressDialog progressDialog;
+    private RealmResults<Bank> banks;
 
-    private MultipleOrderBillingItemAdapter adapter;
+    private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(PRODUCT_DISTANCE);
 
 
-    public ConfirmFragment() {
+    @BindView(R.id.go)
+    LinearLayout linearLayoutGo;
+
+    public BankFragment() {
         // Required empty public constructor
     }
 
-    public static ConfirmFragment newInstance() {
-        ConfirmFragment fragment = new ConfirmFragment();
+    public static BankFragment newInstance() {
+        BankFragment fragment = new BankFragment();
         return fragment;
     }
 
@@ -79,15 +88,24 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_confirm, container, false);
+        root = inflater.inflate(R.layout.fragment_bank, container, false);
         ButterKnife.bind(this, root);
         initilizeToolBar();
         showUI();
+        showIndicator(null, true);
+        presenter.loadBanks();
         return root;
     }
 
     @Override
     public void showUI() {
+        banks = RealmBankUtils.all();
+        banks.addChangeListener(new RealmChangeListener<RealmResults<Bank>>() {
+            @Override
+            public void onChange(RealmResults<Bank> element) {
+                adapter.notifyDataSetChanged();
+            }
+        });
         activity = getActivity();
         layoutManager = new LinearLayoutManager(activity);
         swipeRefreshLayout.setNestedScrollingEnabled(true);
@@ -99,10 +117,25 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new MultipleOrderBillingItemAdapter(activity, ConvertUtils.convertBillingToMultipleOrderItem(RealmBillingUtils.getBillCofirm()), presenter);
+        adapter = new BankAdapter(banks, activity);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+
+        recyclerView.removeItemDecoration(spaceProduct);
+        recyclerView.addItemDecoration(spaceProduct);
         recyclerView.setAdapter(adapter);
 
+        linearLayoutGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActionUtils.goOrder(getActivity(), new ActionDefined(ActionForOrder.CONFIRM, false));
+            }
+        });
+
+        new MaterialDialog.Builder(activity)
+                .title("Livizi")
+                .content("Chấp nhận thanh toán qua chuyển khoản ngân hàng, Vui lòng chuyển khoản qua một trong các ngân hàng sau ")
+                .positiveText("Xác nhận")
+                .show();
     }
 
     @Override
@@ -116,8 +149,13 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
     }
 
     @Override
-    public void showIndicator(String message, boolean active) {
-
+    public void showIndicator(String message, final boolean active) {
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(active);
+            }
+        });
     }
 
     @Override
@@ -213,7 +251,7 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Xác nhận đơn hàng");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Thanh toán");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

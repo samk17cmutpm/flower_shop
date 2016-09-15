@@ -70,19 +70,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Tổng giá trị đơn hàng"
-            android:id="@+id/textView22"
-            android:layout_alignTop="@+id/linearLayout3"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/primary_text"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="tv_total"
             android:id="@+id/tv_total"
             android:textColor="@color/red"
@@ -100,6 +87,19 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Tổng giá trị đơn hàng"
+            android:id="@+id/textView22"
+            android:layout_alignTop="@+id/linearLayout3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primary_text"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -159,7 +159,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="thay đổi"
-            android:id="@+id/textView25"
+            android:id="@+id/tv_change_payment"
             android:layout_alignBottom="@+id/textView23"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
+import khoaluan.vn.flowershop.data.response.BankResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
@@ -98,4 +99,8 @@ public interface OrderClient {
             @Field("cartId") String cartId,
             @Field("userId") String userId
     );
+
+
+    @GET("api/v1/bank-account/get-account")
+    Observable<Response<BankResponse>> getBanks();
 }

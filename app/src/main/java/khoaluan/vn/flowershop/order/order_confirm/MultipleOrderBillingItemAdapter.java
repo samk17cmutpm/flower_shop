@@ -16,9 +16,12 @@ import java.util.List;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.order.OrderContract;
 import khoaluan.vn.flowershop.user_data.billings.OrderItemAdapter;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
 
 /**
@@ -42,21 +45,32 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
     protected void convert(BaseViewHolder holder, MultipleOrderBillingItem item) {
         switch (holder.getItemViewType()) {
             case MultipleOrderBillingItem.HEADER:
-                holder.setText(R.id.tv_temp_cost, countTotalMoney(item.getBilling().getCarts()) + " VND")
+                holder.setText(R.id.tv_temp_cost, MoneyUtils.getMoney(countTotalMoney(item.getBilling().getCarts())))
                         .setText(R.id.tv_cost_ship, "0 VND")
-                        .setText(R.id.tv_total, MoneyUtils.getMoney(countTotalMoney(item.getBilling().getCarts())) + " VND")
-                        .setText(R.id.tv_date, item.getBilling().getExtraInformationDTO().getDataDelivery() + "");
+                        .setText(R.id.tv_total, MoneyUtils.getMoney(countTotalMoney(item.getBilling().getCarts())))
+                        .setText(R.id.tv_date, item.getBilling().getExtraInformationDTO().getDataDelivery() + "")
+                        .setText(R.id.tv_method_payment, item.getBilling().getExtraInformationDTO().getPaymentMethodString());
 
                 TextView textViewList = (TextView) holder.getConvertView().findViewById(R.id.tv_list);
-                if (item.getBilling().getExtraInformationDTO().getPaymentMethodId() == 2)
+                if (item.getBilling().getExtraInformationDTO().getPaymentMethodId() == 2) {
                     textViewList.setVisibility(View.VISIBLE);
+                    textViewList.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.BANK, false));
+                        }
+                    });
+                }
 
-                textViewList.setOnClickListener(new View.OnClickListener() {
+                TextView tv_change_payment = (TextView) holder.getConvertView().findViewById(R.id.tv_change_payment);
+                tv_change_payment.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-
+                    public void onClick(View v) {
+                        ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.EXTRA, true));
                     }
                 });
+
+
                 break;
             case MultipleOrderBillingItem.PROODUCT:
                 OrderItemAdapter adapter = new OrderItemAdapter(activity, item.getBilling().getCarts());
@@ -94,7 +108,7 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
                 tv_change_invoice.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.INITIALIZE, true));
                     }
                 });
 
@@ -102,7 +116,7 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
                 tv_change.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.INITIALIZE, true));
                     }
                 });
 
@@ -110,7 +124,7 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
                 tv_change_rc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.INITIALIZE, true));
                     }
                 });
 
@@ -118,7 +132,7 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
                 tv_change_info.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.EXTRA, true));
                     }
                 });
 

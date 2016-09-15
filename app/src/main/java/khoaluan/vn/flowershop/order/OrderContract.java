@@ -35,6 +35,13 @@ public interface OrderContract {
         void sendDataShipping();
         void sendInvoice();
         void showDateTimePicker();
+
+        void editFormSender(BillingAddressDTO billingAddressDTO);
+        void editFormInvoice(InvoiceAddressDTO invoiceAddressDTO);
+        void editFormShipping(ShippingAddressDTO shippingAddressDTO);
+        void editFormExtra(ExtraInformationDTO extraInformationDTO);
+
+        boolean isEdited();
     }
 
     interface Presenter extends BasePresenter {
@@ -69,13 +76,13 @@ public interface OrderContract {
                               String note,
                               String message,
                               int paymentId);
-//
-//        void setInvoiceAddress(
-//                String userId,
-//                String companyName,
-//                String taxCode,
-//                String address
-//        );
+
+        void setInvoiceAddress(
+                String userId,
+                String companyName,
+                String taxCode,
+                String address
+        );
 
         void setInvoiceAddress(
                 InvoiceRequest invoiceRequest
@@ -83,6 +90,7 @@ public interface OrderContract {
 
         void makeAnOrder();
 
+        void loadBanks();
 
     }
 }

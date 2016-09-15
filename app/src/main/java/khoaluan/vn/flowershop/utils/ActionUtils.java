@@ -20,9 +20,8 @@ public class ActionUtils {
         activity.finish();
     }
 
-    public static void goOrder(Activity activity, int position) {
+    public static void goOrder(Activity activity, ActionDefined actionDefined) {
         Intent intent = new Intent(activity, OrderActivity.class);
-        ActionDefined actionDefined = new ActionDefined(position);
         intent.putExtra(Action.ACTION_FOR_ORDER, actionDefined);
         activity.startActivity(intent);
         activity.finish();

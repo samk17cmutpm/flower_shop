@@ -252,5 +252,20 @@ public class RealmBillingUtils {
         return realm.where(Billing.class).equalTo("flag", RealmFlag.BILLING_CONFIRM).findFirst();
     }
 
+    public static void clearBillingConfirm() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Billing billing = realm.where(Billing.class).equalTo("flag", RealmFlag.BILLING_CONFIRM).findFirst();
+                billing.deleteFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "OK");
+            }
+        });
+    }
+
 
 }

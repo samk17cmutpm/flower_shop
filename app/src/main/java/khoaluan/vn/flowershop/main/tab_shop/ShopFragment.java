@@ -137,7 +137,7 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, OrderActivity.class);
-                intent.putExtra(Action.ACTION_FOR_ORDER, new ActionDefined(ActionForOrder.INITIALIZE));
+                intent.putExtra(Action.ACTION_FOR_ORDER, new ActionDefined(ActionForOrder.INITIALIZE, false));
                 startActivity(intent);
             }
         });
