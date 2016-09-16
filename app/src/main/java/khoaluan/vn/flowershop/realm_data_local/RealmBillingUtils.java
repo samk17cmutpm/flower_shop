@@ -257,10 +257,9 @@ public class RealmBillingUtils {
             @Override
             public void execute(Realm realm) {
                 Billing billing = realm.where(Billing.class).equalTo("flag", RealmFlag.BILLING_CONFIRM).findFirst();
+                RealmList<Cart> carts = billing.getCarts();
+                carts.deleteAllFromRealm();
                 billing.deleteFromRealm();
-
-//                RealmResults<Billing> billings = realm.where(Billing.class).findAll();
-//                billings.deleteAllFromRealm();
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override

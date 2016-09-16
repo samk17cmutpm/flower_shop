@@ -28,6 +28,7 @@ public interface SearchContract {
         void setEnableRefresh(boolean active);
         void showFlowerDetails(Flower flower);
         void showMaterialSearch();
+        void initializeSearchSuggestion();
     }
     interface Presenter extends BasePresenter, RealmAction.Flower<Flower> {
         void loadData();

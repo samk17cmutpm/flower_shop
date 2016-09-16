@@ -9,6 +9,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize">
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_duration="1000"
+            app:el_expanded="true"
+            android:visibility="visible">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="gợi ý tìm kiếm "
+                    android:id="@+id/textView25"
+                    android:textColor="@color/primary"
+                    android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_close_suggestion"
+                    android:src="@drawable/ic_arrow_info"
+                    android:layout_alignBottom="@+id/textView25"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/search_suggestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_close_suggestion">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -16,7 +56,8 @@
             android:orientation="vertical"
             android:visibility="visible"
             android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@+id/expandable_suggestion">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"

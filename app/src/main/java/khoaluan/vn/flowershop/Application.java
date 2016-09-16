@@ -1,6 +1,8 @@
 package khoaluan.vn.flowershop;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.multidex.MultiDex;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -26,6 +28,12 @@ public class Application extends android.app.Application {
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         initializeImageLoader();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initializeImageLoader() {

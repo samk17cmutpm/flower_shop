@@ -29,6 +29,7 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.sign_up.SignUpActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.MessageUtils;
 import khoaluan.vn.flowershop.utils.ValidationUtils;
 
 import com.facebook.CallbackManager;
@@ -298,12 +299,12 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             showIndicator(true, "Đang kết nối qua tài khoản Google");
-
             presenter.getAccessTokenGoogle(acct.getEmail(), acct.getDisplayName());
         } else {
+            MessageUtils.showLong(getActivity(), R.string.no_internet_connecttion);
         }
     }
-    
+
     @Override
     public void setPresenter(SignInContract.Presenter presenter) {
         this.presenter = presenter;

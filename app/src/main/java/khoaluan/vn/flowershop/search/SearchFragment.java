@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,9 +24,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +57,14 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
     private FlowerAdapter adapter;
     private List<Flower> flowers;
     private GridLayoutManager gridLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
     private MaterialSearchView searchView;
     private SearchRequest request;
+
+    private ExpandableLayout expandable_suggestion;
+
+    @BindView(R.id.iv_close_suggestion)
+    ImageView iv_close_suggestion;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -62,9 +72,16 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @BindView(R.id.search_suggestion)
+    RecyclerView search_suggestion;
+
+    private SearchSuggestionAdapter adapterSuggestion;
+
     private Toolbar toolbar;
 
     private Activity activity;
+
+    private List<String> suggestions;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -91,6 +108,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
         initilizeToolBar();
         showMaterialSearch();
         setDeviderForGridView();
+        initializeSearchSuggestion();
         presenter.loadData();
         return root;
     }
@@ -129,6 +147,8 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         setEnableRefresh(false);
+
+        expandable_suggestion = (ExpandableLayout) root.findViewById(R.id.expandable_suggestion);
     }
 
     @Override
@@ -168,6 +188,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Do some magic
+                expandable_suggestion.collapse();
                 request = new SearchRequest(query, 0, 20, 0, 10000000, "COLOR;FLOWER;BIRTHDAY;TOPIC");
                 showIndicator(true);
                 presenter.loadDataBySearch(request);
@@ -176,6 +197,8 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (!expandable_suggestion.isExpanded())
+                    expandable_suggestion.expand();
                 //Do some magic
                 return false;
             }
@@ -212,7 +235,44 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
             searchView.showSearch(true);
         }
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
 
+    @Override
+    public void initializeSearchSuggestion() {
+        suggestions = new ArrayList<>();
+        suggestions.add("hoa tình yêu");
+        suggestions.add("hoa hồng");
+        suggestions.add("hoa sinh nhật");
+        suggestions.add("hoa ly");
+        suggestions.add("hoa quỳnh");
+        suggestions.add("hoa cúc");
+        suggestions.add("hoa");
+
+        linearLayoutManager = new LinearLayoutManager(activity);
+
+        search_suggestion.setHasFixedSize(true);
+        search_suggestion.setLayoutManager(linearLayoutManager);
+
+        adapterSuggestion = new SearchSuggestionAdapter(suggestions);
+        adapterSuggestion.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        adapterSuggestion.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                expandable_suggestion.collapse();
+                request = new SearchRequest(suggestions.get(i), 0, 20, 0, 10000000, "COLOR;FLOWER;BIRTHDAY;TOPIC");
+                showIndicator(true);
+                presenter.loadDataBySearch(request);
+            }
+        });
+
+        search_suggestion.setAdapter(adapterSuggestion);
+
+        iv_close_suggestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandable_suggestion.collapse();
+            }
+        });
 
 
     }
@@ -234,6 +294,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bas
 
     @Override
     public void showIndicator(final boolean active) {
+        searchView.hideKeyboard(root);
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

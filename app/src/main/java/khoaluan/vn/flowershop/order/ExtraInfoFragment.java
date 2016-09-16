@@ -187,6 +187,7 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RealmBillingUtils.clearBillingConfirm();
                 ActionUtils.goOrder(getActivity(), new ActionDefined(ActionForOrder.INITIALIZE, true));
             }
         });
