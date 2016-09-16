@@ -47,7 +47,7 @@ import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
@@ -238,7 +238,7 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
             @Override
             public void onClick(View view) {
                 String cartId = CartSharedPrefrence.getCartId(getActivity());
-                String userId = UserSharedPrefrence.getUser(getActivity()).getId();
+                String userId = UserUtils.getUser(getActivity()).getId();
                 long deliverydate = dateDelivery / 1000;
                 String noteMessage = note.getText().toString();
                 String messageTemp = message.getText().toString();

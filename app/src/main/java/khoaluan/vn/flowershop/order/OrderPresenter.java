@@ -13,9 +13,7 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
-import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
@@ -28,7 +26,7 @@ import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBankUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
@@ -277,7 +275,7 @@ public class OrderPresenter implements OrderContract.Presenter{
         view.showIndicator("Đang tạo đơn hàng, Vui lòng chờ ...", true);
 
         Observable<Response<BillingDetailResponse>> observable =
-                client.makeAnOrder(CartSharedPrefrence.getCartId(activity), UserSharedPrefrence.getUser(activity).getId());
+                client.makeAnOrder(CartSharedPrefrence.getCartId(activity), UserUtils.getUser(activity).getId());
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())

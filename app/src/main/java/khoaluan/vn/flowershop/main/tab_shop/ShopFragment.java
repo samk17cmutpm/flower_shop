@@ -3,6 +3,7 @@ package khoaluan.vn.flowershop.main.tab_shop;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import butterknife.BindView;
@@ -27,8 +30,11 @@ import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.order.OrderActivity;
+import khoaluan.vn.flowershop.sign_in.SignInActivity;
+import khoaluan.vn.flowershop.utils.MessageUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
 
 
@@ -136,9 +142,29 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
         linearLayoutBuyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, OrderActivity.class);
-                intent.putExtra(Action.ACTION_FOR_ORDER, new ActionDefined(ActionForOrder.INITIALIZE, false));
-                startActivity(intent);
+                if (carts.isEmpty()) {
+                    MessageUtils.showLong(activity, "Bạn chưa có sản phẩm nào trong giỏ hàng");
+                } else {
+                    if (!UserUtils.isSignedIn(activity)) {
+                        new MaterialDialog.Builder(activity)
+                                .title("Livizi")
+                                .content("Vui lòng đăng nhập !")
+                                .positiveText("Có")
+                                .negativeText("Không")
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        Intent intent = new Intent(activity, SignInActivity.class);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .show();
+                    } else {
+                        Intent intent = new Intent(activity, OrderActivity.class);
+                        intent.putExtra(Action.ACTION_FOR_ORDER, new ActionDefined(ActionForOrder.INITIALIZE, false));
+                        startActivity(intent);
+                    }
+                }
             }
         });
 

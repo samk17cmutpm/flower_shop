@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,10 +48,8 @@ import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
-import khoaluan.vn.flowershop.realm_data_local.RealmBankUtils;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
-import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 
@@ -423,7 +420,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void setSenderInfo() {
-        User user = UserSharedPrefrence.getUser(getActivity());
+        User user = UserUtils.getUser(getActivity());
         fullName.setText(user.getFullName());
         phone.setText(user.getPhone());
         address.setText(user.getAddress());
@@ -590,8 +587,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void sendDataBilling() {
         String cartId = CartSharedPrefrence.getCartId(getActivity());
-        String email = UserSharedPrefrence.getUser(getActivity()).getEmail();
-        String userId = UserSharedPrefrence.getUser(getActivity()).getId();
+        String email = UserUtils.getUser(getActivity()).getEmail();
+        String userId = UserUtils.getUser(getActivity()).getId();
         String fullName = this.fullName.getText().toString();
         String phone = this.phone.getText().toString();
         String cityId = getIdCity(spinnerCities.getText().toString());
@@ -607,8 +604,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void sendDataShipping() {
         String cartId = CartSharedPrefrence.getCartId(getActivity());
-        String email = UserSharedPrefrence.getUser(getActivity()).getEmail();
-        String userId = UserSharedPrefrence.getUser(getActivity()).getId();
+        String email = UserUtils.getUser(getActivity()).getEmail();
+        String userId = UserUtils.getUser(getActivity()).getId();
 
         String fullNameRc = this.fullNameRc.getText().toString();
         String phoneRc = this.phoneRc.getText().toString();
@@ -628,7 +625,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void sendInvoice() {
-        String userId = UserSharedPrefrence.getUser(getActivity()).getId();
+        String userId = UserUtils.getUser(getActivity()).getId();
         String cityId = getIdCity(spinnerCities.getText().toString());
         String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
         String idBilling = this.idBilling.getText().toString();

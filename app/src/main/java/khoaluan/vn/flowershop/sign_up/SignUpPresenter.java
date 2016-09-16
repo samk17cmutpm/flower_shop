@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import khoaluan.vn.flowershop.data.request.UserSignUpRequest;
 import khoaluan.vn.flowershop.data.response.UserResponse;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.UserClient;
 import khoaluan.vn.flowershop.utils.MessageUtils;
@@ -45,8 +45,8 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                         view.showIndicator(false, null);
                         if (userResponse.isSuccess()) {
                             MessageUtils.showLong(activity, "Đăng ký tài khoản thành công !");
-                            UserSharedPrefrence.setSignedIn(activity, true);
-                            UserSharedPrefrence.saveUser(userResponse.getResult(), activity);
+                            UserUtils.setSignedIn(activity, true);
+                            UserUtils.saveUser(userResponse.getResult(), activity);
                             view.finish();
                         } else {
                             MessageUtils.showLong(activity, "Email này đã được đăng ký, vui lòng kiểm tra lại !");

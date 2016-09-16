@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
+import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 
 /**
  * Created by samnguyen on 9/10/16.
  */
-public class UserSharedPrefrence {
+public class UserUtils {
     public static final String isSignedIn = "isSignedIn";
     public static final String Id = "Id";
     public static final String Email = "Email";
@@ -56,6 +58,17 @@ public class UserSharedPrefrence {
                 mSettings.getString(Phone, null),
                 mSettings.getString(DeviceId, null)
         );
+    }
+
+    public static void signOut(Activity activity) {
+        SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.clear();
+        editor.commit();
+        editor.apply();
+
+        RealmCartUtils.clear();
+        RealmBillingUtils.clear();
     }
 
 }

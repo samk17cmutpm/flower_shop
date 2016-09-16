@@ -3,7 +3,6 @@ package khoaluan.vn.flowershop.user_data;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,14 +19,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
-import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
-import khoaluan.vn.flowershop.sign_in.SignInActivity;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
-import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,7 +82,7 @@ public class UserDataUpdateInfoFragment extends BaseFragment implements UserData
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        final User user = UserSharedPrefrence.getUser(getActivity());
+        final User user = UserUtils.getUser(getActivity());
 
         fullName.setText(user.getFullName());
         address.setText(user.getAddress());

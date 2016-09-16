@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmObject;
 import okhttp3.Interceptor;
@@ -38,9 +39,14 @@ public class ServiceGenerator {
 
     public static final String API_BASE_URL = "http://dienhoaquatang.com";
 
-    private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    private static HttpLoggingInterceptor logging = new
+            HttpLoggingInterceptor().
+            setLevel(HttpLoggingInterceptor.Level.BODY);
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(logging);
+    private static OkHttpClient.Builder httpClient = new
+            OkHttpClient.Builder()
+            .readTimeout(120, TimeUnit.SECONDS).
+            connectTimeout(120, TimeUnit.SECONDS).addInterceptor(logging);
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

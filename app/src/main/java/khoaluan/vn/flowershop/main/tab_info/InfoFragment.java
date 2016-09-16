@@ -22,7 +22,7 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.sign_in.SignInActivity;
 import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
@@ -114,11 +114,16 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
         rl_contact.setOnClickListener(this);
         rl_idea.setOnClickListener(this);
 
-        if (UserSharedPrefrence.isSignedIn(activity)) {
+        if (UserUtils.isSignedIn(activity)) {
             rl_sign_in.setEnabled(false);
-            tvSignInName.setText(UserSharedPrefrence.getUser(activity).getEmail());
+            tvSignInName.setText(UserUtils.getUser(activity).getEmail());
         } else {
             rl_sign_out.setVisibility(View.GONE);
+            rl_update_info.setVisibility(View.GONE);
+            rl_billing.setVisibility(View.GONE);
+            rl_payment_address.setVisibility(View.GONE);
+            rl_delivery_address.setVisibility(View.GONE);
+            rl_info_payment.setVisibility(View.GONE);
         }
     }
 

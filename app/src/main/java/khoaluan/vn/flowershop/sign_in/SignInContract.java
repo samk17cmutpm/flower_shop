@@ -16,6 +16,6 @@ public interface SignInContract {
     interface Presenter extends BasePresenter {
         void signIn(String email, String password);
         void signInSocial(String email, String provider, String externaltoken, String deviceId, String fullName);
-        void siginInGoogle();
+        void getAccessTokenGoogle(String email, String displayName);
     }
 }

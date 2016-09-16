@@ -31,7 +31,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.user_data.UserDataContract;
@@ -85,7 +85,7 @@ public class UserDataBillingsFragment extends BaseFragment implements UserDataCo
         initilizeToolBar();
         initilizeRecyclerView();
         showIndicator(true);
-        presenter.loadBillings(UserSharedPrefrence.getUser(activity).getId());
+        presenter.loadBillings(UserUtils.getUser(activity).getId());
         return root;
     }
 
@@ -184,7 +184,7 @@ public class UserDataBillingsFragment extends BaseFragment implements UserDataCo
                 setAction(R.string.retry_again, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        presenter.loadBillings(UserSharedPrefrence.getUser(activity).getId());
+                        presenter.loadBillings(UserUtils.getUser(activity).getId());
                     }
                 })
                 .setActionTextColor(getResources().getColor(R.color.colorAccent))
@@ -194,6 +194,6 @@ public class UserDataBillingsFragment extends BaseFragment implements UserDataCo
 
     @Override
     public void onRefresh() {
-        presenter.loadBillings(UserSharedPrefrence.getUser(activity).getId());
+        presenter.loadBillings(UserUtils.getUser(activity).getId());
     }
 }

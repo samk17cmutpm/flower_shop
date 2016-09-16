@@ -3,6 +3,7 @@ package khoaluan.vn.flowershop.sign_in;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,9 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -52,6 +56,7 @@ import com.google.android.gms.common.api.Status;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -115,6 +120,7 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         AppEventsLogger.activateApp(getContext());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("489780219461-s737292va219g3b3ibh5gnm3ea5cbruc.apps.googleusercontent.com")
+                .requestId()
                 .requestEmail()
                 .build();
 
@@ -292,11 +298,12 @@ public class SignInFragment extends BaseFragment implements SignInContract.View,
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             showIndicator(true, "Đang kết nối qua tài khoản Google");
-            presenter.signInSocial(acct.getEmail(), Credentials.GOOGLE, acct.getIdToken(), "", acct.getDisplayName());
+
+            presenter.getAccessTokenGoogle(acct.getEmail(), acct.getDisplayName());
         } else {
         }
     }
-
+    
     @Override
     public void setPresenter(SignInContract.Presenter presenter) {
         this.presenter = presenter;

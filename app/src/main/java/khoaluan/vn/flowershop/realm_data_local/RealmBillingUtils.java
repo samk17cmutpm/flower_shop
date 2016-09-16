@@ -256,16 +256,31 @@ public class RealmBillingUtils {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-//                Billing billing = realm.where(Billing.class).equalTo("flag", RealmFlag.BILLING_CONFIRM).findFirst();
-//                billing.deleteFromRealm();
+                Billing billing = realm.where(Billing.class).equalTo("flag", RealmFlag.BILLING_CONFIRM).findFirst();
+                billing.deleteFromRealm();
 
+//                RealmResults<Billing> billings = realm.where(Billing.class).findAll();
+//                billings.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "Remove Billing Confirm Successfully");
+            }
+        });
+    }
+
+    public static void clear() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
                 RealmResults<Billing> billings = realm.where(Billing.class).findAll();
                 billings.deleteAllFromRealm();
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Log.e(TAG, "OK");
+                Log.e(TAG, "Remove All Billing Confirm Successfully");
             }
         });
     }

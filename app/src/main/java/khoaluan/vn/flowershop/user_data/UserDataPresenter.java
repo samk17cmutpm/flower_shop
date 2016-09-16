@@ -6,11 +6,10 @@ import java.util.List;
 
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
@@ -57,7 +56,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                         view.showIndicator(false, null);
                         if (userResponse.isSuccess()) {
                             MessageUtils.showLong(activity, "Cập nhật thành công thông tin cá nhân");
-                            UserSharedPrefrence.saveUser(userResponse.getResult(), activity);
+                            UserUtils.saveUser(userResponse.getResult(), activity);
                             view.done();
                         } else {
                             MessageUtils.showLong(activity, "WTF");
