@@ -258,25 +258,30 @@ public class RealmBillingUtils {
             public void execute(Realm realm) {
                 Billing billing = realm.where(Billing.class).equalTo("flag", RealmFlag.BILLING_CONFIRM).findFirst();
 
-                BillingAddressDTO billingAddressDTO = billing.getBillingAddressDTO();
-                if (billingAddressDTO != null)
-                    billingAddressDTO.deleteFromRealm();
+                if (billing != null) {
+                    BillingAddressDTO billingAddressDTO = billing.getBillingAddressDTO();
+                    if (billingAddressDTO != null)
+                        billingAddressDTO.deleteFromRealm();
 
-                ShippingAddressDTO shippingAddressDTO = billing.getShippingAddressDTO();
-                if (shippingAddressDTO != null)
-                    shippingAddressDTO.deleteFromRealm();
+                    ShippingAddressDTO shippingAddressDTO = billing.getShippingAddressDTO();
+                    if (shippingAddressDTO != null)
+                        shippingAddressDTO.deleteFromRealm();
 
-                InvoiceAddressDTO invoiceAddressDTO = billing.getInvoiceAddressDTO();
-                if (invoiceAddressDTO != null)
-                    invoiceAddressDTO.deleteFromRealm();
+                    InvoiceAddressDTO invoiceAddressDTO = billing.getInvoiceAddressDTO();
+                    if (invoiceAddressDTO != null)
+                        invoiceAddressDTO.deleteFromRealm();
 
-                ExtraInformationDTO extraInformationDTO = billing.getExtraInformationDTO();
-                if (extraInformationDTO != null)
-                    extraInformationDTO.deleteFromRealm();
+                    ExtraInformationDTO extraInformationDTO = billing.getExtraInformationDTO();
+                    if (extraInformationDTO != null)
+                        extraInformationDTO.deleteFromRealm();
 
-                RealmList<Cart> carts = billing.getCarts();
-                carts.deleteAllFromRealm();
-                billing.deleteFromRealm();
+                    RealmList<Cart> carts = billing.getCarts();
+                    carts.deleteAllFromRealm();
+                    billing.deleteFromRealm();
+
+                }
+
+
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override

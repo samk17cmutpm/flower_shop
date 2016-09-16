@@ -223,7 +223,6 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
         c.add(Calendar.DATE, 1);
         date = c.getTime();
         dateDelivery = date.getTime();
-        Log.d("==========>", date.getTime() + "");
         timeStamp = new Timestamp(dateDelivery);
         editTextDate.setText(getDataDelivery(dateDelivery));
         editTextDate.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +239,7 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
             public void onClick(View view) {
                 String cartId = CartSharedPrefrence.getCartId(getActivity());
                 String userId = UserUtils.getUser(getActivity()).getId();
-                long deliverydate = dateDelivery / 1000;
+                long deliverydate = dateDelivery / 1000 + 60 * 60 * 24;
                 String noteMessage = note.getText().toString();
                 String messageTemp = message.getText().toString();
                 int hiddenInfo = 1;

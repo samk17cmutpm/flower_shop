@@ -161,7 +161,8 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:textColor="@color/primary" />
+                        android:textColor="@color/primary"
+                        android:visibility="invisible" />
 
                 </RelativeLayout>
 
@@ -233,7 +234,8 @@
                             android:layout_height="wrap_content"
                             android:text="Lưu vào mẩu mới"
                             android:id="@+id/check_box_save_new_bill"
-                            android:layout_gravity="right" />
+                            android:layout_gravity="right"
+                            android:visibility="invisible" />
 
 
                     </LinearLayout>
@@ -273,7 +275,8 @@
                             android:layout_alignBottom="@+id/textView34"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
-                            android:textColor="@color/primary" />
+                            android:textColor="@color/primary"
+                            android:visibility="invisible" />
                     </RelativeLayout>
 
                     <CheckBox
@@ -381,7 +384,8 @@
                             android:layout_height="wrap_content"
                             android:text="Lưu vào mẫu mới"
                             android:id="@+id/check_box_save_new_rc"
-                            android:layout_gravity="right" />
+                            android:layout_gravity="right"
+                            android:visibility="invisible" />
 
 
                     </LinearLayout>

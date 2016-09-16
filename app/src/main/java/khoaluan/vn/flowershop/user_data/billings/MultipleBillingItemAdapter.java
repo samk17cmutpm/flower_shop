@@ -43,7 +43,7 @@ public class MultipleBillingItemAdapter extends BaseMultiItemQuickAdapter<Multip
                         .setText(R.id.tv_temp_cost, MoneyUtils.getMoney(item.getBilling().getTotalCost()))
                         .setText(R.id.tv_cost_ship, item.getBilling().getShippingCost() + " VND")
                         .setText(R.id.tv_voucher, item.getBilling().getVoucherCost() + " VND")
-                        .setText(R.id.tv_total, item.getBilling().getTotalCost() + " VND")
+                        .setText(R.id.tv_total, MoneyUtils.getMoney(item.getBilling().getTotalCost()))
                         .setText(R.id.tv_method_payment, item.getBilling().getExtraInformationDTO().getPaymentMethodString());
                 TextView textViewList = (TextView) holder.getConvertView().findViewById(R.id.tv_list);
                 if (item.getBilling().getExtraInformationDTO().getPaymentMethodId() == 2)

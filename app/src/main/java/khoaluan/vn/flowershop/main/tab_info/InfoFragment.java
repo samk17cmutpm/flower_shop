@@ -26,6 +26,7 @@ import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.sign_in.SignInActivity;
 import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -152,28 +153,34 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                 activity.startActivity(intent);
                 break;
             case R.id.rl_payment_address:
-                intent = new Intent(activity, UserDataActivity.class);
-                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.PAYMENT_ADDRESS));
-                activity.startActivity(intent);
+                MessageUtils.showLong(activity, "Comming Soon");
+//                intent = new Intent(activity, UserDataActivity.class);
+//                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.PAYMENT_ADDRESS));
+//                activity.startActivity(intent);
                 break;
             case R.id.rl_delivery_address:
-                intent = new Intent(activity, UserDataActivity.class);
-                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.DELIVERY_ADDRESS));
-                activity.startActivity(intent);
+                MessageUtils.showLong(activity, "Comming Soon");
+//                intent = new Intent(activity, UserDataActivity.class);
+//                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.DELIVERY_ADDRESS));
+//                activity.startActivity(intent);
                 break;
             case R.id.rl_info_payment:
-                intent = new Intent(activity, UserDataActivity.class);
-                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLING_INFO));
-                activity.startActivity(intent);
+                MessageUtils.showLong(activity, "Comming Soon");
+//                intent = new Intent(activity, UserDataActivity.class);
+//                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLING_INFO));
+//                activity.startActivity(intent);
                 break;
             case R.id.rl_policy:
+                MessageUtils.showLong(activity, "Comming Soon");
                 break;
             case R.id.rl_contact:
+                MessageUtils.showLong(activity, "Comming Soon");
                 break;
             case R.id.rl_idea:
-                intent = new Intent(activity, UserDataActivity.class);
-                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.IDEA));
-                activity.startActivity(intent);
+                MessageUtils.showLong(activity, "Comming Soon");
+//                intent = new Intent(activity, UserDataActivity.class);
+//                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.IDEA));
+//                activity.startActivity(intent);
                 break;
             case R.id.rl_sign_out:
                 new MaterialDialog.Builder(activity)
