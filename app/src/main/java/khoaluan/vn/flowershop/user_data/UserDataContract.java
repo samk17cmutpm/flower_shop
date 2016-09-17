@@ -48,6 +48,25 @@ public interface UserDataContract  {
                 String address
         );
 
+        void updateShippingAddress(
+                String id,
+                String userId,
+                String name,
+                String phone,
+                String cityid,
+                String districtid,
+                String address
+        );
+
+        void createShippingAddress(
+                String userId,
+                String name,
+                String phone,
+                String cityid,
+                String districtid,
+                String address
+        );
+
         void loadShippingAddressDTO(String userId);
 
     }

@@ -14,4 +14,5 @@ public class ActionForUserData {
     public static final int BILLING_INFO = 4;
     public static final int IDEA = 5;
     public static final int BILLING_DETAIL = 6;
+    public static final int SHIPPING_ADDRESS = 7;
 }

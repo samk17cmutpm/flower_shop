@@ -122,4 +122,29 @@ public interface OrderClient {
 
     @GET("/api/v1/account/get-list-my-shipping-address/{userId}")
     Observable<Response<ListShippingAddressResponse>> getShippingAddress(@Path("userId") String userId);
+
+
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-shipping-address")
+    Observable<Response<ShippingAdressResponse>> updateShippingAddress(
+            @Field("userId") String userId,
+            @Field("name") String name,
+            @Field("phone") String phone,
+            @Field("cityid") String cityid,
+            @Field("districtid") String districtid,
+            @Field("address") String address
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-shipping-address")
+    Observable<Response<ShippingAdressResponse>> updateShippingAddress(
+            @Field("id") String id,
+            @Field("userId") String userId,
+            @Field("name") String name,
+            @Field("phone") String phone,
+            @Field("cityid") String cityid,
+            @Field("districtid") String districtid,
+            @Field("address") String address
+    );
+
 }

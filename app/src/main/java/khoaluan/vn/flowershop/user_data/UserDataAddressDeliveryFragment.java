@@ -2,6 +2,7 @@ package khoaluan.vn.flowershop.user_data;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,9 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
@@ -104,6 +108,10 @@ public class UserDataAddressDeliveryFragment extends BaseFragment implements Use
         // handle item selection
         switch (item.getItemId()) {
             case R.id.add:
+                Intent intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.SHIPPING_ADDRESS));
+                activity.startActivity(intent);
+                activity.finish();
                 // Handle this selection
                 return true;
             default:
@@ -185,7 +193,11 @@ public class UserDataAddressDeliveryFragment extends BaseFragment implements Use
         adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-
+                Intent intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.SHIPPING_ADDRESS));
+                intent.putExtra(Action.ACTION_FOR_SHIPPING_ADDRESS, shippingAddressDTOs.get(i));
+                activity.startActivity(intent);
+                activity.finish();
             }
         });
 

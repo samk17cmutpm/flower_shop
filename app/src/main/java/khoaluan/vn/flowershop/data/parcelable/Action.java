@@ -8,4 +8,6 @@ public class Action {
 
     public static final String ACTION_FOR_USER_DATA = "ACTION_FOR_USER_DATA";
     public static final String ACTION_FOR_ORDER = "ACTION_FOR_ORDER";
+
+    public static final String ACTION_FOR_SHIPPING_ADDRESS = "ACTION_FOR_SHIPPING_ADDRESS";
 }

@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.user_data;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,16 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
+import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
@@ -258,6 +263,79 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     public void onNext(Response<BillingAdressResponse> billingAddressDTOResponse) {
                         if (billingAddressDTOResponse.isSuccessful())
                             response = billingAddressDTOResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void updateShippingAddress(String id, String userId, String name, String phone, String cityid, String districtid, String address) {
+        Observable<Response<ShippingAdressResponse>> observable =
+                orderClient.updateShippingAddress(
+                        id, userId, name, phone, cityid, districtid, address
+                );
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<ShippingAdressResponse>>() {
+                    private ShippingAdressResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false, null);
+                        MessageUtils.showLong(activity, "Đã câp nhập thành công");
+
+                        Intent intent = new Intent(activity, UserDataActivity.class);
+                        intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.DELIVERY_ADDRESS));
+                        activity.startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<ShippingAdressResponse> shippingAdressResponseResponse) {
+                        if (shippingAdressResponseResponse.isSuccessful())
+                            response = shippingAdressResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void createShippingAddress(String userId, String name, String phone, String cityid, String districtid, String address) {
+        Observable<Response<ShippingAdressResponse>> observable =
+                orderClient.updateShippingAddress(
+                        userId, name, phone, cityid, districtid, address
+                );
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<ShippingAdressResponse>>() {
+                    private ShippingAdressResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false, null);
+                        MessageUtils.showLong(activity, "Đã tạo mới thành công thành công");
+
+                        Intent intent = new Intent(activity, UserDataActivity.class);
+                        intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.DELIVERY_ADDRESS));
+                        activity.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<ShippingAdressResponse> shippingAdressResponseResponse) {
+                        if (shippingAdressResponseResponse.isSuccessful())
+                            response = shippingAdressResponseResponse.body();
                     }
                 });
     }
