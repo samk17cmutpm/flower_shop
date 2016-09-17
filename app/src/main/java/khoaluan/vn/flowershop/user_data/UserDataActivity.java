@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
@@ -20,6 +21,7 @@ public class UserDataActivity extends AppCompatActivity implements Base{
     private UserDataContract.Presenter presenter;
     private ActionDefined actionDefined;
     private ShippingAddressDTO shippingAddressDTO;
+    private InvoiceAddressDTO invoiceAddressDTO;
     private UserDataContract.View view;
     private Billing billing;
 
@@ -64,6 +66,14 @@ public class UserDataActivity extends AppCompatActivity implements Base{
                         getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
                 view = AddAndEditShippingAddressFragment.newInstance(shippingAddressDTO);
+                break;
+
+            case ActionForUserData.INVOICE_ADDRESS:
+                InvoiceAddressDTO invoiceAddressDTO = (InvoiceAddressDTO) getIntent().getParcelableExtra(Action.ACTION_FOR_INVOICE_ADDRESS);
+                view = (AddAndEditInvoiceAddressFragment)
+                        getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+
+                view = AddAndEditInvoiceAddressFragment.newInstance(invoiceAddressDTO);
                 break;
             case ActionForUserData.BILLING_INFO:
                 view = (UserDataBillingInfoFragment)

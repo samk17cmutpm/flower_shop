@@ -241,4 +241,11 @@ public class UserDataAddressDeliveryFragment extends BaseFragment implements Use
     public void onRefresh() {
         presenter.loadShippingAddressDTO(UserUtils.getUser(getActivity()).getId());
     }
+
+    @Override
+    public void onDestroy() {
+        if (shippingAddressDTOs != null)
+            shippingAddressDTOs.removeChangeListeners();
+        super.onDestroy();
+    }
 }

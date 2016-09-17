@@ -11,6 +11,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
@@ -20,6 +21,7 @@ import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
+import khoaluan.vn.flowershop.data.response.ListInvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
@@ -135,6 +137,11 @@ public class UserDataPresenter implements UserDataContract.Presenter {
     @Override
     public RealmResults<ShippingAddressDTO> loadShippingAddressDTOLocal() {
         return RealmAddressUtills.allShippingAddressDTO();
+    }
+
+    @Override
+    public RealmResults<InvoiceAddressDTO> loadInvoiceAddressDTOLocal() {
+        return RealmAddressUtills.allInvoiceAddressDTO();
     }
 
     @Override
@@ -370,6 +377,36 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     }
                 });
 
+    }
+
+    @Override
+    public void loadInvoiceAddressDTO(String userId) {
+        Observable<Response<ListInvoiceAddressDTOResponse>> observable =
+                orderClient.getInvoiceAddress(userId);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<ListInvoiceAddressDTOResponse>>() {
+                    private ListInvoiceAddressDTOResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false);
+                        RealmAddressUtills.updateAllInvoiceDTO(response.getResult());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(false);
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<ListInvoiceAddressDTOResponse> listInvoiceAddressDTOResponseResponse) {
+                        if (listInvoiceAddressDTOResponseResponse.isSuccessful())
+                            response = listInvoiceAddressDTOResponseResponse.body();
+                    }
+                });
     }
 
     @Override

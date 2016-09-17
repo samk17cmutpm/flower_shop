@@ -7,6 +7,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 
 /**
@@ -85,6 +86,40 @@ public class RealmAddressUtills {
             @Override
             public void onSuccess() {
                 Log.e(TAG, "Save all Shipping Address DTO successffully");
+            }
+        });
+    }
+
+    public static RealmResults<InvoiceAddressDTO> allInvoiceAddressDTO() {
+        return realm.where(InvoiceAddressDTO.class).findAll();
+    }
+
+    public static void saveInvoiceAddressDTO(final List<InvoiceAddressDTO> list) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(list);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "Save all Invoice Address DTO successffully");
+            }
+        });
+    }
+
+    public static void updateAllInvoiceDTO(final List<InvoiceAddressDTO> list) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<InvoiceAddressDTO> results = realm.where(InvoiceAddressDTO.class).findAll();
+                results.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Remove all Invoice Address DTO successfully");
+                saveInvoiceAddressDTO(list);
             }
         });
     }
