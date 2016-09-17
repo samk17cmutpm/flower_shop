@@ -10,11 +10,13 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
+import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
@@ -123,6 +125,11 @@ public class UserDataPresenter implements UserDataContract.Presenter {
     @Override
     public RealmResults<Billing> loadBillingsLocal() {
         return RealmBillingUtils.all();
+    }
+
+    @Override
+    public RealmResults<ShippingAddressDTO> loadShippingAddressDTOLocal() {
+        return RealmAddressUtills.allShippingAddressDTO();
     }
 
     @Override
@@ -253,6 +260,38 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                             response = billingAddressDTOResponse.body();
                     }
                 });
+    }
+
+    @Override
+    public void loadShippingAddressDTO(String userId) {
+
+        Observable<Response<ListShippingAddressResponse>> observable =
+                orderClient.getShippingAddress(userId);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<ListShippingAddressResponse>>() {
+                    private ListShippingAddressResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false);
+                        RealmAddressUtills.updateAllShippingAddressDTO(response.getResult());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(false);
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<ListShippingAddressResponse> listShippingAddressResponseResponse) {
+                        if (listShippingAddressResponseResponse.isSuccessful())
+                            response = listShippingAddressResponseResponse.body();
+                    }
+                });
+
     }
 
     @Override

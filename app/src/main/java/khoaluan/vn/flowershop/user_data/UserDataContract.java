@@ -8,6 +8,7 @@ import khoaluan.vn.flowershop.BaseView;
 import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 import retrofit2.http.Field;
@@ -32,6 +33,7 @@ public interface UserDataContract  {
         void updateInfoProfile(String id, String fullName, String address, String phone);
         void loadBillings(String idUser);
         RealmResults<Billing> loadBillingsLocal();
+        RealmResults<ShippingAddressDTO> loadShippingAddressDTOLocal();
         void loadBillingDetail(String orderId);
         void showBillingConfirm(List<MultipleOrderBillingItem> list);
         void loadDistricts(String idCity);
@@ -45,5 +47,8 @@ public interface UserDataContract  {
                 String districtid,
                 String address
         );
+
+        void loadShippingAddressDTO(String userId);
+
     }
 }

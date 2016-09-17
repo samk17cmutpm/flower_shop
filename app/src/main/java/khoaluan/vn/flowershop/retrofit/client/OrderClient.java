@@ -9,6 +9,7 @@ import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
 import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
+import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -118,4 +119,7 @@ public interface OrderClient {
 
     @GET("api/v1/account/get-my-billing-address/{userId}")
     Observable<Response<BillingAdressResponse>> getBillingAddress(@Path("userId") String userId);
+
+    @GET("/api/v1/account/get-list-my-shipping-address/{userId}")
+    Observable<Response<ListShippingAddressResponse>> getShippingAddress(@Path("userId") String userId);
 }
