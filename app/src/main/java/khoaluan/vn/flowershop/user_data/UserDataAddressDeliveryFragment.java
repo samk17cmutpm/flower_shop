@@ -3,6 +3,7 @@ package khoaluan.vn.flowershop.user_data;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,6 +36,8 @@ import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 import khoaluan.vn.flowershop.user_data.billings.ShippingAddressAdapter;
+import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.CartUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +79,11 @@ public class UserDataAddressDeliveryFragment extends BaseFragment implements Use
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +97,25 @@ public class UserDataAddressDeliveryFragment extends BaseFragment implements Use
         showIndicator(true);
         presenter.loadShippingAddressDTO(UserUtils.getUser(activity).getId());
         return root;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.add:
+                // Handle this selection
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar.
+        inflater.inflate(R.menu.user_data, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override
