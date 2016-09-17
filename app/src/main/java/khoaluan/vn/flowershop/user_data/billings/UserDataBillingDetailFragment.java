@@ -25,6 +25,7 @@ import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.user_data.UserDataContract;
 
 /**
@@ -148,6 +149,11 @@ public class UserDataBillingDetailFragment extends BaseFragment implements UserD
         adapter = new MultipleBillingItemAdapter(activity, list);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void updateDistrict(List<District> districts, boolean problem) {
+
     }
 
     @Override

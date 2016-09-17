@@ -37,10 +37,12 @@
             android:padding="16dp">
 
             <LinearLayout
-                android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:padding="10dp"
+                android:background="@color/white">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -63,30 +65,52 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/address"
+                        android:id="@+id/phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="địa chỉ"
+                        android:hint="số điện thoại"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="phone"
                         android:maxLines="1"
                         android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/spinner_cities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="tỉnh/tp"
+                    app:met_floatingLabel="normal"
+                    app:met_underlineColor="@color/secondary_text"
+                    app:met_floatingLabelTextColor="@color/secondary_text" />
+
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/spinner_dictricts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="quận/huyện"
+                    app:met_floatingLabel="normal"
+                    app:met_underlineColor="@color/secondary_text"
+                    app:met_floatingLabelTextColor="@color/secondary_text" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/phone"
+                        android:id="@+id/address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="số điện thoại"
-                        android:imeActionId="@+id/sign_up"
-                        android:imeActionLabel="Đăng Ký"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="phone"
+                        android:hint="địa chỉ"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@+id/full_name_rc"
+                        android:nextFocusForward="@+id/full_name_rc"
+                        android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true" />
 
@@ -98,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Cập Nhật Thông Tin"
+                    android:text="Cập nhập"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:background="@drawable/action_user_bg"

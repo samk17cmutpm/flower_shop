@@ -7,8 +7,10 @@ import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
 import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
+import retrofit2.http.Field;
 
 /**
  * Created by samnguyen on 9/10/16.
@@ -22,6 +24,7 @@ public interface UserDataContract  {
         void initilizeRecyclerView();
         void showIndicator(boolean active);
         void showBillingDetail(List<MultipleBillingItem> list);
+        void updateDistrict(List<District> districts, boolean problem);
     }
 
     interface Presenter extends BasePresenter {
@@ -31,5 +34,16 @@ public interface UserDataContract  {
         RealmResults<Billing> loadBillingsLocal();
         void loadBillingDetail(String orderId);
         void showBillingConfirm(List<MultipleOrderBillingItem> list);
+        void loadDistricts(String idCity);
+        void loadCities();
+
+        void updateBillingAddress(
+                String userId,
+                String name,
+                String phone,
+                String cityid,
+                String districtid,
+                String address
+        );
     }
 }

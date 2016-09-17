@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 
 /**
@@ -79,6 +80,11 @@ public class UserDataBillingInfoFragment extends BaseFragment implements UserDat
 
     @Override
     public void showBillingDetail(List<MultipleBillingItem> list) {
+
+    }
+
+    @Override
+    public void updateDistrict(List<District> districts, boolean problem) {
 
     }
 

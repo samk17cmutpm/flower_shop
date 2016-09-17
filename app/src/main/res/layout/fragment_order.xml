@@ -58,7 +58,8 @@
                         android:text="Thông tin người gởi"
                         android:id="@+id/textView24"
                         android:textColor="@color/primary_text"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginBottom="10dp" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"

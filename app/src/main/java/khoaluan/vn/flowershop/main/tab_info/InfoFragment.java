@@ -153,10 +153,9 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                 activity.startActivity(intent);
                 break;
             case R.id.rl_payment_address:
-                MessageUtils.showLong(activity, "Comming Soon");
-//                intent = new Intent(activity, UserDataActivity.class);
-//                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.PAYMENT_ADDRESS));
-//                activity.startActivity(intent);
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.PAYMENT_ADDRESS));
+                activity.startActivity(intent);
                 break;
             case R.id.rl_delivery_address:
                 MessageUtils.showLong(activity, "Comming Soon");

@@ -1,5 +1,6 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
+import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.response.BankResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
@@ -103,4 +104,18 @@ public interface OrderClient {
 
     @GET("api/v1/bank-account/get-account")
     Observable<Response<BankResponse>> getBanks();
+
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-billing-address")
+    Observable<Response<BillingAdressResponse>> updateBillingAddress(
+            @Field("userId") String userId,
+            @Field("name") String name,
+            @Field("phone") String phone,
+            @Field("cityid") String cityid,
+            @Field("districtid") String districtid,
+            @Field("address") String address
+    );
+
+    @GET("api/v1/account/get-my-billing-address/{userId}")
+    Observable<Response<BillingAdressResponse>> getBillingAddress(@Path("userId") String userId);
 }
