@@ -115,8 +115,9 @@ public class OrderPresenter implements OrderContract.Presenter{
                         view.showIndicator(null, false);
                         if (success) {
                             RealmBillingUtils.updateBillingAddressDTO(billingAddressDTO);
-                            if (isInvoice)
+                            if (isInvoice) {
                                 view.sendInvoice();
+                            }
                             else
                                 view.sendDataShipping();
                         }
@@ -139,7 +140,7 @@ public class OrderPresenter implements OrderContract.Presenter{
     }
 
     @Override
-    public void setShippingOrder(String cartId, String userId, String name, String phone, String mail, String cityid, String districtid, final String address) {
+    public void setShippingOrder(String cartId, final String userId, final String name, final String phone, String mail, final String cityid, final String districtid, final String address, final boolean isSaveTemplate) {
         Observable<Response<ShippingAdressResponse>> observable =
                 client.setShippingOrder(cartId, userId, name, phone, mail, cityid, districtid, address);
 
@@ -153,15 +154,20 @@ public class OrderPresenter implements OrderContract.Presenter{
                         view.showIndicator(null, false);
                         if (success) {
                             RealmBillingUtils.updateShippingAddressDTO(shippingAddressDTO);
-                            if (view.isEdited()) {
-                                MessageUtils.showLong(activity, "Cập nhập thành công ");
-                                ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.CONFIRM, false));
+
+                            if (isSaveTemplate) {
+                                view.showIndicator("Đang tạo mẩu mới", true);
+                                setNewShippingAddress(userId, name, phone, cityid, districtid, address);
                             } else {
-                                MessageUtils.showLong(activity, "Đã lưu trữ thành công ");
-                                ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.EXTRA, false));
+                                if (view.isEdited()) {
+                                    MessageUtils.showLong(activity, "Cập nhập thành công ");
+                                    ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.CONFIRM, false));
+                                } else {
+                                    MessageUtils.showLong(activity, "Đã lưu trữ thành công ");
+                                    ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.EXTRA, false));
+                                }
+
                             }
-
-
                         }
 
                     }
@@ -236,14 +242,11 @@ public class OrderPresenter implements OrderContract.Presenter{
     }
 
     @Override
-    public void setInvoiceAddress(String userId, String companyName, String taxCode, String address) {
+    public void setInvoiceAddress(String cartId, String userId, String companyName, String taxCode, String address, final boolean isSaveTemplater) {
 
-    }
-
-    @Override
-    public void setInvoiceAddress(InvoiceRequest invoiceAddress) {
         Observable<Response<InvoiceAddressDTOResponse>> observable =
-                client.setInvoice(invoiceAddress);
+                client.setInvoice(cartId, userId, companyName, taxCode, address);
+
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -255,6 +258,56 @@ public class OrderPresenter implements OrderContract.Presenter{
                         view.showIndicator(null, false);
                         if (invoiceAddressDTOResponse.isSuccess()) {
                             RealmBillingUtils.updateInvoiceAddressDTO(invoiceAddressDTOResponse.getResult());
+                            if (isSaveTemplater) {
+                                view.saveNewInvoiceTemplate();
+                            } else
+                                view.sendDataShipping();
+                        } else {
+                            MessageUtils.showLong(activity, "Địa chỉ công ty trong phần thêm hóa đơn thuế không đúng, vui lòng kiểm tra lại");
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(null, false);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
+                    }
+
+                    @Override
+                    public void onNext(Response<InvoiceAddressDTOResponse> invoiceAddressDTOResponseResponse) {
+                        if (invoiceAddressDTOResponseResponse.isSuccessful()) {
+                            invoiceAddressDTOResponse = invoiceAddressDTOResponseResponse.body();
+                        }
+                    }
+                });
+
+
+
+    }
+
+    @Override
+    public void setInvoiceAddress(InvoiceRequest invoiceAddress) {
+
+    }
+
+    @Override
+    public void setNewInvoiceAddress(InvoiceRequest invoiceRequest) {
+        Observable<Response<InvoiceAddressDTOResponse>> observable =
+                client.setInvoice(invoiceRequest);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<InvoiceAddressDTOResponse>>() {
+                    private InvoiceAddressDTOResponse invoiceAddressDTOResponse;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(null, false);
+                        if (invoiceAddressDTOResponse.isSuccess()) {
+                            List<InvoiceAddressDTO> list = new ArrayList<InvoiceAddressDTO>();
+                            list.add(invoiceAddressDTOResponse.getResult());
+                            RealmAddressUtills.saveInvoiceAddressDTO(list);
                             view.sendDataShipping();
                         } else {
                             MessageUtils.showLong(activity, "Địa chỉ công ty trong phần thêm hóa đơn thuế không đúng, vui lòng kiểm tra lại");
@@ -273,6 +326,48 @@ public class OrderPresenter implements OrderContract.Presenter{
                         if (invoiceAddressDTOResponseResponse.isSuccessful()) {
                             invoiceAddressDTOResponse = invoiceAddressDTOResponseResponse.body();
                         }
+                    }
+                });
+
+    }
+
+    @Override
+    public void setNewShippingAddress(String userId, String name, String phone, String cityid, String districtid, String address) {
+        Observable<Response<ShippingAdressResponse>> observable =
+                client.updateShippingAddress(
+                        userId, name, phone, cityid, districtid, address
+                );
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<ShippingAdressResponse>>() {
+                    private ShippingAdressResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(null, false);
+                        List<ShippingAddressDTO> list = new ArrayList<ShippingAddressDTO>();
+                        list.add(response.getResult());
+                        RealmAddressUtills.saveShippingAddressDTO(list);
+                        if (view.isEdited()) {
+                            MessageUtils.showLong(activity, "Cập nhập thành công ");
+                            ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.CONFIRM, false));
+                        } else {
+                            MessageUtils.showLong(activity, "Đã lưu trữ thành công ");
+                            ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.EXTRA, false));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.showIndicator(null, false);
+                    }
+
+                    @Override
+                    public void onNext(Response<ShippingAdressResponse> shippingAdressResponseResponse) {
+                        if (shippingAdressResponseResponse.isSuccessful())
+                            response = shippingAdressResponseResponse.body();
                     }
                 });
     }

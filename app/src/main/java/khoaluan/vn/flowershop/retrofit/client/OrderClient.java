@@ -72,8 +72,9 @@ public interface OrderClient {
     );
 
     @FormUrlEncoded
-    @POST("api/v1/account/update-my-invoice-address")
+    @POST("api/v1/product/update-invoice-address")
     Observable<Response<InvoiceAddressDTOResponse>> setInvoice(
+            @Field("cartId") String cartId,
             @Field("userId") String userId,
             @Field("companyName") String companyName,
             @Field("taxCode") String taxCode,

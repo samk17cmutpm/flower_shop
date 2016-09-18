@@ -42,6 +42,9 @@ public interface OrderContract {
         void editFormExtra(ExtraInformationDTO extraInformationDTO);
 
         boolean isEdited();
+
+        void saveNewInvoiceTemplate();
+        void saveNewShippingAdress();
     }
 
     interface Presenter extends BasePresenter {
@@ -66,7 +69,7 @@ public interface OrderContract {
                              String mail,
                              String cityid,
                              String districtid,
-                             String address);
+                             String address, boolean isSaveTemplate);
 
 
         void setInfoOrder(String cartId,
@@ -78,15 +81,25 @@ public interface OrderContract {
                               int paymentId);
 
         void setInvoiceAddress(
+                String cartId,
                 String userId,
                 String companyName,
                 String taxCode,
-                String address
+                String address,
+                boolean isSaveTemplate
         );
 
         void setInvoiceAddress(
                 InvoiceRequest invoiceRequest
         );
+
+        void setNewInvoiceAddress(
+                InvoiceRequest invoiceRequest
+        );
+
+
+        void setNewShippingAddress(String userId, String name, String phone, String cityid, String districtid, String address);
+
 
         void makeAnOrder();
 

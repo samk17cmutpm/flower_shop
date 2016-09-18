@@ -201,6 +201,16 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
     }
 
     @Override
+    public void saveNewInvoiceTemplate() {
+
+    }
+
+    @Override
+    public void saveNewShippingAdress() {
+
+    }
+
+    @Override
     public void setPresenter(OrderContract.Presenter presenter) {
         this.presenter = presenter;
     }

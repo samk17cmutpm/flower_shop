@@ -730,11 +730,12 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         String addressRc = this.addressRc.getText().toString();
 
         showIndicator("Đang tạo đơn hàng ...", true);
-        presenter.setShippingOrder(cartId, userId, fullNameRc, phoneRc, email, cityIdRc, districtsRc, addressRc);
+        presenter.setShippingOrder(cartId, userId, fullNameRc, phoneRc, email, cityIdRc, districtsRc, addressRc, checkBoxSaveNewRc.isChecked());
     }
 
     @Override
     public void sendInvoice() {
+        String cartId = CartSharedPrefrence.getCartId(getActivity());
         String userId = UserUtils.getUser(getActivity()).getId();
         String cityId = getIdCity(spinnerCities.getText().toString());
         String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
@@ -743,7 +744,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         String companyAddress = this.companyAddress.getText().toString();
 
         showIndicator("Đang tạo hóa đơn ...", true);
-        presenter.setInvoiceAddress(new InvoiceRequest(userId, companyName, idBilling, companyAddress));
+        presenter.setInvoiceAddress(cartId, userId, companyName, idBilling, companyAddress, checkBoxSaveNewBill.isChecked());
 
     }
 
@@ -788,6 +789,27 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public boolean isEdited() {
         return actionDefined.isEdit();
+    }
+
+    @Override
+    public void saveNewInvoiceTemplate() {
+
+
+        String userId = UserUtils.getUser(getActivity()).getId();
+        String cityId = getIdCity(spinnerCities.getText().toString());
+        String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
+        String idBilling = this.idBilling.getText().toString();
+        String companyName = this.companyName.getText().toString();
+        String companyAddress = this.companyAddress.getText().toString();
+
+        showIndicator("Đang luư mẩu hóa đơn ...", true);
+        presenter.setNewInvoiceAddress(new InvoiceRequest(userId, companyName, idBilling, companyAddress));
+
+    }
+
+    @Override
+    public void saveNewShippingAdress() {
+
     }
 
     @Override
