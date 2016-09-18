@@ -12,7 +12,10 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import khoaluan.vn.flowershop.font_support.CustomViewWithTypefaceSupport;
+import khoaluan.vn.flowershop.font_support.TextField;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by samnguyen on 7/19/16.
@@ -27,6 +30,13 @@ public class Application extends android.app.Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/roboto_light.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .addCustomViewWithSetTypeface(CustomViewWithTypefaceSupport.class)
+                .addCustomStyle(TextField.class, R.attr.textFieldStyle)
+                .build()
+        );
         initializeImageLoader();
     }
 

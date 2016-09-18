@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
@@ -11,7 +12,7 @@ import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
-public class OrderActivity extends AppCompatActivity {
+public class OrderActivity extends BaseActivity {
     private OrderContract.Presenter presenter;
     private ActionDefined actionDefined;
     private OrderContract.View view;

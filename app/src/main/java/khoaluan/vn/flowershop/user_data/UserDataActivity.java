@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import khoaluan.vn.flowershop.Base;
+import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
@@ -16,7 +17,7 @@ import khoaluan.vn.flowershop.user_data.billings.UserDataBillingDetailFragment;
 import khoaluan.vn.flowershop.user_data.billings.UserDataBillingsFragment;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
-public class UserDataActivity extends AppCompatActivity implements Base{
+public class UserDataActivity extends BaseActivity implements Base{
 
     private UserDataContract.Presenter presenter;
     private ActionDefined actionDefined;

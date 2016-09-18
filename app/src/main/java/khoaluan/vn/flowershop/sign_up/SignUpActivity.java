@@ -7,10 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseActivity {
     private SignUpContract.Presenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

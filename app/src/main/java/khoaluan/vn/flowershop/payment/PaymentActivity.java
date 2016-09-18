@@ -7,10 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentActivity extends BaseActivity {
     private PaymentContract.Presenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,10 +11,11 @@ import android.view.View;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity {
 
     private SearchContract.Presenter presenter;
 
