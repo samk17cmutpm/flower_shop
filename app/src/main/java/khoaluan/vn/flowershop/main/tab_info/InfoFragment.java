@@ -177,10 +177,9 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                 startActivity(intent1);
                 break;
             case R.id.rl_idea:
-                MessageUtils.showLong(activity, "Comming Soon");
-//                intent = new Intent(activity, UserDataActivity.class);
-//                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.IDEA));
-//                activity.startActivity(intent);
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.IDEA));
+                activity.startActivity(intent);
                 break;
             case R.id.rl_sign_out:
                 new MaterialDialog.Builder(activity)

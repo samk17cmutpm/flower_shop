@@ -84,6 +84,15 @@ public interface UserDataContract  {
                 String address
         );
 
+        void sendFeedBack(
+                String userId,
+                String Email,
+                String Phone,
+                String FullName,
+                String Subject,
+                String Content
+        );
+
         void loadShippingAddressDTO(String userId);
         void loadInvoiceAddressDTO(String userId);
 

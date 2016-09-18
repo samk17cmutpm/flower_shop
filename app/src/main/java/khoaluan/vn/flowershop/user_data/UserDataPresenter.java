@@ -24,6 +24,7 @@ import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListInvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
+import khoaluan.vn.flowershop.data.response.RemoveCartResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
@@ -360,6 +361,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     private InvoiceAddressDTOResponse response;
                     @Override
                     public void onCompleted() {
+                        view.showIndicator(false, null);
                         MessageUtils.showLong(activity, "Đã tạo mới thành công");
 
                         Intent intent = new Intent(activity, UserDataActivity.class);
@@ -370,6 +372,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        MessageUtils.showLong(activity, "Không có kết nối internet, Vui lòng kiểm tra lại");
                         view.noInternetConnectTion();
                     }
 
@@ -393,6 +396,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     private InvoiceAddressDTOResponse response;
                     @Override
                     public void onCompleted() {
+                        view.showIndicator(false, null);
                         MessageUtils.showLong(activity, "Đã cập nhập thành công");
 
                         Intent intent = new Intent(activity, UserDataActivity.class);
@@ -402,14 +406,48 @@ public class UserDataPresenter implements UserDataContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.showIndicator(false, null);
                         e.printStackTrace();
-                        view.noInternetConnectTion();
+                        MessageUtils.showLong(activity, "Không có kết nối internet, Vui lòng kiểm tra lại");
                     }
 
                     @Override
                     public void onNext(Response<InvoiceAddressDTOResponse> invoiceAddressDTOResponseResponse) {
                         if (invoiceAddressDTOResponseResponse.isSuccessful())
                             response = invoiceAddressDTOResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void sendFeedBack(String userId, String Email, String Phone, String FullName, String Subject, String Content) {
+        Observable<Response<RemoveCartResponse>> observable =
+                client.feedBack(userId, Email, Phone, FullName, Subject, Content);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<RemoveCartResponse>>() {
+                    private RemoveCartResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false, null);
+                        if (response.getResult()) {
+                            MessageUtils.showLong(activity, "Đã đóng góp ý kiến thành công");
+                            ActionUtils.go(activity, 4);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(false, null);
+                        MessageUtils.showLong(activity, "Không có kết nối internet, Vui lòng kiểm tra lại");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(Response<RemoveCartResponse> removeCartResponseResponse) {
+                        response = removeCartResponseResponse.body();
                     }
                 });
     }
