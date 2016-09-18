@@ -45,7 +45,8 @@
                     android:layout_alignBottom="@+id/iv_avatar"
                     android:layout_toRightOf="@+id/iv_avatar"
                     android:layout_toEndOf="@+id/iv_avatar"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -88,7 +89,8 @@
                     android:layout_alignBottom="@+id/imageView3"
                     android:layout_toRightOf="@+id/imageView3"
                     android:layout_toEndOf="@+id/imageView3"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -131,7 +133,8 @@
                     android:layout_alignBottom="@+id/imageView5"
                     android:layout_toRightOf="@+id/imageView5"
                     android:layout_toEndOf="@+id/imageView5"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -174,7 +177,8 @@
                     android:layout_alignBottom="@+id/imageView7"
                     android:layout_toRightOf="@+id/imageView7"
                     android:layout_toEndOf="@+id/imageView7"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -217,7 +221,8 @@
                     android:layout_alignBottom="@+id/imageView9"
                     android:layout_toRightOf="@+id/imageView9"
                     android:layout_toEndOf="@+id/imageView9"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -260,7 +265,8 @@
                     android:layout_alignBottom="@+id/imageView13"
                     android:layout_toRightOf="@+id/imageView13"
                     android:layout_toEndOf="@+id/imageView13"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -303,7 +309,8 @@
                     android:layout_alignBottom="@+id/imageView11"
                     android:layout_toRightOf="@+id/imageView11"
                     android:layout_toEndOf="@+id/imageView11"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -346,7 +353,8 @@
                     android:layout_alignBottom="@+id/imageView15"
                     android:layout_toRightOf="@+id/imageView15"
                     android:layout_toEndOf="@+id/imageView15"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/primary_text" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -388,7 +396,8 @@
                 android:layout_alignBottom="@+id/imageView17"
                 android:layout_toRightOf="@+id/imageView17"
                 android:layout_toEndOf="@+id/imageView17"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/primary_text" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -430,7 +439,8 @@
                 android:layout_alignBottom="@+id/imageView19"
                 android:layout_toRightOf="@+id/imageView19"
                 android:layout_toEndOf="@+id/imageView19"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/primary_text" />
 
             <ImageView
                 android:layout_width="wrap_content"
