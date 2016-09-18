@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
@@ -46,6 +49,7 @@ import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import khoaluan.vn.flowershop.search.SearchActivity;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.CartUtils;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
 import retrofit2.Response;
@@ -82,26 +86,30 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initilizeToolBar();
-        setUpBottomTabBar(savedInstanceState);
-        setUpViewPager();
-        injectBottomTabsToViewPager();
 
-        categories = RealmCategoryUtils.all(RealmFlag.FLOWER);
-        categories.addChangeListener(new RealmChangeListener<RealmResults<Category>>() {
-            @Override
-            public void onChange(RealmResults<Category> element) {
-                loadFlowerCategories();
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        } else {
+            initilizeToolBar();
+            setUpBottomTabBar(savedInstanceState);
+            setUpViewPager();
+            injectBottomTabsToViewPager();
+
+            categories = RealmCategoryUtils.all(RealmFlag.FLOWER);
+            categories.addChangeListener(new RealmChangeListener<RealmResults<Category>>() {
+                @Override
+                public void onChange(RealmResults<Category> element) {
+                    loadFlowerCategories();
+                }
+            });
+
+            loadFlowerCategories();
+
+            actionDefined = (ActionDefined) getIntent().getParcelableExtra(Action.TAB);
+            if (actionDefined != null) {
+                viewPager.setCurrentItem(actionDefined.getGo(), false);
             }
-        });
-
-        loadFlowerCategories();
-
-        actionDefined = (ActionDefined) getIntent().getParcelableExtra(Action.TAB);
-        if (actionDefined != null) {
-            viewPager.setCurrentItem(actionDefined.getGo(), false);
         }
-
     }
 
     @Override
@@ -237,7 +245,22 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            new MaterialDialog.Builder(MainActivity.this)
+                    .title("Livizi")
+                    .content("Bạn muốn thoát khỏi ứng dụng ?")
+                    .positiveText("Có")
+                    .negativeText("Không")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .show();
         }
     }
 
@@ -253,4 +276,6 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
             categories.removeChangeListeners();
         super.onDestroy();
     }
+
+
 }

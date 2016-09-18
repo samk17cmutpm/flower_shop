@@ -10,6 +10,7 @@ import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
 public class OrderActivity extends BaseActivity {
@@ -53,7 +54,21 @@ public class OrderActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        RealmBillingUtils.clearBillingConfirm();
+        switch (actionDefined.getGo()) {
+            case ActionForOrder.INITIALIZE:
+                RealmBillingUtils.clearBillingConfirm();
+                ActionUtils.go(OrderActivity.this, 3);
+                break;
+            case ActionForOrder.EXTRA:
+                ActionUtils.goOrder(OrderActivity.this, new ActionDefined(ActionForOrder.INITIALIZE, true));
+                break;
+            case ActionForOrder.CONFIRM:
+                ActionUtils.goOrder(OrderActivity.this, new ActionDefined(ActionForOrder.EXTRA, true));
+                break;
+            case ActionForOrder.BANK:
+                ActionUtils.goOrder(OrderActivity.this, new ActionDefined(ActionForOrder.EXTRA, true));
+                break;
+        }
+
     }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 
 import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
 public class SignUpActivity extends BaseActivity {
@@ -27,6 +28,11 @@ public class SignUpActivity extends BaseActivity {
         }
 
         presenter = new SignUpPresenter(fragment, SignUpActivity.this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        ActionUtils.go(SignUpActivity.this, 4);
     }
 
 }

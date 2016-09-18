@@ -48,8 +48,12 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
                 holder.setText(R.id.tv_temp_cost, MoneyUtils.getMoney(countTotalMoney(item.getBilling().getCarts())))
                         .setText(R.id.tv_cost_ship, "0 VND")
                         .setText(R.id.tv_total, MoneyUtils.getMoney(countTotalMoney(item.getBilling().getCarts())))
-                        .setText(R.id.tv_date, item.getBilling().getExtraInformationDTO().getDataDelivery() + "")
                         .setText(R.id.tv_method_payment, item.getBilling().getExtraInformationDTO().getPaymentMethodString());
+
+                if (item.getBilling().getExtraInformationDTO() != null)
+                    holder.setText(R.id.tv_date, item.getBilling().getExtraInformationDTO().getDataDelivery() + "");
+                else
+                    holder.setText(R.id.tv_date, "Hiện tại chưa thể xác định được ...");
 
                 TextView textViewList = (TextView) holder.getConvertView().findViewById(R.id.tv_list);
                 if (item.getBilling().getExtraInformationDTO().getPaymentMethodId() == 2) {

@@ -38,4 +38,8 @@ public class DetailsActivity extends BaseActivity implements Base {
         presenter = new DetailsPresenter(detailsFragment, DetailsActivity.this);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

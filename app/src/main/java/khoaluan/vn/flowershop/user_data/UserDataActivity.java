@@ -15,6 +15,7 @@ import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.user_data.billings.UserDataBillingDetailFragment;
 import khoaluan.vn.flowershop.user_data.billings.UserDataBillingsFragment;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
 public class UserDataActivity extends BaseActivity implements Base{
@@ -100,6 +101,11 @@ public class UserDataActivity extends BaseActivity implements Base{
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), (Fragment) view, R.id.contentFrame);
         presenter = new UserDataPresenter(UserDataActivity.this, view);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        ActionUtils.go(UserDataActivity.this, 4);
     }
 
 }
