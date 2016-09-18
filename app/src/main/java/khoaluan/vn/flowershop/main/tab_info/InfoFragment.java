@@ -3,6 +3,7 @@ package khoaluan.vn.flowershop.main.tab_info;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -168,10 +169,12 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                 activity.startActivity(intent);
                 break;
             case R.id.rl_policy:
-                MessageUtils.showLong(activity, "Comming Soon");
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://livizi.vn/Html/TermsOfUse.html"));
+                startActivity(browserIntent);
                 break;
             case R.id.rl_contact:
-                MessageUtils.showLong(activity, "Comming Soon");
+                Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://livizi.vn/Html/TermsOfUse.html"));
+                startActivity(intent1);
                 break;
             case R.id.rl_idea:
                 MessageUtils.showLong(activity, "Comming Soon");
