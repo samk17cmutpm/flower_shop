@@ -236,7 +236,7 @@
                             android:text="Lưu vào mẩu mới"
                             android:id="@+id/check_box_save_new_bill"
                             android:layout_gravity="right"
-                            android:visibility="invisible" />
+                            android:visibility="visible" />
 
 
                     </LinearLayout>
@@ -277,7 +277,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
                             android:textColor="@color/primary"
-                            android:visibility="invisible" />
+                            android:visibility="visible" />
                     </RelativeLayout>
 
                     <CheckBox
@@ -386,7 +386,7 @@
                             android:text="Lưu vào mẫu mới"
                             android:id="@+id/check_box_save_new_rc"
                             android:layout_gravity="right"
-                            android:visibility="invisible" />
+                            android:visibility="visible" />
 
 
                     </LinearLayout>

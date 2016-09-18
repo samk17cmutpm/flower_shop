@@ -92,5 +92,12 @@ public interface OrderContract {
 
         void loadBanks();
 
+
+        void loadInvoiceAddressDTO(String userId);
+
+        void loadShippingAddressDTO(String userId);
+
+        void createInvoiceAddress(String userId, String companyName, String taxCode, String address);
+
     }
 }

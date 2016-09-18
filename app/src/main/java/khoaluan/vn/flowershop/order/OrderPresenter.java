@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.order;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -13,9 +14,12 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
+import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
+import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.response.BankResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
@@ -24,15 +28,18 @@ import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
 import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
+import khoaluan.vn.flowershop.data.response.ListInvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmBankUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.OrderClient;
+import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
 import retrofit2.Response;
@@ -350,6 +357,70 @@ public class OrderPresenter implements OrderContract.Presenter{
                     }
                 });
 
+    }
+
+    @Override
+    public void loadInvoiceAddressDTO(String userId) {
+        Observable<Response<ListInvoiceAddressDTOResponse>> observable =
+                client.getInvoiceAddress(userId);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<ListInvoiceAddressDTOResponse>>() {
+                    private ListInvoiceAddressDTOResponse response;
+                    @Override
+                    public void onCompleted() {
+                        RealmAddressUtills.updateAllInvoiceDTO(response.getResult());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(Response<ListInvoiceAddressDTOResponse> listInvoiceAddressDTOResponseResponse) {
+                        if (listInvoiceAddressDTOResponseResponse.isSuccessful())
+                            response = listInvoiceAddressDTOResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void loadShippingAddressDTO(String userId) {
+
+    }
+
+    @Override
+    public void createInvoiceAddress(String userId, String companyName, String taxCode, String address) {
+        Observable<Response<InvoiceAddressDTOResponse>> observable =
+                client.updateInvoiceAddress(userId, companyName, taxCode, address);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<InvoiceAddressDTOResponse>>() {
+                    private InvoiceAddressDTOResponse response;
+                    @Override
+                    public void onCompleted() {
+                        MessageUtils.showLong(activity, "Đã tạo mới thành công");
+                        List<InvoiceAddressDTO> list = new ArrayList<InvoiceAddressDTO>();
+                        list.add(response.getResult());
+                        RealmAddressUtills.saveInvoiceAddressDTO(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        MessageUtils.showLong(activity, "Không có kết nối internet, Vui lòng kiểm tra lại");
+                    }
+
+                    @Override
+                    public void onNext(Response<InvoiceAddressDTOResponse> invoiceAddressDTOResponseResponse) {
+                        if (invoiceAddressDTOResponseResponse.isSuccessful())
+                            response = invoiceAddressDTOResponseResponse.body();
+                    }
+                });
     }
 
 

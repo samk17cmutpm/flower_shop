@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -49,9 +51,13 @@ import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
+import khoaluan.vn.flowershop.user_data.billings.InvoiceAdapter;
+import khoaluan.vn.flowershop.user_data.billings.ShippingAddressAdapter;
 import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -138,6 +144,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @BindView(R.id.pay)
     Button buttonPay;
 
+
+
     private ExpandableLayout expandableLayout;
     private ExpandableLayout expandableLayoutRc;
 
@@ -152,6 +160,15 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     private Billing billing;
 
     private ActionDefined actionDefined;
+
+    private InvoiceAdapter invoiceAdapter;
+    private ShippingAddressAdapter shippingAddressAdapter;
+
+    private RealmResults<InvoiceAddressDTO> invoiceAddressDTOs;
+    private RealmResults<ShippingAddressDTO> shippingAddressDTOs;
+
+    private MaterialDialog materialDialogInvoice;
+    private MaterialDialog materialDialogShippingAddress;
 
     public InitializeFragment() {
         // Required empty public constructor
@@ -260,8 +277,10 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                     setUpBilling(b);
                     if (b) {
                         expandableLayout.expand(true);
+                        textViewChooseFromBill.setVisibility(View.VISIBLE);
                     } else {
                         expandableLayout.collapse();
+                        textViewChooseFromBill.setVisibility(View.INVISIBLE);
                     }
             }
         });
@@ -274,15 +293,16 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                 if (isSenderInfoDone()) {
                     setSameRc(!b);
                     if (b) {
+                        textViewChooseFromRc.setVisibility(View.INVISIBLE);
                         expandableLayoutRc.collapse();
                     } else {
+                        textViewChooseFromRc.setVisibility(View.VISIBLE);
                         expandableLayoutRc.expand();
                     }
                 } else {
                     checkBoxSameRc.setChecked(false);
                     setSameRc(true);
                 }
-
             }
         });
 
@@ -308,6 +328,96 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                         if (isBillingDone())
                             sendDataBilling();
                 }
+
+            }
+        });
+
+        invoiceAddressDTOs = RealmAddressUtills.allInvoiceAddressDTO();
+        shippingAddressDTOs = RealmAddressUtills.allShippingAddressDTO();
+
+        if (shippingAddressDTOs.isEmpty())
+            presenter.loadShippingAddressDTO(UserUtils.getUser(getActivity()).getId());
+
+        if (invoiceAddressDTOs.isEmpty())
+            presenter.loadInvoiceAddressDTO(UserUtils.getUser(getActivity()).getId());
+
+        invoiceAdapter = new InvoiceAdapter(invoiceAddressDTOs);
+        shippingAddressAdapter = new ShippingAddressAdapter(shippingAddressDTOs);
+
+        invoiceAddressDTOs.addChangeListener(new RealmChangeListener<RealmResults<InvoiceAddressDTO>>() {
+            @Override
+            public void onChange(RealmResults<InvoiceAddressDTO> element) {
+                invoiceAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+        shippingAddressDTOs.addChangeListener(new RealmChangeListener<RealmResults<ShippingAddressDTO>>() {
+            @Override
+            public void onChange(RealmResults<ShippingAddressDTO> element) {
+                shippingAddressAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+        materialDialogInvoice = new MaterialDialog.Builder(getActivity())
+                .title(R.string.order_invoice)
+                .adapter(invoiceAdapter, null)
+                .autoDismiss(true).build();
+
+        materialDialogShippingAddress = new MaterialDialog.Builder(getActivity())
+                .title(R.string.order_invoice)
+                .adapter(shippingAddressAdapter, null)
+                .autoDismiss(true).build();
+
+        textViewChooseFromBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (invoiceAddressDTOs.isEmpty())
+                    MessageUtils.showLong(getActivity(), "Hiện tại bạn chưa có mẩu nào");
+                else
+                    materialDialogInvoice.show();
+
+            }
+        });
+
+        textViewChooseFromRc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shippingAddressDTOs.isEmpty())
+                    MessageUtils.showLong(getActivity(), "Hiện tại bạn chưa có mẩu nào");
+                else
+                    materialDialogShippingAddress.show();
+            }
+        });
+
+        invoiceAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+                companyName.setText(invoiceAddressDTOs.get(i).getCompanyName());
+                idBilling.setText(invoiceAddressDTOs.get(i).getTaxCode());
+                companyAddress.setText(invoiceAddressDTOs.get(i).getAddress());
+                materialDialogInvoice.dismiss();
+            }
+        });
+
+        shippingAddressAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int i) {
+
+                fullNameRc.setText(shippingAddressDTOs.get(i).getName());
+                spinnerCitiesRc.setText(shippingAddressDTOs.get(i).getCityString());
+                spinnerDictrictsRc.setText(shippingAddressDTOs.get(i).getDistrictString());
+                phoneRc.setText(shippingAddressDTOs.get(i).getPhone());
+                addressRc.setText(shippingAddressDTOs.get(i).getAddress());
+
+                fullNameRc.setEnabled(true);
+                spinnerCitiesRc.setEnabled(true);
+                spinnerDictrictsRc.setEnabled(true);
+                phoneRc.setEnabled(true);
+                addressRc.setEnabled(true);
+
+                materialDialogShippingAddress.dismiss();
 
             }
         });
