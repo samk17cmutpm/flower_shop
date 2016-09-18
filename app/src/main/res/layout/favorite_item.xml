@@ -22,7 +22,7 @@
                 android:layout_height="100dp"
                 android:id="@+id/im_flower"
                 android:src="@drawable/rose"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />

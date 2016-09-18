@@ -22,7 +22,7 @@
                 android:id="@+id/im_flower"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/loading_stripes"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
                 android:layout_above="@+id/relativeLayout2"
                 android:background="@color/white" />
 

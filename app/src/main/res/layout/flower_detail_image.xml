@@ -12,5 +12,5 @@
         android:id="@+id/im_flower"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitXY" />
+        android:scaleType="fitCenter" />
 </RelativeLayout>

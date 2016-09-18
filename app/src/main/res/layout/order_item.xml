@@ -23,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:src="@drawable/loading_stripes"
-            android:scaleType="center" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:layout_width="wrap_content"
