@@ -22,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@drawable/loading_stripes"
+            android:src="@drawable/livizi"
             android:scaleType="fitCenter" />
 
         <TextView
