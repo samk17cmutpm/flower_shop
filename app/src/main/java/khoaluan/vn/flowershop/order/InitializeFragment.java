@@ -813,6 +813,14 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     }
 
     @Override
+    public boolean isExistedExtraInfo() {
+        if (isEdited())
+            if (billing.getExtraInformationDTO() != null)
+                return true;
+        return false;
+    }
+
+    @Override
     public void setPresenter(OrderContract.Presenter presenter) {
         this.presenter = presenter;
     }

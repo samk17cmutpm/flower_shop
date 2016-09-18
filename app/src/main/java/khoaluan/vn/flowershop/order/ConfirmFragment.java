@@ -211,6 +211,11 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
     }
 
     @Override
+    public boolean isExistedExtraInfo() {
+        return false;
+    }
+
+    @Override
     public void setPresenter(OrderContract.Presenter presenter) {
         this.presenter = presenter;
     }

@@ -249,6 +249,11 @@ public class BankFragment extends BaseFragment implements OrderContract.View, Co
     }
 
     @Override
+    public boolean isExistedExtraInfo() {
+        return false;
+    }
+
+    @Override
     public void setPresenter(OrderContract.Presenter presenter) {
         this.presenter = presenter;
     }

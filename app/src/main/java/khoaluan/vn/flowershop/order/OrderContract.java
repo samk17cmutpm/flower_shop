@@ -45,6 +45,8 @@ public interface OrderContract {
 
         void saveNewInvoiceTemplate();
         void saveNewShippingAdress();
+
+        boolean isExistedExtraInfo();
     }
 
     interface Presenter extends BasePresenter {

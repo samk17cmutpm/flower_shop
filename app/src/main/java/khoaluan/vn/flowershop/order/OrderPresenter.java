@@ -159,7 +159,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                                 view.showIndicator("Đang tạo mẩu mới", true);
                                 setNewShippingAddress(userId, name, phone, cityid, districtid, address);
                             } else {
-                                if (view.isEdited()) {
+                                if (view.isEdited() && view.isExistedExtraInfo()) {
                                     MessageUtils.showLong(activity, "Cập nhập thành công ");
                                     ActionUtils.goOrder(activity, new ActionDefined(ActionForOrder.CONFIRM, false));
                                 } else {
