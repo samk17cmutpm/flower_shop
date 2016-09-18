@@ -18,6 +18,7 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +73,7 @@ public class UserDataIdeaFragment extends BaseFragment implements UserDataContra
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                ActionUtils.go(getActivity(), 4);
             }
         });
     }

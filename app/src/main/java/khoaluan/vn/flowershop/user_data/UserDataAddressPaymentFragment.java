@@ -35,6 +35,7 @@ import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -123,7 +124,7 @@ public class UserDataAddressPaymentFragment extends BaseFragment implements User
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                ActionUtils.go(getActivity(), 4);
             }
         });
     }

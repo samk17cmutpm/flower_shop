@@ -69,6 +69,21 @@ public interface UserDataContract  {
                 String address
         );
 
+        void createInvoiceAddress(
+                String userId,
+                String companyName,
+                String taxCode,
+                String address
+        );
+
+        void updateInvoiceAddress(
+                String id,
+                String userId,
+                String companyName,
+                String taxCode,
+                String address
+        );
+
         void loadShippingAddressDTO(String userId);
         void loadInvoiceAddressDTO(String userId);
 

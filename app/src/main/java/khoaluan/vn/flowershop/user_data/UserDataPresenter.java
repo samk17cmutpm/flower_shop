@@ -21,6 +21,7 @@ import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.CityResponse;
 import khoaluan.vn.flowershop.data.response.DistrictResponse;
+import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListInvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
@@ -343,6 +344,72 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     public void onNext(Response<ShippingAdressResponse> shippingAdressResponseResponse) {
                         if (shippingAdressResponseResponse.isSuccessful())
                             response = shippingAdressResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void createInvoiceAddress(String userId, String companyName, String taxCode, String address) {
+        Observable<Response<InvoiceAddressDTOResponse>> observable =
+                orderClient.updateInvoiceAddress(userId, companyName, taxCode, address);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<InvoiceAddressDTOResponse>>() {
+                    private InvoiceAddressDTOResponse response;
+                    @Override
+                    public void onCompleted() {
+                        MessageUtils.showLong(activity, "Đã tạo mới thành công");
+
+                        Intent intent = new Intent(activity, UserDataActivity.class);
+                        intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLING_INFO));
+                        activity.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<InvoiceAddressDTOResponse> invoiceAddressDTOResponseResponse) {
+                        if (invoiceAddressDTOResponseResponse.isSuccessful())
+                            response = invoiceAddressDTOResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void updateInvoiceAddress(String id, String userId, String companyName, String taxCode, String address) {
+        Observable<Response<InvoiceAddressDTOResponse>> observable =
+                orderClient.updateInvoiceAddress(userId, companyName, taxCode, address);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<InvoiceAddressDTOResponse>>() {
+                    private InvoiceAddressDTOResponse response;
+                    @Override
+                    public void onCompleted() {
+                        MessageUtils.showLong(activity, "Đã cập nhập thành công");
+
+                        Intent intent = new Intent(activity, UserDataActivity.class);
+                        intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLING_INFO));
+                        activity.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<InvoiceAddressDTOResponse> invoiceAddressDTOResponseResponse) {
+                        if (invoiceAddressDTOResponseResponse.isSuccessful())
+                            response = invoiceAddressDTOResponseResponse.body();
                     }
                 });
     }

@@ -27,6 +27,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 
 /**
@@ -66,7 +67,7 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
     public static AddAndEditInvoiceAddressFragment newInstance(InvoiceAddressDTO invoiceAddressDTO) {
         AddAndEditInvoiceAddressFragment fragment = new AddAndEditInvoiceAddressFragment();
         Bundle args = new Bundle();
-        args.putParcelable(Action.ACTION_FOR_SHIPPING_ADDRESS, invoiceAddressDTO);
+        args.putParcelable(Action.ACTION_FOR_INVOICE_ADDRESS, invoiceAddressDTO);
         fragment.setArguments(args);
         return fragment;
     }
@@ -110,12 +111,12 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Mẩu địa chỉ thanh toán");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Mẩu hóa đơn");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserDataActivity.class);
-                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.DELIVERY_ADDRESS));
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLING_INFO));
                 getActivity().startActivity(intent);
                 getActivity().finish();
             }
@@ -132,14 +133,60 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isEdit) {
-
-                } else {
-
+                if (isSenderInfoDone()) {
+                    showIndicator(true,"Đang cập nhập dữ liệu");
+                    if (isEdit) {
+                        presenter.updateInvoiceAddress(
+                                invoiceAddressDTO.getId(),
+                                UserUtils.getUser(getActivity()).getId(),
+                                fullName.getText().toString(),
+                                phone.getText().toString(),
+                                address.getText().toString()
+                        );
+                    } else {
+                        presenter.createInvoiceAddress(
+                                UserUtils.getUser(getActivity()).getId(),
+                                fullName.getText().toString(),
+                                phone.getText().toString(),
+                                address.getText().toString()
+                        );
+                    }
                 }
+
             }
         });
 
+    }
+
+    private boolean isSenderInfoDone() {
+        View focusView = null;
+        boolean cancel = false;
+        if (address.getText().toString().isEmpty()) {
+            address.setError(getString(R.string.error_field_required));
+
+            focusView = this.address;
+            cancel = true;
+        }
+
+        if (phone.getText().toString().isEmpty()) {
+            phone.setError(getString(R.string.error_field_required));
+
+            focusView = this.phone;
+            cancel = true;
+        }
+
+        if (fullName.getText().toString().isEmpty()) {
+            fullName.setError(getString(R.string.error_field_required));
+
+            focusView = this.fullName;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        }
+
+        return !cancel;
     }
 
     @Override
@@ -180,7 +227,7 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
 
     @Override
     public void setPresenter(UserDataContract.Presenter presenter) {
-
+        this.presenter = presenter;
     }
 
     @Override

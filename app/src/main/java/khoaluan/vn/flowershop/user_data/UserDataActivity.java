@@ -20,8 +20,6 @@ public class UserDataActivity extends AppCompatActivity implements Base{
 
     private UserDataContract.Presenter presenter;
     private ActionDefined actionDefined;
-    private ShippingAddressDTO shippingAddressDTO;
-    private InvoiceAddressDTO invoiceAddressDTO;
     private UserDataContract.View view;
     private Billing billing;
 

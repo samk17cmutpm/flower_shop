@@ -40,6 +40,7 @@ import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.user_data.billings.InvoiceAdapter;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
+import khoaluan.vn.flowershop.utils.ActionUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,7 +93,7 @@ public class UserDataBillingInfoFragment extends BaseFragment implements UserDat
         switch (item.getItemId()) {
             case R.id.add:
                 Intent intent = new Intent(activity, UserDataActivity.class);
-                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.SHIPPING_ADDRESS));
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.INVOICE_ADDRESS));
                 activity.startActivity(intent);
                 activity.finish();
                 // Handle this selection
@@ -221,7 +222,7 @@ public class UserDataBillingInfoFragment extends BaseFragment implements UserDat
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                ActionUtils.go(activity, 4);
             }
         });
     }

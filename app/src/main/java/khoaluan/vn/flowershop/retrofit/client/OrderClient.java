@@ -151,4 +151,26 @@ public interface OrderClient {
             @Field("address") String address
     );
 
+
+
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-invoice-address")
+    Observable<Response<InvoiceAddressDTOResponse>> updateInvoiceAddress (
+            @Field("id") String id,
+            @Field("userId") String userId,
+            @Field("companyName") String companyName,
+            @Field("taxCode") String taxCode,
+            @Field("address") String address
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/account/update-my-invoice-address")
+    Observable<Response<InvoiceAddressDTOResponse>> updateInvoiceAddress (
+            @Field("userId") String userId,
+            @Field("companyName") String companyName,
+            @Field("taxCode") String taxCode,
+            @Field("address") String address
+
+    );
 }
