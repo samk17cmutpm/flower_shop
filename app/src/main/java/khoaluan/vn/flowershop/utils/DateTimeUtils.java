@@ -15,6 +15,6 @@ public class DateTimeUtils {
         String year = delivery.substring(0, 4);
         String month = delivery.substring(5, 7);
         String day = delivery.substring(8, 10);
-        return "Tạp đơn hàng ngày " + day + " tháng " + month + " năm " + year;
+        return "Tạo đơn hàng ngày " + day + " tháng " + month + " năm " + year;
     }
 }

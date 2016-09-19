@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -91,6 +92,12 @@ public class FavoriteFragment extends BaseFragment implements FavoriteContract.V
 
         adapter = new FavoriteItemAdapter(activity, favoriteItems);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+
+        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_recycler_view,
+                (ViewGroup) recyclerView.getParent(), false);
+        TextView textView = (TextView) view_empty.findViewById(R.id.tv_empty);
+        textView.setText("Bạn chưa có sản phẩm yêu thích");
+        adapter.setEmptyView(view_empty);
 
 //        View viewEmpty = activity.getLayoutInflater().inflate(R.layout.empty_favorite,
 //                (ViewGroup) recyclerView.getParent(), false);

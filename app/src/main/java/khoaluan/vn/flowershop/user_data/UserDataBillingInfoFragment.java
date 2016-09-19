@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -176,6 +177,12 @@ public class UserDataBillingInfoFragment extends BaseFragment implements UserDat
                 activity.finish();
             }
         });
+
+        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_recycler_view,
+                (ViewGroup) recyclerView.getParent(), false);
+        TextView textView = (TextView) view_empty.findViewById(R.id.tv_empty);
+        textView.setText("Bạn chưa có hóa đơn thuế nào");
+        adapter.setEmptyView(view_empty);
     }
 
     @Override

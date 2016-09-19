@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -145,6 +146,12 @@ public class UserDataBillingsFragment extends BaseFragment implements UserDataCo
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(spaceProduct);
+
+        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_recycler_view,
+                (ViewGroup) recyclerView.getParent(), false);
+        TextView textView = (TextView) view_empty.findViewById(R.id.tv_empty);
+        textView.setText("Bạn chưa có hóa đơn nào");
+        adapter.setEmptyView(view_empty);
 
         billings.addChangeListener(new RealmChangeListener<RealmResults<Billing>>() {
             @Override

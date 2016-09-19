@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -122,6 +123,12 @@ public class NotifycationFragment extends BaseFragment implements NotifycationCo
                 adapter.openLoadMore(notifycations.size(), presenter.isHasNext());
             }
         });
+
+        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_recycler_view,
+                (ViewGroup) recyclerView.getParent(), false);
+        TextView textView = (TextView) view_empty.findViewById(R.id.tv_empty);
+        textView.setText("Bạn chưa có thông báo nào");
+        adapter.setEmptyView(view_empty);
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
         recyclerView.addItemDecoration(decoration);
