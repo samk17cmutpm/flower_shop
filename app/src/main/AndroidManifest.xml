@@ -83,6 +83,9 @@
             android:label="@string/title_activity_order"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8341a3edd71d469edbfa4e926c07ddc1dae4ff14" />
     </application>
 
 </manifest>
