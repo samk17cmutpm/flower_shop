@@ -44,6 +44,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
+import khoaluan.vn.flowershop.notifycation.NotifycationActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCategoryUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
@@ -236,6 +237,10 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
                 break;
             case R.id.item_samplebadge:
                 viewPager.setCurrentItem(3);
+                break;
+            case R.id.alarm:
+                Intent intentAlarm = new Intent(MainActivity.this, NotifycationActivity.class);
+                startActivity(intentAlarm);
                 break;
         }
         return super.onOptionsItemSelected(item);

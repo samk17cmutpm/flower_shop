@@ -17,11 +17,11 @@
     <application
         android:name=".Application"
         android:allowBackup="true"
-        tools:replace="android:icon"
         android:icon="@drawable/livizi"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -82,10 +82,16 @@
             android:name=".order.OrderActivity"
             android:label="@string/title_activity_order"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8341a3edd71d469edbfa4e926c07ddc1dae4ff14" />
+
+        <activity
+            android:name=".notifycation.NotifycationActivity"
+            android:label="@string/title_activity_notifycation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

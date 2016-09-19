@@ -6,6 +6,7 @@ import khoaluan.vn.flowershop.data.request.UserSignUpRequest;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.ExtraInformationDTOResponse;
+import khoaluan.vn.flowershop.data.response.NotifycationResponse;
 import khoaluan.vn.flowershop.data.response.RemoveCartResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
 import retrofit2.Response;
@@ -54,6 +55,14 @@ public interface UserClient {
             @Field("FullName") String FullName,
             @Field("Subject") String Subject,
             @Field("Content") String Content
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/notification/get-notifications")
+    Observable<Response<NotifycationResponse>> getNotifycations(
+            @Field("UserId") String UserId,
+            @Field("CurrentPage") int CurrentPage,
+            @Field("PageSize") int PageSize
     );
 
 

@@ -14,4 +14,10 @@
         app:actionLayout="@layout/menu_action_item_badge"
         app:showAsAction="always"
         android:title="Giỏ Hàng Của Bạn" />
+
+    <item
+        android:id="@+id/alarm"
+        android:icon="@drawable/alarm"
+        app:showAsAction="always"
+        android:title="Thông báo từ hệ thống" />
 </menu>

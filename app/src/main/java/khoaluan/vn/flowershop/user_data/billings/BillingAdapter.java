@@ -22,6 +22,6 @@ public class BillingAdapter extends BaseQuickAdapter<Billing> {
     protected void convert(BaseViewHolder baseViewHolder, Billing billing) {
         baseViewHolder.setText(R.id.tv_id, billing.getOrderCode())
                 .setText(R.id.tv_status, billing.getOrderStatusString())
-                .setText(R.id.tv_payment_dae, billing.getDateSetPayment());
+                .setText(R.id.tv_date, billing.getDateSetPayment());
     }
 }

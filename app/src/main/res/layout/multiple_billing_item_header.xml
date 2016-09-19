@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Đơn hàng: "
-            android:id="@+id/textView18"
+            android:id="@+id/tv_title"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -28,9 +28,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/tv_id"
-            android:layout_alignBottom="@+id/textView18"
-            android:layout_toRightOf="@+id/textView18"
-            android:layout_toEndOf="@+id/textView18"
+            android:layout_alignBottom="@+id/tv_title"
+            android:layout_toRightOf="@+id/tv_title"
+            android:layout_toEndOf="@+id/tv_title"
             android:layout_marginLeft="10dp"
             android:textColor="@color/primary" />
 

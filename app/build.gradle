@@ -49,6 +49,11 @@ dependencies {
     // Android SDK
     // Audience Network SDK. Only versions 4.6.0 and above are available
     // Account Kit
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.3@aar') {
+        transitive = true;
+    }
+
+
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
     compile 'com.roughike:bottom-bar:1.4.0'
@@ -78,11 +83,6 @@ dependencies {
     compile 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.3@aar') {
-        transitive = true;
-    }
-
-
 }
 apply plugin: 'com.google.gms.google-services'
 
