@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
+import khoaluan.vn.flowershop.rating.RatingAdapter;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
@@ -47,6 +49,7 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
         addItemType(MutipleDetailItem.SUGGESTION, R.layout.flower_detail_suggesstion);
         addItemType(MutipleDetailItem.ACTION, R.layout.flower_detail_action);
         addItemType(MutipleDetailItem.ADDRESS, R.layout.flower_detail_address);
+        addItemType(MutipleDetailItem.RATING, R.layout.flower_detail_rating);
     }
 
     @Override
@@ -123,6 +126,42 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
                     }
                 });
                 recyclerView.setAdapter(adapter);
+                break;
+
+            case MutipleDetailItem.RATING:
+                RatingAdapter ratingAdapter = new RatingAdapter(item.getRatings());
+                LinearLayoutManager linearRating = new LinearLayoutManager(activity);
+                RecyclerView recyclerViewRating = (RecyclerView) holder.getConvertView().findViewById(R.id.recycler_view);
+                recyclerViewRating.setHasFixedSize(true);
+                recyclerViewRating.setLayoutManager(linearRating);
+                recyclerViewRating.removeItemDecoration(spacesItemDecoration);
+                recyclerViewRating.addItemDecoration(spacesItemDecoration);
+                recyclerViewRating.setAdapter(ratingAdapter);
+
+                View view_empty_rating = activity.getLayoutInflater().inflate(R.layout.empty_for_rating,
+                        (ViewGroup) recyclerViewRating.getParent(), false);
+                TextView textView = (TextView) view_empty_rating.findViewById(R.id.tv_empty);
+                textView.setText("Chưa có nhận xét nào");
+
+                LinearLayout linearLayout = (LinearLayout) holder.getConvertView().findViewById(R.id.ln_more);
+                if (item.getRatings().isEmpty())
+                    linearLayout.setVisibility(View.GONE);
+
+                linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                ImageView imageViewAddRating = (ImageView) holder.getConvertView().findViewById(R.id.add_rating);
+                imageViewAddRating.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        
+                    }
+                });
+                ratingAdapter.setEmptyView(view_empty_rating);
                 break;
         }
     }

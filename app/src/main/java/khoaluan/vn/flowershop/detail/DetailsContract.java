@@ -8,6 +8,7 @@ import khoaluan.vn.flowershop.BaseView;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 
 /**
@@ -19,6 +20,7 @@ public interface DetailsContract {
         void showUI();
         void updateBadge(int number);
         void showIndicator(boolean active);
+        void updateRatings(List<Rating> ratings);
     }
 
     interface Presenter extends BasePresenter {
@@ -31,5 +33,6 @@ public interface DetailsContract {
         RealmResults<Flower> getFlowersCart();
 
         void addToCart(String idCart, String idProduct, boolean buyNow);
+        void loadRatingData(String ProductId);
     }
 }

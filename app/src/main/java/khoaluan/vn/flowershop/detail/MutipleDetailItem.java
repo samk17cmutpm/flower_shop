@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.util.List;
 
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
 
 /**
  * Created by samnguyen on 8/25/16.
@@ -18,10 +19,12 @@ public class MutipleDetailItem extends MultiItemEntity {
     public static final int SUGGESTION = 6;
     public static final int ACTION = 7;
     public static final int ADDRESS = 8;
+    public static final int RATING = 9;
 
     private Flower flower;
     private String title;
     private List<Flower> flowers;
+    private List<Rating> ratings;
 
     public MutipleDetailItem() {
     }
@@ -48,6 +51,14 @@ public class MutipleDetailItem extends MultiItemEntity {
 
     public void setFlowers(List<Flower> flowers) {
         this.flowers = flowers;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
     }
 }
 

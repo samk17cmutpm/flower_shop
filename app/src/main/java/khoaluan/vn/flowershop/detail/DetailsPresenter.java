@@ -10,13 +10,16 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.data.response.CartResponse;
+import khoaluan.vn.flowershop.data.response.RatingResponse;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.CartClient;
+import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
 import retrofit2.Response;
@@ -34,12 +37,14 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     private final Activity activity;
     private final Realm realm;
     private final CartClient client;
+    private final FlowerClient flowerClient;
     public DetailsPresenter(DetailsContract.View view, Activity activity) {
         this.view = view;
         this.activity = activity;
         this.view.setPresenter(this);
         this.realm = Realm.getDefaultInstance();
         this.client = ServiceGenerator.createService(CartClient.class);
+        this.flowerClient = ServiceGenerator.createService(FlowerClient.class);
     }
 
     @Override
@@ -115,6 +120,34 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
     }
 
+    @Override
+    public void loadRatingData(String ProductId) {
+        Observable<Response<RatingResponse>> observable =
+                flowerClient.getRatings(ProductId, 1, 5);
+
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<RatingResponse>>() {
+                    private RatingResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false);
+                        view.updateRatings(response.getResult());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(false);
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<RatingResponse> ratingResponseResponse) {
+                        if (ratingResponseResponse.isSuccessful())
+                            response = ratingResponseResponse.body();
+                    }
+                });
+    }
 
 
     @Override
@@ -149,6 +182,11 @@ public class DetailsPresenter implements DetailsContract.Presenter {
         MutipleDetailItem address = new MutipleDetailItem();
         address.setItemType(MutipleDetailItem.ADDRESS);
         items.add(address);
+
+        MutipleDetailItem rating = new MutipleDetailItem();
+        rating.setItemType(MutipleDetailItem.RATING);
+        rating.setRatings(new ArrayList<Rating>());
+        items.add(rating);
 
         if (flowerSuggesstion != null) {
             MutipleDetailItem title = new MutipleDetailItem();

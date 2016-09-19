@@ -5,8 +5,11 @@ import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.data.response.NewestResponse;
+import khoaluan.vn.flowershop.data.response.RatingResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -47,6 +50,14 @@ public interface FlowerClient {
 
     @GET("/api/v1/summary/get-summary")
     Observable<Response<NewestResponse>> getNewestData();
+
+    @FormUrlEncoded
+    @POST("api/v1/rating/get-rating-list")
+    Observable<Response<RatingResponse>> getRatings(
+            @Field("ProductId") String ProductId,
+            @Field("CurrentPage") int CurrentPage,
+            @Field("PageSize") int PageSize
+    );
 
 
 }

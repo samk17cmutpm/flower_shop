@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmChangeListener;
@@ -33,6 +35,7 @@ import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
@@ -66,6 +69,8 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    private List<MutipleDetailItem> list;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -129,6 +134,12 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         ButterKnife.bind(this, root);
         initilizeToolBar();
         showUI();
+
+        if (flower != null && flower.getId() != null) {
+            showIndicator(true);
+            presenter.loadRatingData(flower.getId());
+        }
+
         return root;
     }
 
@@ -146,7 +157,9 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new MutipleDetailItemAdapter(getActivity(), presenter.convertData(flower, flowerSuggesstion), presenter);
+        list = presenter.convertData(flower, flowerSuggesstion);
+
+        adapter = new MutipleDetailItemAdapter(getActivity(), list, presenter);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recyclerView.setAdapter(adapter);
 
@@ -169,6 +182,12 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
                 swipeRefreshLayout.setRefreshing(active);
             }
         });
+    }
+
+    @Override
+    public void updateRatings(List<Rating> ratings) {
+        list.get(6).getRatings().addAll(ratings);
+        adapter.notifyItemChanged(6);
     }
 
 

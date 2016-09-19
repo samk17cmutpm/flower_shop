@@ -110,4 +110,5 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
 
     <string name="order_invoice">Chọn từ mẩu</string>
     <string name="title_activity_notifycation">NotifycationActivity</string>
+    <string name="title_activity_rating">RatingActivity</string>
 </resources>
