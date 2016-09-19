@@ -224,7 +224,7 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
     public void updateBadge(int number) {
         ActionItemBadge.update(this, menu.findItem(R.id.item_samplebadge),
-                this.getResources().getDrawable(R.drawable.ic_shopping_cart),
+                this.getResources().getDrawable(R.drawable.shopping_cart),
                 ActionItemBadge.BadgeStyles.RED, number);
     }
 

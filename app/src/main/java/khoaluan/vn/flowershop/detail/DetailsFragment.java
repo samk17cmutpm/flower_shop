@@ -157,7 +157,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     @Override
     public void updateBadge(int number) {
         ActionItemBadge.update(activity, menu.findItem(R.id.item_samplebadge),
-                activity.getResources().getDrawable(R.drawable.ic_shopping_cart),
+                activity.getResources().getDrawable(R.drawable.shopping_cart),
                 ActionItemBadge.BadgeStyles.RED, number);
     }
 
