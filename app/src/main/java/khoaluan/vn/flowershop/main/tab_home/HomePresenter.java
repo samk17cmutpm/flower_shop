@@ -3,20 +3,17 @@ package khoaluan.vn.flowershop.main.tab_home;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Item;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Items;
 import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
-import khoaluan.vn.flowershop.data.response.FlowerResponse;
+import khoaluan.vn.flowershop.data.response.ListFlowerResponse;
 import khoaluan.vn.flowershop.data.response.NewestResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmAdvertisingUtils;
@@ -134,13 +131,13 @@ public class HomePresenter implements HomeContract.Presenter, Base{
 
     @Override
     public void loadTopProducts() {
-        Observable<Response<FlowerResponse>> observable =
+        Observable<Response<ListFlowerResponse>> observable =
                 client.getTopProducts();
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<FlowerResponse>>() {
+                .subscribe(new Subscriber<Response<ListFlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
@@ -160,7 +157,7 @@ public class HomePresenter implements HomeContract.Presenter, Base{
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
+                    public void onNext(Response<ListFlowerResponse> mostFlowerResponseResponse) {
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                         }

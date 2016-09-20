@@ -4,6 +4,7 @@ import khoaluan.vn.flowershop.data.request.SearchRequest;
 import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
+import khoaluan.vn.flowershop.data.response.ListFlowerResponse;
 import khoaluan.vn.flowershop.data.response.NewestResponse;
 import khoaluan.vn.flowershop.data.response.RatingListResponse;
 import khoaluan.vn.flowershop.data.response.RatingResponse;
@@ -25,10 +26,10 @@ public interface FlowerClient {
     Observable<Response<AdvertisingResponse>> getAdvertisingItems();
 
     @GET("/api/v1/product/get-top-products")
-    Observable<Response<FlowerResponse>> getTopProducts();
+    Observable<Response<ListFlowerResponse>> getTopProducts();
 
     @GET("/api/v1/product/get-best-products/{page}/{size}")
-    Observable<Response<FlowerResponse>> getFlowers(@Path("page") int page, @Path("size") int size);
+    Observable<Response<ListFlowerResponse>> getFlowers(@Path("page") int page, @Path("size") int size);
 
     @GET("/api/v1/flower/getcategories")
     Observable<Response<CategoryResponse>> getFlowerCategories();
@@ -37,17 +38,17 @@ public interface FlowerClient {
     Observable<Response<CategoryResponse>> getGiftCategories();
 
     @GET("/api/v1/product/searchproducts/{key}/{page}/{size}")
-    Observable<Response<FlowerResponse>> getFlowersBySearch(@Path("key") String key,
-                                                            @Path("page") int page,
-                                                            @Path("size") int size);
+    Observable<Response<ListFlowerResponse>> getFlowersBySearch(@Path("key") String key,
+                                                                @Path("page") int page,
+                                                                @Path("size") int size);
 
     @POST("/api/v1/product/search-products")
-    Observable<Response<FlowerResponse>> getFlowersBySearch(@Body SearchRequest searchRequest);
+    Observable<Response<ListFlowerResponse>> getFlowersBySearch(@Body SearchRequest searchRequest);
 
     @GET("/api/v1/product/get-products/{id}/{page}/{size}")
-    Observable<Response<FlowerResponse>> getFlowersByCategory(@Path("id") String id,
-                                                              @Path("page") int page,
-                                                              @Path("size") int size);
+    Observable<Response<ListFlowerResponse>> getFlowersByCategory(@Path("id") String id,
+                                                                  @Path("page") int page,
+                                                                  @Path("size") int size);
 
     @GET("/api/v1/summary/get-summary")
     Observable<Response<NewestResponse>> getNewestData();
@@ -67,6 +68,11 @@ public interface FlowerClient {
             @Field("ProductId") String ProductId,
             @Field("StarRating") int StarRating,
             @Field("Feedback") String Feedback
+    );
+
+    @GET("/api/v1/product/get-product-detail/{id}")
+    Observable<Response<FlowerResponse>> getFlowerDetails(
+            @Path("id") String id
     );
 
 

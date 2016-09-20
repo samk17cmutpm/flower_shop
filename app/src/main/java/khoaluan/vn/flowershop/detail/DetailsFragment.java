@@ -135,9 +135,12 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         initilizeToolBar();
         showUI();
 
-        if (flower != null && flower.getId() != null) {
+        if (flower != null && flower.getId() != null && flowerSuggesstion != null) {
             showIndicator(true);
             presenter.loadRatingData(flower.getId());
+        } else {
+            showIndicator(true);
+            presenter.loadFlowerDetail(flower.getId());
         }
 
         return root;
@@ -188,6 +191,14 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     public void updateRatings(List<Rating> ratings) {
         list.get(6).getRatings().addAll(ratings);
         adapter.notifyItemChanged(6);
+    }
+
+    @Override
+    public void forAd(Flower flower) {
+        for (int i = 0; i < 6; i++)
+            list.get(i).setFlower(flower);
+
+        adapter.notifyDataSetChanged();
     }
 
 

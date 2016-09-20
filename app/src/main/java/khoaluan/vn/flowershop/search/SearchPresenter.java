@@ -9,11 +9,9 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
-import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.request.SearchRequest;
-import khoaluan.vn.flowershop.data.response.FlowerResponse;
-import khoaluan.vn.flowershop.main.MainActivity;
+import khoaluan.vn.flowershop.data.response.ListFlowerResponse;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
@@ -54,13 +52,13 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
 
         initilizeSearchRequest(request);
 
-        Observable<Response<FlowerResponse>> observable =
+        Observable<Response<ListFlowerResponse>> observable =
                 client.getFlowersBySearch(searchRequest);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<FlowerResponse>>() {
+                .subscribe(new Subscriber<Response<ListFlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<Flower>();
                     @Override
                     public void onCompleted() {
@@ -83,7 +81,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> flowerResponseResponse) {
+                    public void onNext(Response<ListFlowerResponse> flowerResponseResponse) {
                         if (flowerResponseResponse.isSuccessful()) {
                             flowers.addAll(flowerResponseResponse.body().getResult());
                             hasNext = flowerResponseResponse.body().isHasNext();
@@ -94,13 +92,13 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
 
     @Override
     public void loadMoreDataBySearch() {
-        Observable<Response<FlowerResponse>> observable =
+        Observable<Response<ListFlowerResponse>> observable =
                 client.getFlowersBySearch(this.searchRequest);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<FlowerResponse>>() {
+                .subscribe(new Subscriber<Response<ListFlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<Flower>();
                     @Override
                     public void onCompleted() {
@@ -116,7 +114,7 @@ public class SearchPresenter implements SearchContract.Presenter, Base {
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> flowerResponseResponse) {
+                    public void onNext(Response<ListFlowerResponse> flowerResponseResponse) {
                         if (flowerResponseResponse.isSuccessful()) {
                             flowers.addAll(flowerResponseResponse.body().getResult());
                             hasNext = flowerResponseResponse.body().isHasNext();

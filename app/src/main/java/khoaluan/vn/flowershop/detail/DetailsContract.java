@@ -21,6 +21,7 @@ public interface DetailsContract {
         void updateBadge(int number);
         void showIndicator(boolean active);
         void updateRatings(List<Rating> ratings);
+        void forAd(Flower flower);
     }
 
     interface Presenter extends BasePresenter {
@@ -34,5 +35,6 @@ public interface DetailsContract {
 
         void addToCart(String idCart, String idProduct, boolean buyNow);
         void loadRatingData(String ProductId);
+        void loadFlowerDetail(String id);
     }
 }

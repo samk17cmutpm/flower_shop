@@ -11,7 +11,7 @@ import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.data.response.FlowerResponse;
+import khoaluan.vn.flowershop.data.response.ListFlowerResponse;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
@@ -53,13 +53,13 @@ public class CategoryDetailPresenter implements CategoryDetailContract.Presenter
 
     @Override
     public void loadRefreshData() {
-        Observable<Response<FlowerResponse>> observable =
+        Observable<Response<ListFlowerResponse>> observable =
                 client.getFlowersByCategory(category.getId(), 0, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<FlowerResponse>>() {
+                .subscribe(new Subscriber<Response<ListFlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
@@ -79,7 +79,7 @@ public class CategoryDetailPresenter implements CategoryDetailContract.Presenter
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
+                    public void onNext(Response<ListFlowerResponse> mostFlowerResponseResponse) {
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                             hasNext = mostFlowerResponseResponse.body().isHasNext();
@@ -92,13 +92,13 @@ public class CategoryDetailPresenter implements CategoryDetailContract.Presenter
 
     @Override
     public void loadMoreData() {
-        Observable<Response<FlowerResponse>> observable =
+        Observable<Response<ListFlowerResponse>> observable =
                 client.getFlowersByCategory(category.getId(), currentPage, SIZE);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<FlowerResponse>>() {
+                .subscribe(new Subscriber<Response<ListFlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
@@ -117,7 +117,7 @@ public class CategoryDetailPresenter implements CategoryDetailContract.Presenter
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
+                    public void onNext(Response<ListFlowerResponse> mostFlowerResponseResponse) {
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                             hasNext = mostFlowerResponseResponse.body().isHasNext();

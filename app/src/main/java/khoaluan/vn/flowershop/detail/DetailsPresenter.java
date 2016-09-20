@@ -11,6 +11,7 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.data.response.CartResponse;
+import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.data.response.RatingListResponse;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
@@ -147,6 +148,34 @@ public class DetailsPresenter implements DetailsContract.Presenter {
                 });
     }
 
+    @Override
+    public void loadFlowerDetail(String id) {
+        Observable<Response<FlowerResponse>> observable =
+                flowerClient.getFlowerDetails(id);
+
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<FlowerResponse>>() {
+                    private FlowerResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false);
+                        view.forAd(response.getResult());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(false);
+                        view.noInternetConnectTion();
+                    }
+
+                    @Override
+                    public void onNext(Response<FlowerResponse> flowerResponseResponse) {
+                        response = flowerResponseResponse.body();
+                    }
+                });
+    }
+
 
     @Override
     public List<MutipleDetailItem> convertData(Flower flower, FlowerSuggesstion flowerSuggesstion) {
@@ -181,14 +210,16 @@ public class DetailsPresenter implements DetailsContract.Presenter {
         address.setItemType(MutipleDetailItem.ADDRESS);
         items.add(address);
 
-        MutipleDetailItem rating = new MutipleDetailItem();
-        rating.setItemType(MutipleDetailItem.RATING);
-        rating.setFlower(flower);
-        rating.setFlowers(flowerSuggesstion.getFlowers());
-        rating.setRatings(new ArrayList<Rating>());
-        items.add(rating);
-
         if (flowerSuggesstion != null) {
+
+            MutipleDetailItem rating = new MutipleDetailItem();
+            rating.setItemType(MutipleDetailItem.RATING);
+            rating.setFlower(flower);
+            rating.setFlowers(flowerSuggesstion.getFlowers());
+            rating.setRatings(new ArrayList<Rating>());
+            items.add(rating);
+
+
             MutipleDetailItem title = new MutipleDetailItem();
             title.setItemType(MutipleDetailItem.TITLE);
             items.add(title);

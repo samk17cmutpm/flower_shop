@@ -6,13 +6,12 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.data.response.FlowerResponse;
+import khoaluan.vn.flowershop.data.response.ListFlowerResponse;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
-import khoaluan.vn.flowershop.utils.ConvertUtils;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -84,13 +83,13 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
 
     @Override
     public void loadTopProducts() {
-        Observable<Response<FlowerResponse>> observable =
+        Observable<Response<ListFlowerResponse>> observable =
                 client.getTopProducts();
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<FlowerResponse>>() {
+                .subscribe(new Subscriber<Response<ListFlowerResponse>>() {
                     private List<Flower> flowers = new ArrayList<>();
                     @Override
                     public void onCompleted() {
@@ -107,7 +106,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
                     }
 
                     @Override
-                    public void onNext(Response<FlowerResponse> mostFlowerResponseResponse) {
+                    public void onNext(Response<ListFlowerResponse> mostFlowerResponseResponse) {
                         if (mostFlowerResponseResponse.isSuccessful()) {
                             flowers.addAll(mostFlowerResponseResponse.body().getResult());
                         }
