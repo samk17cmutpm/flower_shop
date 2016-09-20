@@ -5,6 +5,7 @@ import khoaluan.vn.flowershop.data.response.AdvertisingResponse;
 import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.data.response.FlowerResponse;
 import khoaluan.vn.flowershop.data.response.NewestResponse;
+import khoaluan.vn.flowershop.data.response.RatingListResponse;
 import khoaluan.vn.flowershop.data.response.RatingResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -53,10 +54,19 @@ public interface FlowerClient {
 
     @FormUrlEncoded
     @POST("api/v1/rating/get-rating-list")
-    Observable<Response<RatingResponse>> getRatings(
+    Observable<Response<RatingListResponse>> getRatings(
             @Field("ProductId") String ProductId,
             @Field("CurrentPage") int CurrentPage,
             @Field("PageSize") int PageSize
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/rating/create-rating")
+    Observable<Response<RatingResponse>> createRating(
+            @Field("UserId") String UserId,
+            @Field("ProductId") String ProductId,
+            @Field("StarRating") int StarRating,
+            @Field("Feedback") String Feedback
     );
 
 

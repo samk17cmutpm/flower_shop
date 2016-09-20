@@ -1,7 +1,8 @@
-package khoaluan.vn.flowershop.notifycation;
+package khoaluan.vn.flowershop.rating;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,30 +14,33 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
-import khoaluan.vn.flowershop.action.action_view.Network;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Notifycation;
-import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForRating;
+import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
-import khoaluan.vn.flowershop.realm_data_local.RealmNotifycationUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotifycationFragment extends BaseFragment implements NotifycationContract.View, CommonView.ToolBar, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, Base {
+public class RatingFragment extends BaseFragment implements RatingContract.View, CommonView.ToolBar, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, Base {
 
-    private NotifycationContract.Presenter presenter;
+    private RatingContract.Presenter presenter;
     private View root;
     private Activity activity;
     private LinearLayoutManager linearLayoutManager;
@@ -50,16 +54,26 @@ public class NotifycationFragment extends BaseFragment implements NotifycationCo
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private NotifycationAdapter adapter;
+    @BindView(R.id.write_rating)
+    LinearLayout write_rating;
 
-    private RealmResults<Notifycation> notifycations;
+    private RatingAdapter adapter;
 
-    public NotifycationFragment() {
+    private List<Rating> ratings;
+
+    private Flower flower;
+    private FlowerSuggesstion flowerSuggesstion;
+
+    public RatingFragment() {
         // Required empty public constructor
     }
 
-    public static NotifycationFragment newInstance() {
-        NotifycationFragment fragment = new NotifycationFragment();
+    public static RatingFragment newInstance(Flower flower, FlowerSuggesstion flowerSuggesstion) {
+        RatingFragment fragment = new RatingFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(FLOWER_PARCELABLE, flower);
+        args.putParcelable(LIST_FLOWER_PARCELABLE, flowerSuggesstion);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -68,13 +82,15 @@ public class NotifycationFragment extends BaseFragment implements NotifycationCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_notifycation, container, false);
+        root = inflater.inflate(R.layout.fragment_rating, container, false);
+        flower = (Flower) getArguments().getParcelable(FLOWER_PARCELABLE);
+        flowerSuggesstion = (FlowerSuggesstion) getArguments().getParcelable(LIST_FLOWER_PARCELABLE);
         ButterKnife.bind(this, root);
         initilizeToolBar();
         showUI();
         setUpRecyclerView();
         showIndicator(true);
-        presenter.loadNotifycation(UserUtils.getUser(activity).getId());
+        presenter.loadRating(flower.getId());
         return root;
     }
 
@@ -89,6 +105,17 @@ public class NotifycationFragment extends BaseFragment implements NotifycationCo
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        write_rating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, RatingActivity.class);
+                intent.putExtra(FLOWER_PARCELABLE, flower);
+                intent.putExtra(LIST_FLOWER_PARCELABLE, flowerSuggesstion);
+                intent.putExtra(Action.ACTION_FOR_RATING, new ActionDefined(ActionForRating.ADD_RATINGS));
+                activity.startActivity(intent);
+                activity.finish();
+            }
+        });
     }
 
     @Override
@@ -102,63 +129,35 @@ public class NotifycationFragment extends BaseFragment implements NotifycationCo
     }
 
     @Override
+    public void showIndicator(boolean active, String message) {
+
+    }
+
+    @Override
     public void setUpRecyclerView() {
-        notifycations = presenter.loadNotifycationLocal();
+        ratings = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(activity);
-        adapter = new NotifycationAdapter(notifycations);
+        adapter = new RatingAdapter(ratings);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         adapter.setOnLoadMoreListener(this);
-        View viewLoadingMore = getActivity().getLayoutInflater().inflate(R.layout.loading_more_ui,
-                (ViewGroup) recyclerView.getParent(), false);
-        adapter.setLoadingView(viewLoadingMore);
         recyclerView.setAdapter(adapter);
-        notifycations.addChangeListener(new RealmChangeListener<RealmResults<Notifycation>>() {
-            @Override
-            public void onChange(RealmResults<Notifycation> element) {
-                adapter.notifyDataSetChanged();
-                adapter.notifyDataChangedAfterLoadMore(true);
-                adapter.openLoadMore(notifycations.size(), presenter.isHasNext());
-            }
-        });
-
-        View view_empty = activity.getLayoutInflater().inflate(R.layout.empty_recycler_view,
-                (ViewGroup) recyclerView.getParent(), false);
-        TextView textView = (TextView) view_empty.findViewById(R.id.tv_empty);
-        textView.setText("Bạn chưa có thông báo nào");
-        adapter.setEmptyView(view_empty);
-
         SpacesItemDecoration decoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
         recyclerView.addItemDecoration(decoration);
     }
 
     @Override
-    public void setPresenter(NotifycationContract.Presenter presenter) {
+    public void addToRatings(List<Rating> ratings) {
+        this.ratings.addAll(ratings);
+        adapter.notifyDataChangedAfterLoadMore(true);
+        adapter.openLoadMore(this.ratings.size(), presenter.isHasNext());
+    }
+
+    @Override
+    public void setPresenter(RatingContract.Presenter presenter) {
         this.presenter = presenter;
-    }
-
-    @Override
-    public void initilizeToolBar() {
-        toolbarView = (Toolbar) root.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarView);
-        toolbarView.setContentInsetsAbsolute(0, 0);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarView.setNavigationIcon(R.drawable.ic_back);
-        toolbarView.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Thông báo từ hệ thống");
-        toolbarView.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-    }
-
-    @Override
-    public void onRefresh() {
-        presenter.loadNotifycation(UserUtils.getUser(activity).getId());
     }
 
     @Override
@@ -175,14 +174,30 @@ public class NotifycationFragment extends BaseFragment implements NotifycationCo
     }
 
     @Override
-    public void onLoadMoreRequested() {
-        presenter.loadNotifycationMore(UserUtils.getUser(activity).getId());
+    public void initilizeToolBar() {
+        toolbarView = (Toolbar) root.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbarView);
+        toolbarView.setContentInsetsAbsolute(0, 0);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbarView.setNavigationIcon(R.drawable.ic_back);
+        toolbarView.setTitleTextColor(getResources().getColor(R.color.white));
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Nhận xét của khách hàng");
+        toolbarView.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
     }
 
     @Override
-    public void onDestroy() {
-        if (notifycations != null)
-            notifycations.removeChangeListeners();
-        super.onDestroy();
+    public void onRefresh() {
+        showIndicator(false);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        presenter.loadRatingMore(flower.getId());
     }
 }

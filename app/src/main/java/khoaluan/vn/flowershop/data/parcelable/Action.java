@@ -11,4 +11,6 @@ public class Action {
 
     public static final String ACTION_FOR_SHIPPING_ADDRESS = "ACTION_FOR_SHIPPING_ADDRESS";
     public static final String ACTION_FOR_INVOICE_ADDRESS = "ACTION_FOR_INVOICE_ADDRESS";
+
+    public static final String ACTION_FOR_RATING = "ACTION_FOR_RATING";
 }

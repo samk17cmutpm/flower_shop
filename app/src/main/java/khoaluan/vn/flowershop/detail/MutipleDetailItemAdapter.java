@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.detail;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +21,13 @@ import java.util.List;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
+import khoaluan.vn.flowershop.data.parcelable.Action;
+import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
+import khoaluan.vn.flowershop.data.parcelable.ActionForRating;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
+import khoaluan.vn.flowershop.rating.RatingActivity;
 import khoaluan.vn.flowershop.rating.RatingAdapter;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
@@ -150,6 +155,12 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
                 linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent = new Intent(activity, RatingActivity.class);
+                        intent.putExtra(FLOWER_PARCELABLE, item.getFlower());
+                        intent.putExtra(LIST_FLOWER_PARCELABLE, new FlowerSuggesstion(item.getFlowers()));
+                        intent.putExtra(Action.ACTION_FOR_RATING, new ActionDefined(ActionForRating.VIEW_RATINGS));
+                        activity.startActivity(intent);
+                        activity.finish();
 
                     }
                 });
@@ -158,6 +169,13 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
                 imageViewAddRating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        Intent intent = new Intent(activity, RatingActivity.class);
+                        intent.putExtra(FLOWER_PARCELABLE, item.getFlower());
+                        intent.putExtra(LIST_FLOWER_PARCELABLE, new FlowerSuggesstion(item.getFlowers()));
+                        intent.putExtra(Action.ACTION_FOR_RATING, new ActionDefined(ActionForRating.ADD_RATINGS));
+                        activity.startActivity(intent);
+                        activity.finish();
                         
                     }
                 });

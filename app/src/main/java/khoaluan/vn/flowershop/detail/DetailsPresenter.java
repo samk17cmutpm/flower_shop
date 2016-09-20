@@ -4,16 +4,14 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.MemoryHandler;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.data.response.CartResponse;
-import khoaluan.vn.flowershop.data.response.RatingResponse;
+import khoaluan.vn.flowershop.data.response.RatingListResponse;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
@@ -122,13 +120,13 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
     @Override
     public void loadRatingData(String ProductId) {
-        Observable<Response<RatingResponse>> observable =
+        Observable<Response<RatingListResponse>> observable =
                 flowerClient.getRatings(ProductId, 1, 5);
 
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<RatingResponse>>() {
-                    private RatingResponse response;
+                .subscribe(new Subscriber<Response<RatingListResponse>>() {
+                    private RatingListResponse response;
                     @Override
                     public void onCompleted() {
                         view.showIndicator(false);
@@ -142,7 +140,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(Response<RatingResponse> ratingResponseResponse) {
+                    public void onNext(Response<RatingListResponse> ratingResponseResponse) {
                         if (ratingResponseResponse.isSuccessful())
                             response = ratingResponseResponse.body();
                     }
@@ -185,6 +183,8 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
         MutipleDetailItem rating = new MutipleDetailItem();
         rating.setItemType(MutipleDetailItem.RATING);
+        rating.setFlower(flower);
+        rating.setFlowers(flowerSuggesstion.getFlowers());
         rating.setRatings(new ArrayList<Rating>());
         items.add(rating);
 
