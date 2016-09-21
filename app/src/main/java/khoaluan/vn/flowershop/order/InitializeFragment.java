@@ -729,7 +729,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
         String addressRc = this.addressRc.getText().toString();
 
-        showIndicator("Đang tạo đơn hàng ...", true);
+//        showIndicator("Đang tạo đơn hàng ...", true);
         presenter.setShippingOrder(cartId, userId, fullNameRc, phoneRc, email, cityIdRc, districtsRc, addressRc, checkBoxSaveNewRc.isChecked());
     }
 
@@ -743,7 +743,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         String companyName = this.companyName.getText().toString();
         String companyAddress = this.companyAddress.getText().toString();
 
-        showIndicator("Đang tạo hóa đơn ...", true);
+//        showIndicator("Đang tạo hóa đơn ...", true);
         presenter.setInvoiceAddress(cartId, userId, companyName, idBilling, companyAddress, checkBoxSaveNewBill.isChecked());
 
     }
@@ -802,7 +802,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         String companyName = this.companyName.getText().toString();
         String companyAddress = this.companyAddress.getText().toString();
 
-        showIndicator("Đang luư mẩu hóa đơn ...", true);
+//        showIndicator("Đang luư mẩu hóa đơn ...", true);
         presenter.setNewInvoiceAddress(new InvoiceRequest(userId, companyName, idBilling, companyAddress));
 
     }

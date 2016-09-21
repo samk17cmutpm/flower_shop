@@ -112,7 +112,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                     private BillingAddressDTO billingAddressDTO;
                     @Override
                     public void onCompleted() {
-                        view.showIndicator(null, false);
+//                        view.showIndicator(null, false);
                         if (success) {
                             RealmBillingUtils.updateBillingAddressDTO(billingAddressDTO);
                             if (isInvoice) {
@@ -156,7 +156,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                             RealmBillingUtils.updateShippingAddressDTO(shippingAddressDTO);
 
                             if (isSaveTemplate) {
-                                view.showIndicator("Đang tạo mẩu mới", true);
+//                                view.showIndicator("Đang tạo mẩu mới", true);
                                 setNewShippingAddress(userId, name, phone, cityid, districtid, address);
                             } else {
                                 if (view.isEdited() && view.isExistedExtraInfo()) {
@@ -255,7 +255,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                     private InvoiceAddressDTOResponse invoiceAddressDTOResponse;
                     @Override
                     public void onCompleted() {
-                        view.showIndicator(null, false);
+//                        view.showIndicator(null, false);
                         if (invoiceAddressDTOResponse.isSuccess()) {
                             RealmBillingUtils.updateInvoiceAddressDTO(invoiceAddressDTOResponse.getResult());
                             if (isSaveTemplater) {
@@ -303,7 +303,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                     private InvoiceAddressDTOResponse invoiceAddressDTOResponse;
                     @Override
                     public void onCompleted() {
-                        view.showIndicator(null, false);
+//                        view.showIndicator(null, false);
                         if (invoiceAddressDTOResponse.isSuccess()) {
                             List<InvoiceAddressDTO> list = new ArrayList<InvoiceAddressDTO>();
                             list.add(invoiceAddressDTOResponse.getResult());
@@ -345,7 +345,7 @@ public class OrderPresenter implements OrderContract.Presenter{
                     private ShippingAdressResponse response;
                     @Override
                     public void onCompleted() {
-                        view.showIndicator(null, false);
+//                        view.showIndicator(null, false);
                         List<ShippingAddressDTO> list = new ArrayList<ShippingAddressDTO>();
                         list.add(response.getResult());
                         RealmAddressUtills.saveShippingAddressDTO(list);
@@ -360,6 +360,7 @@ public class OrderPresenter implements OrderContract.Presenter{
 
                     @Override
                     public void onError(Throwable e) {
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
                         e.printStackTrace();
                         view.showIndicator(null, false);
                     }
@@ -471,6 +472,8 @@ public class OrderPresenter implements OrderContract.Presenter{
 
                     @Override
                     public void onError(Throwable e) {
+                        view.showIndicator(null, false);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
                     }
 
                     @Override
