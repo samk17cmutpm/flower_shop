@@ -17,6 +17,12 @@ repositories {
 apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 android {
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
 
@@ -28,6 +34,15 @@ android {
         versionName "1.0"
         multiDexEnabled true
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -77,12 +92,13 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.facebook.android:audience-network-sdk:4.+'
     compile 'com.facebook.android:account-kit-sdk:4.+'
-    compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
     compile 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.google.android.gms:play-services:9.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
 }
 apply plugin: 'com.google.gms.google-services'
 

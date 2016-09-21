@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/tools"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:transitionName="profile"
@@ -82,8 +81,6 @@
             <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                 android:id="@+id/number_button"
                 android:layout_width="100dp"
-                app:backGroundColor="@color/colorPrimary"
-                app:textSize="8sp"
                 android:layout_height="30dp"
                 android:layout_below="@+id/iv_delete"
                 android:layout_alignLeft="@+id/tv_price_old"

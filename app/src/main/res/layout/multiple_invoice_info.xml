@@ -163,7 +163,6 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Tên công ty : "
                 android:id="@+id/textView36"
-                android:layout_below="@+id/tv_invoice_title"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textColor="@color/primary_text"
