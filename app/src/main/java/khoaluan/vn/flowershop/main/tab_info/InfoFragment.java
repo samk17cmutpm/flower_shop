@@ -25,6 +25,7 @@ import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.sign_in.SignInActivity;
+import khoaluan.vn.flowershop.sign_up.SignUpActivity;
 import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
@@ -39,6 +40,9 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
 
     @BindView(R.id.rl_sign_in)
     RelativeLayout rl_sign_in;
+
+    @BindView(R.id.rl_sign_up)
+    RelativeLayout rl_sign_up;
 
     @BindView(R.id.tv_sign_in)
     TextView tvSignInName;
@@ -104,7 +108,7 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
         activity = getActivity();
 
         rl_sign_in.setOnClickListener(this);
-
+        rl_sign_up.setOnClickListener(this);
         rl_sign_out.setOnClickListener(this);
 
         rl_update_info.setOnClickListener(this);
@@ -118,6 +122,7 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
 
         if (UserUtils.isSignedIn(activity)) {
             rl_sign_in.setEnabled(false);
+            rl_sign_up.setVisibility(View.GONE);
             tvSignInName.setText(UserUtils.getUser(activity).getEmail());
         } else {
             rl_sign_out.setVisibility(View.GONE);
@@ -140,6 +145,11 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
         switch (view.getId()) {
             case R.id.rl_sign_in:
                 intent = new Intent(activity, SignInActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
+                break;
+            case R.id.rl_sign_up:
+                intent = new Intent(getActivity(), SignUpActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
                 break;
