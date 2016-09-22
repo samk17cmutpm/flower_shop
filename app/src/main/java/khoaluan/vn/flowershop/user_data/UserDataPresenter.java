@@ -32,6 +32,7 @@ import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.OrderClient;
 import khoaluan.vn.flowershop.retrofit.client.UserClient;
@@ -217,7 +218,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
     public void loadCities() {
 
         Observable<Response<CityResponse>> observable =
-                orderClient.getCities();
+                orderClient.getCitiesPayment();
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -226,6 +227,8 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     private List<City> cities;
                     @Override
                     public void onCompleted() {
+                        for (City city : cities)
+                            city.setFlag(RealmFlag.CITY_RECEIVE);
                         RealmCityUtils.updateAll(cities);
                     }
 
