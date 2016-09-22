@@ -4,6 +4,7 @@ package khoaluan.vn.flowershop.user_data;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
@@ -81,6 +85,8 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
         invoiceAddressDTO = (InvoiceAddressDTO) getArguments().get(Action.ACTION_FOR_INVOICE_ADDRESS);
         if (invoiceAddressDTO != null)
             isEdit = true;
+        if (isEdit)
+            setHasOptionsMenu(true);
         setHasOptionsMenu(true);
     }
 
@@ -90,6 +96,19 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
         switch (item.getItemId()) {
             case R.id.remove:
                 // Handle this selection
+                new MaterialDialog.Builder(getActivity())
+                        .title("Livizi")
+                        .content("Bạn muốn xóa thông tin giao hàng")
+                        .positiveText("Có")
+                        .negativeText("Không")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                showIndicator(true, "Đang xóa thông tin giao hàng ...");
+                                presenter.deleteInvoice(invoiceAddressDTO.getId());
+                            }
+                        })
+                        .show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -4,6 +4,7 @@ package khoaluan.vn.flowershop.user_data;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
@@ -102,7 +105,8 @@ public class AddAndEditShippingAddressFragment extends BaseFragment implements U
         shippingAddressDTO = (ShippingAddressDTO) getArguments().get(Action.ACTION_FOR_SHIPPING_ADDRESS);
         if (shippingAddressDTO != null)
             isEdit = true;
-        setHasOptionsMenu(true);
+        if (isEdit)
+            setHasOptionsMenu(true);
     }
 
     @Override
@@ -111,6 +115,20 @@ public class AddAndEditShippingAddressFragment extends BaseFragment implements U
         switch (item.getItemId()) {
             case R.id.remove:
                 // Handle this selection
+                new MaterialDialog.Builder(getActivity())
+                        .title("Livizi")
+                        .content("Bạn muốn xóa địa chỉ giao hàng")
+                        .positiveText("Có")
+                        .negativeText("Không")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                showIndicator(true, "Đang xóa địa chỉ giao hàng ...");
+                                presenter.deleteShipping(shippingAddressDTO.getId());
+                            }
+                        })
+                        .show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

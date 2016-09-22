@@ -564,6 +564,11 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     private RemoveResponse response;
                     @Override
                     public void onCompleted() {
+                        view.showIndicator(false, null);
+                        if (response.getResult()) {
+                            MessageUtils.showLong(activity, "Đã xóa thông tin hóa đơn thành công ");
+                            activity.onBackPressed();
+                        }
 
                     }
 
@@ -571,6 +576,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         view.showIndicator(false, null);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
                     }
 
                     @Override
@@ -593,6 +599,11 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     private RemoveResponse response;
                     @Override
                     public void onCompleted() {
+                        view.showIndicator(false, null);
+                        if (response.getResult()) {
+                            MessageUtils.showLong(activity, "Đã địa chỉ giao hàng thành công ");
+                            activity.onBackPressed();
+                        }
 
                     }
 
@@ -600,6 +611,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         view.showIndicator(false, null);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
                     }
 
                     @Override

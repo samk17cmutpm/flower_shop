@@ -106,10 +106,21 @@ public class UserDataActivity extends BaseActivity implements Base{
 
     @Override
     public void onBackPressed() {
+        Intent intent;
         switch (actionDefined.getGo()) {
             case ActionForUserData.BILLING_DETAIL:
-                Intent intent = new Intent(UserDataActivity.this, UserDataActivity.class);
+                intent = new Intent(UserDataActivity.this, UserDataActivity.class);
                 intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLLING));
+                startActivity(intent);
+                break;
+            case ActionForUserData.SHIPPING_ADDRESS:
+                intent = new Intent(UserDataActivity.this, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.DELIVERY_ADDRESS));
+                startActivity(intent);
+                break;
+            case ActionForUserData.INVOICE_ADDRESS:
+                intent = new Intent(UserDataActivity.this, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLING_INFO));
                 startActivity(intent);
                 break;
             default:
