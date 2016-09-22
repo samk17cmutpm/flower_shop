@@ -46,7 +46,7 @@ public class ShopFragment extends Fragment implements ShopContract.View, SwipeRe
     private Activity activity;
     private ShopAdapter adapter;
     private RealmResults<Cart> carts;
-    private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(PRODUCT_DISTANCE);
+    private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(1);
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 

@@ -7,7 +7,8 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:transitionName="profile"
     card_view:cardBackgroundColor="#E6E6E6"
-    card_view:cardElevation="8dp">
+    card_view:cardElevation="0dp"
+    card_view:cardCornerRadius="0dp">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -112,12 +113,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/im_delete"
                 android:src="@drawable/shopping_remove"
-                android:layout_above="@+id/tv_number"
-                android:layout_alignLeft="@+id/iv_delete"
-                android:layout_alignStart="@+id/iv_delete"
-                android:layout_marginRight="10dp"
                 android:background="@drawable/category_drawer_background"
-                android:foreground="?selectableItemBackground"/>
+                android:foreground="?selectableItemBackground"
+                android:layout_alignTop="@+id/iv_delete"
+                android:layout_alignLeft="@+id/iv_delete"
+                android:layout_alignStart="@+id/iv_delete" />
         </RelativeLayout>
 
 
