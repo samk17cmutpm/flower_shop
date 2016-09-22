@@ -83,7 +83,7 @@ public class UserDataBillingDetailFragment extends BaseFragment implements UserD
 
     @Override
     public void onRefresh() {
-
+        showIndicator(false);
     }
 
     @Override

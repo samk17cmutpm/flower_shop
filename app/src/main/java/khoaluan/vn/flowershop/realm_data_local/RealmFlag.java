@@ -15,4 +15,7 @@ public class RealmFlag {
     public static final String TYPE = "type";
     public static final String FLOWER = "FLOWER";
     public static final String BILLING_CONFIRM = "BILLING_CONFIRM";
+
+    public static final String CITY_SEND = "CITY_SEND";
+    public static final String CITY_RECEIVE = "CITY_RECEIVE";
 }

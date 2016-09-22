@@ -15,8 +15,8 @@ public class RealmCityUtils {
     private static final Realm realm = Realm.getDefaultInstance();
     public static final String TAG = RealmCityUtils.class.getName();
 
-    public static RealmResults<City> all() {
-        return realm.where(City.class).findAll();
+    public static RealmResults<City> all(String flag) {
+        return realm.where(City.class).equalTo("flag", flag).findAll();
     }
 
     public static void save(final List<City> cities) {

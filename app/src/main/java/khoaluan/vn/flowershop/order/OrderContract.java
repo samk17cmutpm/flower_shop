@@ -54,6 +54,7 @@ public interface OrderContract {
         void loadDistricts(String idCity);
         void loadDistrictsRc(String idCity);
         void loadCities();
+        void loadCitiesPayment();
         void setBillingOrder(String cartId,
                              String userId,
                              String name,

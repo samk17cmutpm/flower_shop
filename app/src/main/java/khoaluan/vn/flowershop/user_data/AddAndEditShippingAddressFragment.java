@@ -38,6 +38,7 @@ import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 
 /**
@@ -155,7 +156,7 @@ public class AddAndEditShippingAddressFragment extends BaseFragment implements U
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        cities = RealmCityUtils.all();
+        cities = RealmCityUtils.all(RealmFlag.CITY_SEND);
         cities.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
             @Override
             public void onChange(RealmResults<City> element) {

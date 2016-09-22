@@ -15,6 +15,8 @@ public class City extends RealmObject{
     @SerializedName("Name")
     private String Name;
 
+    private String flag;
+
     public City() {
     }
 
@@ -32,5 +34,13 @@ public class City extends RealmObject{
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }

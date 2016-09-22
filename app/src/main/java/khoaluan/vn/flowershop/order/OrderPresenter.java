@@ -37,6 +37,7 @@ import khoaluan.vn.flowershop.realm_data_local.RealmBankUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.OrderClient;
 import khoaluan.vn.flowershop.user_data.UserDataActivity;
@@ -84,6 +85,38 @@ public class OrderPresenter implements OrderContract.Presenter{
                     private List<City> cities;
                     @Override
                     public void onCompleted() {
+                        for (City city : cities)
+                            city.setFlag(RealmFlag.CITY_SEND);
+                        RealmCityUtils.updateAll(cities);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        MessageUtils.showLong(activity, "Không thể kết nối internet để lấy dữ liệu, Vui lòng kiểm tra lại !");
+                    }
+
+                    @Override
+                    public void onNext(Response<CityResponse> cityResponseResponse) {
+                        if (cityResponseResponse.isSuccessful())
+                            cities = cityResponseResponse.body().getResult();
+                    }
+                });
+    }
+
+    @Override
+    public void loadCitiesPayment() {
+        Observable<Response<CityResponse>> observable =
+                client.getCitiesPayment();
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<CityResponse>>() {
+                    private List<City> cities;
+                    @Override
+                    public void onCompleted() {
+                        for (City city : cities)
+                            city.setFlag(RealmFlag.CITY_RECEIVE);
                         RealmCityUtils.updateAll(cities);
                     }
 

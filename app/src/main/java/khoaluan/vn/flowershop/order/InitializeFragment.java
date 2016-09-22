@@ -54,6 +54,7 @@ import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
+import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.user_data.billings.InvoiceAdapter;
 import khoaluan.vn.flowershop.user_data.billings.ShippingAddressAdapter;
 import khoaluan.vn.flowershop.utils.ActionUtils;
@@ -74,8 +75,11 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     private String[] ITEMS_DISTRICTS;
     private String[] ITEMS_CITIES;
     private String[] ITEMS_DISTRICTS_RC;
+    private String[] ITEMS_CITIES_RC;
 
     private ArrayAdapter<String> adapterCities;
+
+    private ArrayAdapter<String> adapterCitiesRc;
 
     private ArrayAdapter<String> adapterDistricts;
 
@@ -143,13 +147,11 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @BindView(R.id.pay)
     Button buttonPay;
-
-
-
     private ExpandableLayout expandableLayout;
     private ExpandableLayout expandableLayoutRc;
 
     private RealmResults<City> cities;
+    private RealmResults<City> citiesRc;
     private List<District> districts;
     private List<District> districtsRc;
 
@@ -252,13 +254,28 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         }
         adapterCities = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ITEMS_CITIES);
         spinnerCities.setAdapter(adapterCities);
-        spinnerCitiesRc.setAdapter(adapterCities);
 
         try {
             spinnerCities.setText(cities.get(0).getName());
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setUpCitiesRc(List<City> citiesRc) {
+        ITEMS_CITIES_RC = new String[citiesRc.size()];
+        for (int i = 0; i < citiesRc.size(); i++) {
+            ITEMS_CITIES_RC[i] = citiesRc.get(i).getName();
+        }
+        adapterCitiesRc = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ITEMS_CITIES_RC);
+        spinnerCitiesRc.setAdapter(adapterCitiesRc);
+
+        try {
+            spinnerCitiesRc.setText(cities.get(0).getName());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -290,7 +307,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
                 flag = b;
-                if (isSenderInfoDone()) {
+                if (isSenderInfoDone() && checkExisted(spinnerCities.getText().toString(), ITEMS_CITIES_RC)) {
                     setSameRc(!b);
                     if (b) {
                         textViewChooseFromRc.setVisibility(View.INVISIBLE);
@@ -424,6 +441,16 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     }
 
+    private boolean checkExisted(String contain, String[] ITEM) {
+        for (String item: ITEM)
+            if (contain.equals(item)) {
+                return true;
+            }
+
+        MessageUtils.showLong(getActivity(), "Chúng tôi không thể giao hàng tới địa điểm " + spinnerCities.getText().toString() + " Vui lòng chọn địa điểm giao hàng khác");
+        return false;
+    }
+
     @Override
     public void updateDistrict(List<District> districts, boolean problem) {
         this.districts = districts;
@@ -467,7 +494,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void setUpDropData() {
-        cities = RealmCityUtils.all();
+        cities = RealmCityUtils.all(RealmFlag.CITY_SEND);
         cities.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
             @Override
             public void onChange(RealmResults<City> element) {
@@ -475,7 +502,17 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                     setUpCities(element);
             }
         });
+
+        citiesRc = RealmCityUtils.all(RealmFlag.CITY_RECEIVE);
+        citiesRc.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
+            @Override
+            public void onChange(RealmResults<City> element) {
+                if (element != null && element.size() > 0)
+                    setUpCitiesRc(citiesRc);
+            }
+        });
         setUpCities(cities);
+        setUpCitiesRc(citiesRc);
         spinnerCities.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -519,6 +556,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         updateDistrict(new ArrayList<District>(), false);
         updateDistrictRc(new ArrayList<District>(), false);
         presenter.loadCities();
+        presenter.loadCitiesPayment();
     }
 
     @Override

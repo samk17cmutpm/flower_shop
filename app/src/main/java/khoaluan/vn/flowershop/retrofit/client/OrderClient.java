@@ -28,6 +28,9 @@ public interface OrderClient {
     @GET("api/v1/common/get-city")
     Observable<Response<CityResponse>> getCities();
 
+    @GET("api/v1/common/get-city-delivery")
+    Observable<Response<CityResponse>> getCitiesPayment();
+
     @GET("api/v1/common/get-district/{cityId}")
     Observable<Response<DistrictResponse>> getDistricts(@Path("cityId") String cityId);
 
