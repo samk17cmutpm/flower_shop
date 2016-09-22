@@ -7,7 +7,8 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:transitionName="profile"
     card_view:cardBackgroundColor="@color/white"
-    card_view:cardElevation="8dp">
+    card_view:cardElevation="0dp"
+    card_view:cardCornerRadius="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

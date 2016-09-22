@@ -130,7 +130,7 @@ public class NotifycationFragment extends BaseFragment implements NotifycationCo
         textView.setText("Bạn chưa có thông báo nào");
         adapter.setEmptyView(view_empty);
 
-        SpacesItemDecoration decoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(2);
         recyclerView.addItemDecoration(decoration);
     }
 

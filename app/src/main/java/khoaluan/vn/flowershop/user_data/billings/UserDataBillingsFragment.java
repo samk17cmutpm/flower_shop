@@ -65,7 +65,7 @@ public class UserDataBillingsFragment extends BaseFragment implements UserDataCo
 
     private BillingAdapter adapter;
 
-    private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(PRODUCT_DISTANCE);
+    private final SpacesItemDecoration spaceProduct = new SpacesItemDecoration(2);
 
     public UserDataBillingsFragment() {
         // Required empty public constructor
