@@ -1,5 +1,6 @@
 package khoaluan.vn.flowershop.user_data;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -105,7 +106,16 @@ public class UserDataActivity extends BaseActivity implements Base{
 
     @Override
     public void onBackPressed() {
-        ActionUtils.go(UserDataActivity.this, 4);
+        switch (actionDefined.getGo()) {
+            case ActionForUserData.BILLING_DETAIL:
+                Intent intent = new Intent(UserDataActivity.this, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.BILLLING));
+                startActivity(intent);
+                break;
+            default:
+                ActionUtils.go(UserDataActivity.this, 4);
+                break;
+        }
     }
 
 }

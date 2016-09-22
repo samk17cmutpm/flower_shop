@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".main.MainActivity">
+    <item
+        android:id="@+id/remove"
+        android:icon="@drawable/shopping_remove_user_data"
+        android:orderInCategory="100"
+        android:title="Thêm mẩu mới"
+        app:showAsAction="always" />
+</menu>

@@ -4,14 +4,11 @@ import java.util.List;
 
 import io.realm.RealmResults;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.response.CartResponse;
-import khoaluan.vn.flowershop.data.response.RemoveCartResponse;
+import khoaluan.vn.flowershop.data.response.RemoveResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.main.MainActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.CartClient;
 import khoaluan.vn.flowershop.utils.MessageUtils;
@@ -137,13 +134,13 @@ public class ShopPresenter implements ShopContract.Presenter {
 
     @Override
     public void removeCartItem(final String id, String idCart, String idProduct) {
-        Observable<Response<RemoveCartResponse>> observable =
+        Observable<Response<RemoveResponse>> observable =
                 client.removeCartItem(idCart, idProduct);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<RemoveCartResponse>>() {
+                .subscribe(new Subscriber<Response<RemoveResponse>>() {
                     private Boolean removed;
                     @Override
                     public void onCompleted() {
@@ -160,7 +157,7 @@ public class ShopPresenter implements ShopContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(Response<RemoveCartResponse> removeCartResponseResponse) {
+                    public void onNext(Response<RemoveResponse> removeCartResponseResponse) {
                         if (removeCartResponseResponse.isSuccessful())
                             removed = removeCartResponseResponse.body().getResult();
                     }

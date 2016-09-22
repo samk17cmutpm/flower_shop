@@ -11,6 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,6 +43,8 @@ import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
+import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.CartUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,6 +102,27 @@ public class AddAndEditShippingAddressFragment extends BaseFragment implements U
         shippingAddressDTO = (ShippingAddressDTO) getArguments().get(Action.ACTION_FOR_SHIPPING_ADDRESS);
         if (shippingAddressDTO != null)
             isEdit = true;
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.remove:
+                // Handle this selection
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar.
+        inflater.inflate(R.menu.menu_user, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     public static AddAndEditShippingAddressFragment newInstance(ShippingAddressDTO shippingAddressDTO) {

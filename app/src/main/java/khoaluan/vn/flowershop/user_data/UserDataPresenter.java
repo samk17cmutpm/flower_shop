@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmResults;
+import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Billing;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
@@ -24,7 +24,7 @@ import khoaluan.vn.flowershop.data.response.DistrictResponse;
 import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListInvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
-import khoaluan.vn.flowershop.data.response.RemoveCartResponse;
+import khoaluan.vn.flowershop.data.response.RemoveResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
@@ -424,14 +424,14 @@ public class UserDataPresenter implements UserDataContract.Presenter {
 
     @Override
     public void sendFeedBack(String userId, String Email, String Phone, String FullName, String Subject, String Content) {
-        Observable<Response<RemoveCartResponse>> observable =
+        Observable<Response<RemoveResponse>> observable =
                 client.feedBack(userId, Email, Phone, FullName, Subject, Content);
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Response<RemoveCartResponse>>() {
-                    private RemoveCartResponse response;
+                .subscribe(new Subscriber<Response<RemoveResponse>>() {
+                    private RemoveResponse response;
                     @Override
                     public void onCompleted() {
                         view.showIndicator(false, null);
@@ -449,7 +449,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(Response<RemoveCartResponse> removeCartResponseResponse) {
+                    public void onNext(Response<RemoveResponse> removeCartResponseResponse) {
                         response = removeCartResponseResponse.body();
                     }
                 });
@@ -513,6 +513,99 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     public void onNext(Response<ListInvoiceAddressDTOResponse> listInvoiceAddressDTOResponseResponse) {
                         if (listInvoiceAddressDTOResponseResponse.isSuccessful())
                             response = listInvoiceAddressDTOResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void deleteBilling(String id) {
+        Observable<Response<RemoveResponse>> observable =
+                orderClient.deleteBilling(id);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<RemoveResponse>>() {
+                    private RemoveResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false, null);
+                        if (response.getResult()) {
+                            MessageUtils.showLong(activity, "Đã xóa đơn hàng thành công ");
+                            activity.onBackPressed();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.showIndicator(false, null);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
+                    }
+
+                    @Override
+                    public void onNext(Response<RemoveResponse> removeResponseResponse) {
+                        if (removeResponseResponse.isSuccessful())
+                            response = removeResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void deleteInvoice(String id) {
+        Observable<Response<RemoveResponse>> observable =
+                orderClient.deleteInvoice(id);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<RemoveResponse>>() {
+                    private RemoveResponse response;
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.showIndicator(false, null);
+                    }
+
+                    @Override
+                    public void onNext(Response<RemoveResponse> removeResponseResponse) {
+                        if (removeResponseResponse.isSuccessful())
+                            response = removeResponseResponse.body();
+                    }
+                });
+    }
+
+    @Override
+    public void deleteShipping(String id) {
+        Observable<Response<RemoveResponse>> observable =
+                orderClient.deleteShipping(id);
+
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<RemoveResponse>>() {
+                    private RemoveResponse response;
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.showIndicator(false, null);
+                    }
+
+                    @Override
+                    public void onNext(Response<RemoveResponse> removeResponseResponse) {
+                        if (removeResponseResponse.isSuccessful())
+                            response = removeResponseResponse.body();
                     }
                 });
     }

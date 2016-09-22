@@ -2,7 +2,10 @@ package khoaluan.vn.flowershop.user_data.billings;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,9 +14,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
@@ -53,9 +61,50 @@ public class UserDataBillingDetailFragment extends BaseFragment implements UserD
 
     private Billing billing;
 
+    private ProgressDialog progressDialog;
     private MultipleBillingItemAdapter adapter;
     public UserDataBillingDetailFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.remove:
+                // Handle this selection
+                new MaterialDialog.Builder(activity)
+                        .title("Livizi")
+                        .content("Bạn muốn xóa đơn hàng " + billing.getOrderCode())
+                        .positiveText("Có")
+                        .negativeText("Không")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                showIndicator(true, "Đang xóa đơn hàng ...");
+                                presenter.deleteBilling(billing.getId());
+                            }
+                        })
+                        .show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar.
+        inflater.inflate(R.menu.menu_user, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     public static UserDataBillingDetailFragment newInstance(Billing billing) {
@@ -117,11 +166,21 @@ public class UserDataBillingDetailFragment extends BaseFragment implements UserD
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
     }
 
     @Override
     public void showIndicator(boolean active, String message) {
-
+        if (active) {
+            progressDialog.setMessage(message);
+            progressDialog.show();
+        } else {
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
 import khoaluan.vn.flowershop.data.response.CartResponse;
-import khoaluan.vn.flowershop.data.response.RemoveCartResponse;
+import khoaluan.vn.flowershop.data.response.RemoveResponse;
 import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -35,7 +35,7 @@ public interface CartClient {
 
     @FormUrlEncoded
     @POST("api/v1/product/remove-products-from-cart")
-    Observable<Response<RemoveCartResponse>> removeCartItem(
+    Observable<Response<RemoveResponse>> removeCartItem(
             @Field("cartId") String cartId,
             @Field("productId") String productId
     );

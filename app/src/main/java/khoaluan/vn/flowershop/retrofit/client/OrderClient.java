@@ -1,6 +1,5 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
-import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.response.BankResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
@@ -11,6 +10,7 @@ import khoaluan.vn.flowershop.data.response.InvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.ListInvoiceAddressDTOResponse;
 import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
+import khoaluan.vn.flowershop.data.response.RemoveResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -176,5 +176,23 @@ public interface OrderClient {
             @Field("taxCode") String taxCode,
             @Field("address") String address
 
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/account/delete-my-billing-address")
+    Observable<Response<RemoveResponse>> deleteBilling(
+            @Field("id") String id
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/account/delete-my-shipping-address")
+    Observable<Response<RemoveResponse>> deleteShipping(
+            @Field("id") String id
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/account/delete-my-invoice-address")
+    Observable<Response<RemoveResponse>> deleteInvoice(
+            @Field("id") String id
     );
 }

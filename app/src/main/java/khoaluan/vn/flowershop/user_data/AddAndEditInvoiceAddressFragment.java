@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -78,6 +81,27 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
         invoiceAddressDTO = (InvoiceAddressDTO) getArguments().get(Action.ACTION_FOR_INVOICE_ADDRESS);
         if (invoiceAddressDTO != null)
             isEdit = true;
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.remove:
+                // Handle this selection
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar.
+        inflater.inflate(R.menu.menu_user, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
 

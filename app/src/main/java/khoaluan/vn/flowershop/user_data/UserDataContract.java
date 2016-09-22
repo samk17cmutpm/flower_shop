@@ -96,5 +96,9 @@ public interface UserDataContract  {
         void loadShippingAddressDTO(String userId);
         void loadInvoiceAddressDTO(String userId);
 
+        void deleteBilling(String id);
+        void deleteInvoice(String id);
+        void deleteShipping(String id);
+
     }
 }
