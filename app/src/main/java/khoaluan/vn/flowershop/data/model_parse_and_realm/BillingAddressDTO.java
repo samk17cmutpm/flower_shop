@@ -50,6 +50,14 @@ public class BillingAddressDTO extends RealmObject implements Parcelable {
     public BillingAddressDTO() {
     }
 
+    public BillingAddressDTO(String name, String phone, String cityString, String districtString, String address) {
+        Name = name;
+        Phone = phone;
+        CityString = cityString;
+        DistrictString = districtString;
+        Address = address;
+    }
+
     public String getId() {
         return Id;
     }

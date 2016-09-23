@@ -1,6 +1,7 @@
 package khoaluan.vn.flowershop.order;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,6 +51,7 @@ import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserPayment;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
@@ -172,6 +174,10 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     private MaterialDialog materialDialogInvoice;
     private MaterialDialog materialDialogShippingAddress;
 
+    private boolean flag_choosen_form;
+
+    private Activity activity;
+
     public InitializeFragment() {
         // Required empty public constructor
     }
@@ -180,6 +186,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         actionDefined = (ActionDefined) getArguments().getParcelable(Action.ACTION_FOR_ORDER);
+        activity = getActivity();
         if (actionDefined.isEdit()) {
             billing = RealmBillingUtils.getBillCofirm();
         } else {
@@ -252,7 +259,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         for (int i = 0; i < cities.size(); i++) {
             ITEMS_CITIES[i] = cities.get(i).getName();
         }
-        adapterCities = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ITEMS_CITIES);
+        adapterCities = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, ITEMS_CITIES);
         spinnerCities.setAdapter(adapterCities);
 
         try {
@@ -267,7 +274,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         for (int i = 0; i < citiesRc.size(); i++) {
             ITEMS_CITIES_RC[i] = citiesRc.get(i).getName();
         }
-        adapterCitiesRc = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ITEMS_CITIES_RC);
+        adapterCitiesRc = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, ITEMS_CITIES_RC);
         spinnerCitiesRc.setAdapter(adapterCitiesRc);
 
         try {
@@ -281,7 +288,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void showUI() {
 
-        progressDialog = new ProgressDialog(getActivity());
+        progressDialog = new ProgressDialog(activity);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         expandableLayout = (ExpandableLayout) root.findViewById(R.id.expandable_layout);
@@ -353,10 +360,10 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         shippingAddressDTOs = RealmAddressUtills.allShippingAddressDTO();
 
         if (shippingAddressDTOs.isEmpty())
-            presenter.loadShippingAddressDTO(UserUtils.getUser(getActivity()).getId());
+            presenter.loadShippingAddressDTO(UserUtils.getUser(activity).getId());
 
         if (invoiceAddressDTOs.isEmpty())
-            presenter.loadInvoiceAddressDTO(UserUtils.getUser(getActivity()).getId());
+            presenter.loadInvoiceAddressDTO(UserUtils.getUser(activity).getId());
 
         invoiceAdapter = new InvoiceAdapter(invoiceAddressDTOs);
         shippingAddressAdapter = new ShippingAddressAdapter(shippingAddressDTOs);
@@ -377,12 +384,12 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         });
 
 
-        materialDialogInvoice = new MaterialDialog.Builder(getActivity())
+        materialDialogInvoice = new MaterialDialog.Builder(activity)
                 .title(R.string.order_invoice)
                 .adapter(invoiceAdapter, null)
                 .autoDismiss(true).build();
 
-        materialDialogShippingAddress = new MaterialDialog.Builder(getActivity())
+        materialDialogShippingAddress = new MaterialDialog.Builder(activity)
                 .title(R.string.order_invoice)
                 .adapter(shippingAddressAdapter, null)
                 .autoDismiss(true).build();
@@ -391,7 +398,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
             @Override
             public void onClick(View v) {
                 if (invoiceAddressDTOs.isEmpty())
-                    MessageUtils.showLong(getActivity(), "Hiện tại bạn chưa có mẩu nào");
+                    MessageUtils.showLong(activity, "Hiện tại bạn chưa có mẩu nào");
                 else
                     materialDialogInvoice.show();
 
@@ -402,7 +409,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
             @Override
             public void onClick(View v) {
                 if (shippingAddressDTOs.isEmpty())
-                    MessageUtils.showLong(getActivity(), "Hiện tại bạn chưa có mẩu nào");
+                    MessageUtils.showLong(activity, "Hiện tại bạn chưa có mẩu nào");
                 else
                     materialDialogShippingAddress.show();
             }
@@ -421,7 +428,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         shippingAddressAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-
+                flag_choosen_form = true;
                 fullNameRc.setText(shippingAddressDTOs.get(i).getName());
                 spinnerCitiesRc.setText(shippingAddressDTOs.get(i).getCityString());
                 spinnerDictrictsRc.setText(shippingAddressDTOs.get(i).getDistrictString());
@@ -447,7 +454,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                 return true;
             }
 
-        MessageUtils.showLong(getActivity(), "Chúng tôi không thể giao hàng tới địa điểm " + spinnerCities.getText().toString() + " Vui lòng chọn địa điểm giao hàng khác");
+        MessageUtils.showLong(activity, "Chúng tôi không thể giao hàng tới địa điểm " + spinnerCities.getText().toString() + " Vui lòng chọn địa điểm giao hàng khác");
         return false;
     }
 
@@ -458,7 +465,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         for (int i = 0; i < districts.size(); i++) {
             ITEMS_DISTRICTS[i] = districts.get(i).getName();
         }
-        adapterDistricts = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ITEMS_DISTRICTS);
+        adapterDistricts = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, ITEMS_DISTRICTS);
         spinnerDictricts.setAdapter(adapterDistricts);
 
         spinnerDictricts.setText(null);
@@ -473,10 +480,11 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         for (int i = 0; i < districts.size(); i++) {
             ITEMS_DISTRICTS_RC[i] = districts.get(i).getName();
         }
-        adapterDistrictsRc = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ITEMS_DISTRICTS_RC);
+        adapterDistrictsRc = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, ITEMS_DISTRICTS_RC);
         spinnerDictrictsRc.setAdapter(adapterDistrictsRc);
 
-        spinnerDictrictsRc.setText(null);
+        if (!flag_choosen_form)
+            spinnerDictrictsRc.setText(null);
         if (problem)
             spinnerDictrictsRc.setError("Đã xảy ra lỗi, không thể cập nhập dữ liêu, kiểm tra lại internet");
     }
@@ -484,8 +492,11 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void showIndicator(String message, boolean active) {
         if (active) {
-            progressDialog.setMessage(message);
-            progressDialog.show();
+            if(!((Activity) activity).isFinishing())
+            {
+                progressDialog.setMessage(message);
+                progressDialog.show();
+            }
         } else {
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
@@ -568,7 +579,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void setSenderInfo() {
-        User user = UserUtils.getUser(getActivity());
+        User user = UserUtils.getUser(activity);
+//        BillingAddressDTO user = UserPayment.getUserPayment(activity);
         fullName.setText(user.getFullName());
         phone.setText(user.getPhone());
         address.setText(user.getAddress());
@@ -734,9 +746,9 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void sendDataBilling() {
-        String cartId = CartSharedPrefrence.getCartId(getActivity());
-        String email = UserUtils.getUser(getActivity()).getEmail();
-        String userId = UserUtils.getUser(getActivity()).getId();
+        String cartId = CartSharedPrefrence.getCartId(activity);
+        String email = UserUtils.getUser(activity).getEmail();
+        String userId = UserUtils.getUser(activity).getId();
         String fullName = this.fullName.getText().toString();
         String phone = this.phone.getText().toString();
         String cityId = getIdCity(spinnerCities.getText().toString());
@@ -751,9 +763,9 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void sendDataShipping() {
-        String cartId = CartSharedPrefrence.getCartId(getActivity());
-        String email = UserUtils.getUser(getActivity()).getEmail();
-        String userId = UserUtils.getUser(getActivity()).getId();
+        String cartId = CartSharedPrefrence.getCartId(activity);
+        String email = UserUtils.getUser(activity).getEmail();
+        String userId = UserUtils.getUser(activity).getId();
 
         String fullNameRc = this.fullNameRc.getText().toString();
         String phoneRc = this.phoneRc.getText().toString();
@@ -773,8 +785,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void sendInvoice() {
-        String cartId = CartSharedPrefrence.getCartId(getActivity());
-        String userId = UserUtils.getUser(getActivity()).getId();
+        String cartId = CartSharedPrefrence.getCartId(activity);
+        String userId = UserUtils.getUser(activity).getId();
         String cityId = getIdCity(spinnerCities.getText().toString());
         String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
         String idBilling = this.idBilling.getText().toString();
@@ -833,7 +845,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     public void saveNewInvoiceTemplate() {
 
 
-        String userId = UserUtils.getUser(getActivity()).getId();
+        String userId = UserUtils.getUser(activity).getId();
         String cityId = getIdCity(spinnerCities.getText().toString());
         String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
         String idBilling = this.idBilling.getText().toString();
@@ -866,17 +878,17 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void initilizeToolBar() {
         toolbar = (Toolbar) root.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)activity).setSupportActionBar(toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)activity).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Thông tin đặt hàng");
+        ((AppCompatActivity)activity).getSupportActionBar().setTitle("Thông tin đặt hàng");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RealmBillingUtils.clearBillingConfirm();
-                ActionUtils.go(getActivity(), 3);
+                ActionUtils.go(activity, 3);
             }
         });
     }

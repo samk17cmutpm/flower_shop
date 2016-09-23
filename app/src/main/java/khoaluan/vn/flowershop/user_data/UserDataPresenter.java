@@ -27,6 +27,7 @@ import khoaluan.vn.flowershop.data.response.ListShippingAddressResponse;
 import khoaluan.vn.flowershop.data.response.RemoveResponse;
 import khoaluan.vn.flowershop.data.response.ShippingAdressResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserPayment;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
@@ -260,6 +261,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     public void onCompleted() {
                         view.showIndicator(false, null);
                         MessageUtils.showLong(activity, "Cập nhập thông tin thành công ");
+                        UserPayment.saveUserPayment(response.getResult(), activity);
                         RealmAddressUtills.updateBillongAddress(response.getResult());
                         ActionUtils.go(activity, 4);
                     }
