@@ -121,7 +121,7 @@ public class UserDataAddressPaymentFragment extends BaseFragment implements User
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Địa chỉ giao hàng");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Địa chỉ thanh toán");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

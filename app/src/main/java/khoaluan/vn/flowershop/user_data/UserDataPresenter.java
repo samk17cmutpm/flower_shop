@@ -218,7 +218,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
     public void loadCities() {
 
         Observable<Response<CityResponse>> observable =
-                orderClient.getCitiesPayment();
+                orderClient.getCities();
 
         observable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -228,7 +228,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
                     @Override
                     public void onCompleted() {
                         for (City city : cities)
-                            city.setFlag(RealmFlag.CITY_RECEIVE);
+                            city.setFlag(RealmFlag.CITY_SEND);
                         RealmCityUtils.updateAll(cities);
                     }
 
