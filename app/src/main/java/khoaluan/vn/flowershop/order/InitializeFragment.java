@@ -264,6 +264,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
         try {
             spinnerCities.setText(cities.get(0).getName());
+
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -579,11 +580,15 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void setSenderInfo() {
-        User user = UserUtils.getUser(activity);
-//        BillingAddressDTO user = UserPayment.getUserPayment(activity);
-        fullName.setText(user.getFullName());
+//        User user = UserUtils.getUser(activity);
+        BillingAddressDTO user = UserPayment.getUserPayment(activity);
+        fullName.setText(user.getName());
         phone.setText(user.getPhone());
         address.setText(user.getAddress());
+//        if (user.getCityString() != null) {
+//            spinnerCities.setText(user.getCityString());
+//            spinnerDictricts.setText(user.getDistrictString());
+//        }
     }
 
     @Override
