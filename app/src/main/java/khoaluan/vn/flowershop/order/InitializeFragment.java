@@ -492,7 +492,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void showIndicator(String message, boolean active) {
         if (active) {
-            if(!((Activity) activity).isFinishing())
+            if(!activity.isFinishing())
             {
                 progressDialog.setMessage(message);
                 progressDialog.show();
