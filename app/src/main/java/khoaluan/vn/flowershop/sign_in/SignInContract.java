@@ -17,5 +17,6 @@ public interface SignInContract {
         void signIn(String email, String password);
         void signInSocial(String email, String provider, String externaltoken, String deviceId, String fullName);
         void getAccessTokenGoogle(String email, String displayName);
+        void loadUserInfo(String userId);
     }
 }

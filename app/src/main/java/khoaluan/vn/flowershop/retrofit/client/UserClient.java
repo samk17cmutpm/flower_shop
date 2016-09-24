@@ -1,7 +1,9 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
+import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.request.UserRequest;
 import khoaluan.vn.flowershop.data.request.UserSignUpRequest;
+import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
 import khoaluan.vn.flowershop.data.response.BillingResponse;
 import khoaluan.vn.flowershop.data.response.NotifycationResponse;
@@ -62,6 +64,10 @@ public interface UserClient {
             @Field("CurrentPage") int CurrentPage,
             @Field("PageSize") int PageSize
     );
+
+    @GET("api/v1/account/get-my-billing-address/{userId}")
+    Observable<Response<BillingAdressResponse>> getUserInfo(@Path("userId") String userId);
+
 
 
 }

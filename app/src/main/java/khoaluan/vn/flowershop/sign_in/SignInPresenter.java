@@ -12,9 +12,12 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
 import khoaluan.vn.flowershop.data.request.UserRequest;
+import khoaluan.vn.flowershop.data.response.BillingAdressResponse;
 import khoaluan.vn.flowershop.data.response.UserResponse;
+import khoaluan.vn.flowershop.data.shared_prefrences.UserPayment;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.UserClient;
@@ -56,13 +59,12 @@ public class SignInPresenter implements SignInContract.Presenter{
                     private UserResponse userResponse;
                     @Override
                     public void onCompleted() {
-                        view.showIndicator(false, null);
                         if (userResponse.isSuccess()) {
                             User user = userResponse.getResult();
                             UserUtils.setSignedIn(activity, true);
                             UserUtils.saveUser(user, activity);
-                            MessageUtils.showLong(activity, "Đăng nhập thành công !");
                             view.finish();
+                            loadUserInfo(user.getId());
                         } else {
                             MessageUtils.showLong(activity, "Email hoặc Mật Khẩu không đúng, vui lòng kiểm tra lại !");
                         }
@@ -96,15 +98,13 @@ public class SignInPresenter implements SignInContract.Presenter{
                     private UserResponse userResponse;
                     @Override
                     public void onCompleted() {
-                        view.showIndicator(false, null);
                         if (userResponse.isSuccess()) {
                             User user = userResponse.getResult();
                             if (user.getFullName() == null)
                                 user.setFullName(fullName);
-                            MessageUtils.showLong(activity, "Đăng nhập bằng tài khoản " + provider + " thành công !");
                             UserUtils.setSignedIn(activity, true);
                             UserUtils.saveUser(user, activity);
-                            view.finish();
+                            loadUserInfo(user.getId());
                         } else {
                             MessageUtils.showLong(activity, "Đã xảy ra lỗi, wtf");
                         }
@@ -153,6 +153,38 @@ public class SignInPresenter implements SignInContract.Presenter{
                     }
                 });
 
+    }
+
+    @Override
+    public void loadUserInfo(String userId) {
+
+        Observable<Response<BillingAdressResponse>> observable =
+                client.getUserInfo(userId);
+        observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Response<BillingAdressResponse>>() {
+                    private BillingAdressResponse response;
+                    @Override
+                    public void onCompleted() {
+                        view.showIndicator(false, null);
+                        UserPayment.saveUserPayment(response.getResult(), activity);
+                        MessageUtils.showLong(activity, "Đăng nhập thành công");
+                        view.finish();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showIndicator(false, null);
+                        MessageUtils.showLong(activity, R.string.no_internet_connecttion);
+                    }
+
+                    @Override
+                    public void onNext(Response<BillingAdressResponse> billingAdressResponseResponse) {
+                        if (billingAdressResponseResponse.isSuccessful())
+                            response = billingAdressResponseResponse.body();
+                    }
+                });
     }
 
     private Observable<String> getAccessTokenGoogle(final String email) {
