@@ -177,6 +177,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     private boolean flag_choosen_form;
 
+    private BillingAddressDTO userInfo;
     private Activity activity;
 
     public InitializeFragment() {
@@ -232,6 +233,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     }
 
     private void setUpCities(List<City> cities) {
+
         ITEMS_CITIES = new String[cities.size()];
         for (int i = 0; i < cities.size(); i++) {
             ITEMS_CITIES[i] = cities.get(i).getName();
@@ -240,7 +242,10 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         spinnerCities.setAdapter(adapterCities);
 
         try {
-            spinnerCities.setText(cities.get(0).getName());
+            if (userInfo.getCityString() != null)
+                spinnerCities.setText(userInfo.getCityString());
+            else
+                spinnerCities.setText(cities.get(0).getName());
 
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -256,7 +261,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         spinnerCitiesRc.setAdapter(adapterCitiesRc);
 
         try {
-            spinnerCitiesRc.setText(cities.get(0).getName());
+            if (!isEdited())
+                spinnerCitiesRc.setText(cities.get(0).getName());
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -265,10 +271,15 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void showUI() {
+        // UserInfo For Sender
+        userInfo = UserPayment.getUserPayment(activity);
 
+        // Dialog
         progressDialog = new ProgressDialog(activity);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
+
+        // expandble layout
         expandableLayout = (ExpandableLayout) root.findViewById(R.id.expandable_layout);
         expandableLayoutRc = (ExpandableLayout) root.findViewById(R.id.expandable_layout_rc);
 
@@ -302,6 +313,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                         expandableLayoutRc.expand();
                     }
                 } else {
+                    MessageUtils.showLong(activity, "Hiện nay chúng tôi chỉ giao hàng tận nơi tại 3 thành phố Đà Nẵng, Hà Nội, Sài Gòn");
                     checkBoxSameRc.setChecked(false);
                     setSameRc(true);
                 }
@@ -432,7 +444,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                 return true;
             }
 
-        MessageUtils.showLong(activity, "Chúng tôi không thể giao hàng tới địa điểm " + spinnerCities.getText().toString() + " Vui lòng chọn địa điểm giao hàng khác");
+//        MessageUtils.showLong(activity, "Chúng tôi không thể giao hàng tới địa điểm " + spinnerCities.getText().toString() + " Vui lòng chọn địa điểm giao hàng khác");
         return false;
     }
 
@@ -446,7 +458,10 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         adapterDistricts = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, ITEMS_DISTRICTS);
         spinnerDictricts.setAdapter(adapterDistricts);
 
-        spinnerDictricts.setText(null);
+        if (userInfo.getDistrictString() != null && checkExisted(userInfo.getDistrictString(), ITEMS_DISTRICTS))
+            spinnerDictricts.setText(userInfo.getDistrictString());
+        else
+            spinnerDictricts.setText(null);
         if (problem)
             spinnerDictricts.setError("Đã xảy ra lỗi, không thể cập nhập dữ liêu, kiểm tra lại internet");
     }
@@ -462,7 +477,10 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         spinnerDictrictsRc.setAdapter(adapterDistrictsRc);
 
         if (!flag_choosen_form)
-            spinnerDictrictsRc.setText(null);
+            if (isEdited() && checkExisted(spinnerDictrictsRc.getText().toString(), ITEMS_DISTRICTS_RC));
+            else
+                spinnerDictrictsRc.setText(null);
+
         if (problem)
             spinnerDictrictsRc.setError("Đã xảy ra lỗi, không thể cập nhập dữ liêu, kiểm tra lại internet");
     }
@@ -484,6 +502,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     @Override
     public void setUpDropData() {
         cities = RealmCityUtils.all(RealmFlag.CITY_SEND);
+        citiesRc = RealmCityUtils.all(RealmFlag.CITY_RECEIVE);
+
         cities.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
             @Override
             public void onChange(RealmResults<City> element) {
@@ -492,7 +512,6 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
             }
         });
 
-        citiesRc = RealmCityUtils.all(RealmFlag.CITY_RECEIVE);
         citiesRc.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
             @Override
             public void onChange(RealmResults<City> element) {
@@ -557,10 +576,9 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void setSenderInfo() {
-        BillingAddressDTO user = UserPayment.getUserPayment(activity);
-        fullName.setText(user.getName());
-        phone.setText(user.getPhone());
-        address.setText(user.getAddress());
+        fullName.setText(userInfo.getName());
+        phone.setText(userInfo.getPhone());
+        address.setText(userInfo.getAddress());
     }
 
     @Override
