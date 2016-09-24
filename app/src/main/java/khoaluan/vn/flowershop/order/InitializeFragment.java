@@ -60,6 +60,7 @@ import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.user_data.billings.InvoiceAdapter;
 import khoaluan.vn.flowershop.user_data.billings.ShippingAddressAdapter;
 import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.AddressUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
@@ -228,30 +229,6 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         if (cities != null)
             cities.removeChangeListeners();
         super.onDestroy();
-    }
-
-    private String getIdCity(String name) {
-        for (City city : cities)
-            if (city.getName().equals(name))
-                return city.getId();
-
-        return null;
-    }
-
-    private String getIdDistrict(String name) {
-        for (District district : districts )
-            if (district.getName().equals(name))
-                return district.getId();
-
-        return null;
-    }
-
-    private String getIdDistrictRc(String name) {
-        for (District district : districtsRc )
-            if (district.getName().equals(name))
-                return district.getId();
-
-        return null;
     }
 
     private void setUpCities(List<City> cities) {
@@ -533,7 +510,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 showIndicator("Đang tải dữ liệu địa điểm", true);
-                presenter.loadDistricts(getIdCity(charSequence.toString()));
+                presenter.loadDistricts(AddressUtils.getIdOfCity(charSequence.toString(), cities));
             }
             @Override
             public void afterTextChanged(Editable editable) {
@@ -554,7 +531,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
                 } else {
                     if (!charSequence.toString().isEmpty()) {
                         showIndicator("Đang tải dữ liệu địa điểm", true);
-                        presenter.loadDistrictsRc(getIdCity(charSequence.toString()));
+                        presenter.loadDistrictsRc(AddressUtils.getIdOfCity(charSequence.toString(), cities));
                     }
                 }
 
@@ -580,15 +557,10 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void setSenderInfo() {
-//        User user = UserUtils.getUser(activity);
         BillingAddressDTO user = UserPayment.getUserPayment(activity);
         fullName.setText(user.getName());
         phone.setText(user.getPhone());
         address.setText(user.getAddress());
-//        if (user.getCityString() != null) {
-//            spinnerCities.setText(user.getCityString());
-//            spinnerDictricts.setText(user.getDistrictString());
-//        }
     }
 
     @Override
@@ -756,8 +728,8 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         String userId = UserUtils.getUser(activity).getId();
         String fullName = this.fullName.getText().toString();
         String phone = this.phone.getText().toString();
-        String cityId = getIdCity(spinnerCities.getText().toString());
-        String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
+        String cityId = AddressUtils.getIdOfCity(spinnerCities.getText().toString(), cities);
+        String districtsId = AddressUtils.getIdOfDistrict(spinnerDictricts.getText().toString(), districts);
         String address = this.address.getText().toString();
 
         showIndicator("Đang tạo đơn hàng ...", true);
@@ -774,17 +746,15 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
         String fullNameRc = this.fullNameRc.getText().toString();
         String phoneRc = this.phoneRc.getText().toString();
-        String cityIdRc = getIdCity(spinnerCitiesRc.getText().toString());
+        String cityIdRc = AddressUtils.getIdOfCity(spinnerCitiesRc.getText().toString(), cities);
         String districtsRc = null;
         if (checkBoxSameRc.isChecked()) {
-            districtsRc = getIdDistrict(spinnerDictrictsRc.getText().toString());
+            districtsRc = AddressUtils.getIdOfDistrict(spinnerDictrictsRc.getText().toString(), this.districts);
         } else {
-            districtsRc = getIdDistrictRc(spinnerDictrictsRc.getText().toString());
+            districtsRc = AddressUtils.getIdOfDistrict(spinnerDictrictsRc.getText().toString(), this.districtsRc);
         }
 
         String addressRc = this.addressRc.getText().toString();
-
-//        showIndicator("Đang tạo đơn hàng ...", true);
         presenter.setShippingOrder(cartId, userId, fullNameRc, phoneRc, email, cityIdRc, districtsRc, addressRc, checkBoxSaveNewRc.isChecked());
     }
 
@@ -792,13 +762,9 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
     public void sendInvoice() {
         String cartId = CartSharedPrefrence.getCartId(activity);
         String userId = UserUtils.getUser(activity).getId();
-        String cityId = getIdCity(spinnerCities.getText().toString());
-        String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
         String idBilling = this.idBilling.getText().toString();
         String companyName = this.companyName.getText().toString();
         String companyAddress = this.companyAddress.getText().toString();
-
-//        showIndicator("Đang tạo hóa đơn ...", true);
         presenter.setInvoiceAddress(cartId, userId, companyName, idBilling, companyAddress, checkBoxSaveNewBill.isChecked());
 
     }
@@ -848,18 +814,11 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
     @Override
     public void saveNewInvoiceTemplate() {
-
-
         String userId = UserUtils.getUser(activity).getId();
-        String cityId = getIdCity(spinnerCities.getText().toString());
-        String districtsId = getIdDistrict(spinnerDictricts.getText().toString());
         String idBilling = this.idBilling.getText().toString();
         String companyName = this.companyName.getText().toString();
         String companyAddress = this.companyAddress.getText().toString();
-
-//        showIndicator("Đang luư mẩu hóa đơn ...", true);
         presenter.setNewInvoiceAddress(new InvoiceRequest(userId, companyName, idBilling, companyAddress));
-
     }
 
     @Override
