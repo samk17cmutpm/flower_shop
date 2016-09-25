@@ -70,7 +70,6 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
                 Timestamp check = new Timestamp(selectedDate.getEndDate().getTimeInMillis());
                 if (timeStamp.before(check)) {
                     dateDelivery = selectedDate.getEndDate().getTimeInMillis();
-                    Log.e("=======>", dateDelivery + "");
                     editTextDate.setText(getDataDelivery(selectedDate.getEndDate().getTimeInMillis()));
 
                 }

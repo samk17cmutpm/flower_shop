@@ -88,7 +88,7 @@
                         android:id="@+id/content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="nội dung nhập xét"
+                        android:hint="Nội dung nhập xét"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:maxLines="1"
