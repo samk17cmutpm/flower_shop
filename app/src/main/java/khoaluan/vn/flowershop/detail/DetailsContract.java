@@ -1,5 +1,7 @@
 package khoaluan.vn.flowershop.detail;
 
+import android.view.MenuItem;
+
 import java.util.List;
 
 import io.realm.RealmResults;
@@ -18,7 +20,7 @@ public interface DetailsContract {
 
     interface View extends BaseView<Presenter>, CommonView.ToolBar, Network {
         void showUI();
-        void updateBadge(int number);
+        void updateBadge(int number, MenuItem menuItemBadge);
         void showIndicator(boolean active);
         void updateRatings(List<Rating> ratings);
         void forAd(Flower flower);

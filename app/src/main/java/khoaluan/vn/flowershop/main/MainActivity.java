@@ -84,6 +84,8 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
     private Menu menu;
 
+    private MenuItem menuItemBadge;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -211,21 +213,28 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menuItemBadge = this.menu.findItem(R.id.item_samplebadge);
+
         carts = RealmCartUtils.all();
         carts.addChangeListener(new RealmChangeListener<RealmResults<Cart>>() {
             @Override
             public void onChange(RealmResults<Cart> element) {
-                updateBadge(CartUtils.getSum(element));
+                updateBadge(CartUtils.getSum(element), menuItemBadge);
             }
         });
-        updateBadge(CartUtils.getSum(carts));
+        updateBadge(CartUtils.getSum(carts), menuItemBadge);
+
         return true;
     }
 
-    public void updateBadge(int number) {
-        ActionItemBadge.update(this, menu.findItem(R.id.item_samplebadge),
+    public void updateBadge(int number, MenuItem menuItemBadge) {
+        if (number != 0)
+            ActionItemBadge.update(this, menuItemBadge,
                 this.getResources().getDrawable(R.drawable.shopping_cart),
                 ActionItemBadge.BadgeStyles.RED, number);
+
+        else
+            menuItemBadge.setVisible(false);
     }
 
     @Override

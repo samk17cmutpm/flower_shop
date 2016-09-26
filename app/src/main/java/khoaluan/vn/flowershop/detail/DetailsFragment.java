@@ -53,6 +53,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     private MutipleDetailItemAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private Menu menu;
+    private MenuItem menuItemBadge;
     private Activity activity;
     private RealmResults<Cart> carts;
     @BindView(R.id.ln_buy)
@@ -72,6 +73,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
 
     private List<MutipleDetailItem> list;
 
+
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -83,7 +85,7 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         carts.addChangeListener(new RealmChangeListener<RealmResults<Cart>>() {
             @Override
             public void onChange(RealmResults<Cart> element) {
-                updateBadge(CartUtils.getSum(carts));
+                updateBadge(CartUtils.getSum(carts), menuItemBadge);
             }
         });
         setHasOptionsMenu(true);
@@ -119,7 +121,8 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
         // Inflate the menu; this adds items to the action bar.
         inflater.inflate(R.menu.menu_flower_detail, menu);
         this.menu = menu;
-        updateBadge(CartUtils.getSum(carts));
+        menuItemBadge = this.menu.findItem(R.id.item_samplebadge);
+        updateBadge(CartUtils.getSum(carts), menuItemBadge);
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -171,10 +174,13 @@ public class DetailsFragment extends BaseFragment implements DetailsContract.Vie
     }
 
     @Override
-    public void updateBadge(int number) {
-        ActionItemBadge.update(activity, menu.findItem(R.id.item_samplebadge),
+    public void updateBadge(int number, MenuItem menuItemBadge) {
+        if (number != 0)
+            ActionItemBadge.update(activity, menuItemBadge,
                 activity.getResources().getDrawable(R.drawable.shopping_cart),
                 ActionItemBadge.BadgeStyles.RED, number);
+        else
+            menuItemBadge.setVisible(false);
     }
 
     @Override

@@ -98,13 +98,13 @@ public class AddAndEditInvoiceAddressFragment extends BaseFragment implements Us
                 // Handle this selection
                 new MaterialDialog.Builder(getActivity())
                         .title("Livizi")
-                        .content("Bạn muốn xóa thông tin giao hàng")
+                        .content("Bạn muốn xóa thông tin hóa đơn")
                         .positiveText("Có")
                         .negativeText("Không")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                showIndicator(true, "Đang xóa thông tin giao hàng ...");
+                                showIndicator(true, "Đang xóa thông tin hóa đơn ...");
                                 presenter.deleteInvoice(invoiceAddressDTO.getId());
                             }
                         })
