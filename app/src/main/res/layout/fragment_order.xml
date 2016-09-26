@@ -64,6 +64,7 @@
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
+                        android:textColorHint="@color/secondary_text"
                         android:layout_height="wrap_content">
 
                         <EditText
@@ -72,7 +73,6 @@
                             android:layout_height="wrap_content"
                             android:hint="Tên đầy đủ"
                             android:imeOptions="actionNext"
-                            android:textSize="@dimen/text_input_size"
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true" />
@@ -80,6 +80,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
+                        android:textColorHint="@color/secondary_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -102,6 +103,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:textSize="@dimen/text_input_size"
+                        app:met_accentTypeface="fonts/roboto_light.ttf"
                         android:hint="Tỉnh/tp"
                         app:met_floatingLabel="normal"
                         app:met_underlineColor="@color/secondary_text"
@@ -116,12 +118,14 @@
                         android:layout_marginRight="5dp"
                         android:textSize="@dimen/text_input_size"
                         android:hint="Quận/huyện"
+                        app:met_accentTypeface="fonts/roboto_light.ttf"
                         app:met_floatingLabel="normal"
                         app:met_underlineColor="@color/secondary_text"
                         app:met_floatingLabelTextColor="@color/secondary_text" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
+                        android:textColorHint="@color/secondary_text"
                         android:layout_height="wrap_content">
 
                         <EditText
@@ -362,6 +366,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:hint="Tỉnh/tp"
+                            app:met_accentTypeface="fonts/roboto_light.ttf"
                             android:textSize="@dimen/text_input_size"
                             app:met_floatingLabel="normal"
                             app:met_underlineColor="@color/secondary_text"
@@ -376,6 +381,7 @@
                             android:layout_marginRight="5dp"
                             android:textSize="@dimen/text_input_size"
                             android:hint="Quận/huyện"
+                            app:met_accentTypeface="fonts/roboto_light.ttf"
                             app:met_floatingLabel="normal"
                             app:met_underlineColor="@color/secondary_text"
                             app:met_floatingLabelTextColor="@color/secondary_text" />

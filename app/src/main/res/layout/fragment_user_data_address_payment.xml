@@ -82,6 +82,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:hint="Tỉnh/tp"
+                    app:met_accentTypeface="fonts/roboto_light.ttf"
                     app:met_floatingLabel="normal"
                     app:met_underlineColor="@color/secondary_text"
                     app:met_floatingLabelTextColor="@color/secondary_text" />
@@ -94,6 +95,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:hint="Quận/huyện"
+                    app:met_accentTypeface="fonts/roboto_light.ttf"
                     app:met_floatingLabel="normal"
                     app:met_underlineColor="@color/secondary_text"
                     app:met_floatingLabelTextColor="@color/secondary_text" />

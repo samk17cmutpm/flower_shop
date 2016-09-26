@@ -58,8 +58,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
 
     // Android SDK
     // Audience Network SDK. Only versions 4.6.0 and above are available
@@ -99,6 +97,8 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.google.android.gms:play-services:9.4.0'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
 }
 apply plugin: 'com.google.gms.google-services'
 

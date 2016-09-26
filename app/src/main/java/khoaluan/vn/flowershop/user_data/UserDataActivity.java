@@ -97,6 +97,18 @@ public class UserDataActivity extends BaseActivity implements Base{
                         getSupportFragmentManager().findFragmentById(R.id.contentFrame);
                 view = UserDataBillingDetailFragment.newInstance(billing);
                 break;
+
+            case ActionForUserData.POLICY:
+                view = (UserDataPolicyFragment)
+                        getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+                view = UserDataPolicyFragment.newInstance();
+                break;
+
+            case ActionForUserData.ABOUT:
+                view = (UserDataAboutFragment)
+                        getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+                view = UserDataAboutFragment.newInstance();
+                break;
         }
 
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), (Fragment) view, R.id.contentFrame);

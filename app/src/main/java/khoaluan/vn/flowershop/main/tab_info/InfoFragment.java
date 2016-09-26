@@ -179,12 +179,14 @@ public class InfoFragment extends Fragment implements InfoContract.View, Base, V
                 activity.startActivity(intent);
                 break;
             case R.id.rl_policy:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://livizi.vn/Html/TermsOfUse.html"));
-                startActivity(browserIntent);
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.POLICY));
+                activity.startActivity(intent);
                 break;
             case R.id.rl_contact:
-                Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://livizi.vn/Html/TermsOfUse.html"));
-                startActivity(intent1);
+                intent = new Intent(activity, UserDataActivity.class);
+                intent.putExtra(Action.ACTION_FOR_USER_DATA, new ActionDefined(ActionForUserData.ABOUT));
+                activity.startActivity(intent);
                 break;
             case R.id.rl_idea:
                 intent = new Intent(activity, UserDataActivity.class);

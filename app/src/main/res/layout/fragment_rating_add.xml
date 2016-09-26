@@ -61,6 +61,7 @@
                     android:layout_marginTop="10dp" />
 
                 <RatingBar
+                    style="@style/rating_add_bar"
                     android:rating="1"
                     android:stepSize="1"
                     android:numStars="5"

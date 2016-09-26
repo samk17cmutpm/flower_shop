@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimary">#05b2e9</color>
+    <color name="colorPrimaryDark">#05b2e9</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="red">#F44336</color>
@@ -9,8 +9,8 @@
 
     <color name="card_view_background">#E6E6E6</color>
 
-    <color name="primary">#2196F3</color>
-    <color name="primary_dark">#1976D2</color>
+    <color name="primary">#05b2e9</color>
+    <color name="primary_dark">#05b2e9</color>
     <color name="primary_light">#B2DFDB</color>
     <color name="accent">#009688</color>
     <color name="primary_text">#212121</color>
@@ -19,8 +19,8 @@
     <color name="divider">#B6B6B6</color>
     <color name="colorFocused">#bbdefb</color>
 
-    <color name="cart_normal">#FF5722</color>
-    <color name="cart_pressed">#E64A19</color>
+    <color name="cart_normal">#ff9601</color>
+    <color name="cart_pressed">#ff9601</color>
 
     <color name="title_bg">#F5F5F5</color>
 
