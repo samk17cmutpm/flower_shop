@@ -200,7 +200,7 @@ public class AddAndEditShippingAddressFragment extends BaseFragment implements U
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        cities = RealmCityUtils.all(RealmFlag.CITY_RECEIVE);
+        cities = RealmCityUtils.all(RealmFlag.CITY_SEND);
         cities.addChangeListener(new RealmChangeListener<RealmResults<City>>() {
             @Override
             public void onChange(RealmResults<City> element) {

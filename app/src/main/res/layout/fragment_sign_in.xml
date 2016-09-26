@@ -53,6 +53,7 @@
                         android:layout_height="wrap_content"
                         android:hint="email"
                         android:imeOptions="actionNext"
+                        android:textSize="@dimen/text_input_size"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:singleLine="true" />
@@ -70,6 +71,7 @@
                         android:hint="mật khẩu"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_in_short"
+                        android:textSize="@dimen/text_input_size"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
                         android:maxLines="1"
@@ -85,6 +87,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Đăng Nhập"
                     android:textStyle="bold"
+                    android:textSize="@dimen/text_input_size"
                     android:textColor="@color/white"
                     android:background="@drawable/action_user_bg"
                     android:foreground="?selectableItemBackground" />
@@ -175,6 +178,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Đăng Ký Tài Khoản Mới"
+                        android:textSize="@dimen/text_input_size"
                         android:id="@+id/textView3"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/primary" />

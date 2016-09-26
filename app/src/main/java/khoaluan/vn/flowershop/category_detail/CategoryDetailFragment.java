@@ -140,7 +140,7 @@ public class CategoryDetailFragment extends BaseFragment implements CategoryDeta
 
     @Override
     public void setDeviderForGridView() {
-        SpacesItemDecoration decoration = new SpacesItemDecoration(PRODUCT_DISTANCE);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(2);
         recyclerView.addItemDecoration(decoration);
     }
 

@@ -27,7 +27,7 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MultiDex.install(this);
+//        MultiDex.install(this);
         Fabric.with(this, new Crashlytics());
         RealmConfiguration realmConfiguration = new RealmConfiguration
                 .Builder(getApplicationContext())

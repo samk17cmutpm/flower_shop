@@ -59,6 +59,7 @@
                         android:id="@+id/textView24"
                         android:textColor="@color/primary_text"
                         android:textStyle="bold"
+                        android:textSize="@dimen/text_input_size"
                         android:layout_marginBottom="10dp" />
 
                     <android.support.design.widget.TextInputLayout
@@ -71,6 +72,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Tên đầy đủ"
                             android:imeOptions="actionNext"
+                            android:textSize="@dimen/text_input_size"
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true" />
@@ -87,6 +89,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Số điện thoại"
                             android:imeOptions="actionNext"
+                            android:textSize="@dimen/text_input_size"
                             android:inputType="phone"
                             android:maxLines="1"
                             android:singleLine="true" />
@@ -98,6 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:textSize="@dimen/text_input_size"
                         android:hint="Tỉnh/tp"
                         app:met_floatingLabel="normal"
                         app:met_underlineColor="@color/secondary_text"
@@ -110,6 +114,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:textSize="@dimen/text_input_size"
                         android:hint="Quận/huyện"
                         app:met_floatingLabel="normal"
                         app:met_underlineColor="@color/secondary_text"
@@ -124,6 +129,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Địa chỉ"
+                            android:textSize="@dimen/text_input_size"
                             android:imeOptions="actionNext"
                             android:nextFocusDown="@+id/full_name_rc"
                             android:nextFocusForward="@+id/full_name_rc"
@@ -158,6 +164,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Chọn từ mẩu"
+                        android:textSize="@dimen/text_input_size"
                         android:id="@+id/tv_choose_form_bill"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
@@ -191,6 +198,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Tên công ty"
+                                android:textSize="@dimen/text_input_size"
                                 android:imeOptions="actionNext"
                                 android:inputType="text"
                                 android:maxLines="1"
@@ -207,6 +215,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Mã số thuế"
+                                android:textSize="@dimen/text_input_size"
                                 android:imeOptions="actionNext"
                                 android:inputType="phone"
                                 android:maxLines="1"
@@ -223,6 +232,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Địa chỉ công ty"
+                                android:textSize="@dimen/text_input_size"
                                 android:imeOptions="actionNext"
                                 android:inputType="text"
                                 android:maxLines="1"
@@ -234,6 +244,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Lưu vào mẩu mới"
+                            android:textSize="@dimen/text_input_size"
                             android:id="@+id/check_box_save_new_bill"
                             android:layout_gravity="right"
                             android:visibility="visible" />
@@ -263,6 +274,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Thông tin người nhận"
+                            android:textSize="@dimen/text_input_size"
                             android:textColor="@color/primary_text"
                             android:id="@+id/textView34"
                             android:textStyle="bold" />
@@ -272,6 +284,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Chọn từ mẩu"
+                            android:textSize="@dimen/text_input_size"
                             android:id="@+id/tv_choose_from_rc"
                             android:layout_alignBottom="@+id/textView34"
                             android:layout_alignParentRight="true"
@@ -284,6 +297,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Giống thông tin người gởi "
+                        android:textSize="@dimen/text_input_size"
                         android:id="@+id/check_box_same_rc"
                         android:layout_gravity="left" />
 
@@ -316,6 +330,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Tên đầy đủ"
                                 android:imeOptions="actionNext"
+                                android:textSize="@dimen/text_input_size"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:singleLine="true" />
@@ -330,6 +345,7 @@
                                 android:id="@+id/phone_rc"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_input_size"
                                 android:hint="Số điện thoại"
                                 android:imeActionId="@+id/sign_up"
                                 android:imeActionLabel="Đăng Ký"
@@ -346,6 +362,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:hint="Tỉnh/tp"
+                            android:textSize="@dimen/text_input_size"
                             app:met_floatingLabel="normal"
                             app:met_underlineColor="@color/secondary_text"
                             app:met_floatingLabelTextColor="@color/secondary_text" />
@@ -357,6 +374,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
+                            android:textSize="@dimen/text_input_size"
                             android:hint="Quận/huyện"
                             app:met_floatingLabel="normal"
                             app:met_underlineColor="@color/secondary_text"
@@ -374,6 +392,7 @@
                                 android:imeActionId="@+id/order"
                                 android:imeActionLabel="Đặt hàng"
                                 android:imeOptions="actionUnspecified"
+                                android:textSize="@dimen/text_input_size"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:singleLine="true" />
@@ -385,6 +404,7 @@
                             android:layout_height="wrap_content"
                             android:text="Lưu vào mẫu mới"
                             android:id="@+id/check_box_save_new_rc"
+                            android:textSize="@dimen/text_input_size"
                             android:layout_gravity="right"
                             android:visibility="visible" />
 
@@ -401,6 +421,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Gởi tin nhắn và thanh toán"
                     android:textStyle="bold"
+                    android:textSize="@dimen/text_input_size"
                     android:textColor="@color/white"
                     android:background="@drawable/action_user_bg"
                     android:foreground="?selectableItemBackground"  />

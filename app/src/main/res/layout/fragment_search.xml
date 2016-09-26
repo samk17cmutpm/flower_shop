@@ -81,6 +81,7 @@
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView
             android:id="@+id/search_view"
+            android:textSize="@dimen/text_input_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </FrameLayout>

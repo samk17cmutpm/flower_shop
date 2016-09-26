@@ -54,6 +54,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Tên đầy đủ"
                         android:imeOptions="actionNext"
+                        android:textSize="@dimen/text_input_size"
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true" />
@@ -70,6 +71,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Số điện thoại"
                         android:imeOptions="actionNext"
+                        android:textSize="@dimen/text_input_size"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:singleLine="true" />
@@ -82,6 +84,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:hint="Tỉnh/tp"
+                    android:textSize="@dimen/text_input_size"
                     app:met_floatingLabel="normal"
                     app:met_underlineColor="@color/secondary_text"
                     app:met_floatingLabelTextColor="@color/secondary_text" />
@@ -95,6 +98,7 @@
                     android:layout_marginRight="5dp"
                     android:hint="Quận/huyện"
                     app:met_floatingLabel="normal"
+                    android:textSize="@dimen/text_input_size"
                     app:met_underlineColor="@color/secondary_text"
                     app:met_floatingLabelTextColor="@color/secondary_text" />
 
@@ -108,6 +112,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Địa chỉ"
                         android:imeOptions="actionNext"
+                        android:textSize="@dimen/text_input_size"
                         android:nextFocusDown="@+id/full_name_rc"
                         android:nextFocusForward="@+id/full_name_rc"
                         android:inputType="text"
@@ -122,6 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:textSize="@dimen/text_input_size"
                     android:text="Tạo Mẩu Đơn Thanh Toán"
                     android:textStyle="bold"
                     android:textColor="@color/white"

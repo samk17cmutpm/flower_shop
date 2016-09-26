@@ -71,6 +71,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Ngày giao hàng (bạn có thể thay đổi nếu bạn muốn )"
+                                android:textSize="@dimen/text_input_size"
                                 android:editable="false"
                                 android:focusable="false"
                                 android:inputType="text"
@@ -94,12 +95,14 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/is_pay_rc"
                             android:checked="true"
+                            android:textSize="@dimen/text_input_size"
                             android:text="Thanh toán khi nhận hàng " />
 
                         <RadioButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/is_pay_credit"
+                            android:textSize="@dimen/text_input_size"
                             android:text="Thanh toán qua thẻ" />
 
                     </RadioGroup>
@@ -114,6 +117,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Lời nhắn đến người nhận"
                             android:inputType="textMultiLine"
+                            android:textSize="@dimen/text_input_size"
                             android:lines="2"
                             android:maxLines="5"
                             android:scrollbars="vertical"
@@ -131,6 +135,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Thêm ghi chú cho gói quà"
                             android:inputType="textMultiLine"
+                            android:textSize="@dimen/text_input_size"
                             android:lines="2"
                             android:maxLines="5"
                             android:scrollbars="vertical"
@@ -142,6 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ẩn thông tin người gởi "
+                        android:textSize="@dimen/text_input_size"
                         android:id="@+id/hide_info"
                         android:layout_gravity="right" />
 
@@ -152,6 +158,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:textSize="@dimen/text_input_size"
                         android:text="Thanh toán "
                         android:textStyle="bold"
                         android:textColor="@color/white"
