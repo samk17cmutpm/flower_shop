@@ -95,6 +95,9 @@ public class ConvertUtils {
             } else {
                 multipleAdvertisingItem.setItemType(MultipleAdvertisingItem.ONLY_ONE);
             }
+
+            multipleAdvertisingItem.setWidth(advertising.getWidth());
+            multipleAdvertisingItem.setHeight(advertising.getHeight());
             multipleAdvertisingItems.add(multipleAdvertisingItem);
         }
         return multipleAdvertisingItems;

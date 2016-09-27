@@ -69,11 +69,15 @@ public class MultipleBillingItemAdapter extends BaseMultiItemQuickAdapter<Multip
             case MultipleBillingItem.INFO:
                 holder.setText(R.id.tv_name_order, item.getBilling().getBillingAddressDTO().getName())
                         .setText(R.id.tv_phone_order, item.getBilling().getBillingAddressDTO().getPhone())
-                        .setText(R.id.tv_city_order, item.getBilling().getBillingAddressDTO().getCityString());
+                        .setText(R.id.tv_city_order, item.getBilling().getBillingAddressDTO().getCityString()
+                        + " " + item.getBilling().getBillingAddressDTO().getDistrictString() + " "
+                        + item.getBilling().getBillingAddressDTO().getAddress());
 
                 holder.setText(R.id.tv_name_delivery, item.getBilling().getShippingAddressDTO().getName())
                         .setText(R.id.tv_phone_delivery, item.getBilling().getShippingAddressDTO().getPhone())
-                        .setText(R.id.tv_city_delivery, item.getBilling().getShippingAddressDTO().getCityString());
+                        .setText(R.id.tv_city_delivery, item.getBilling().getShippingAddressDTO().getCityString()
+                        + " " + item.getBilling().getShippingAddressDTO().getDistrictString() + " "
+                        + item.getBilling().getShippingAddressDTO().getAddress());
                 break;
         }
 

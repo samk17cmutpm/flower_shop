@@ -15,6 +15,10 @@ public class MultipleAdvertisingItem extends MultiItemEntity {
 
     private List<AdvertisingItem> advertisingItems;
 
+    private int width;
+
+    private int height;
+
     public List<AdvertisingItem> getAdvertisingItems() {
         return advertisingItems;
     }
@@ -25,6 +29,22 @@ public class MultipleAdvertisingItem extends MultiItemEntity {
 
     public MultipleAdvertisingItem(List<AdvertisingItem> advertisingItems) {
         this.advertisingItems = advertisingItems;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public MultipleAdvertisingItem() {
