@@ -25,4 +25,6 @@ public interface Base {
     String BILLING_PARCELABLE = "BILLING_PARCELABLE";
     String LINK_USER_DATA = "LINK_USER_DATA";
 
+    String STAR_COLOR = "#FFEB3B";
+
 }

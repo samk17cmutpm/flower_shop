@@ -1,5 +1,8 @@
 package khoaluan.vn.flowershop.rating;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.widget.RatingBar;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -7,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
+import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Rating;
 

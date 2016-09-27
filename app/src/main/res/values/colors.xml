@@ -22,6 +22,9 @@
     <color name="cart_normal">#ff9601</color>
     <color name="cart_pressed">#ff9601</color>
 
+    <color name="star">#FFEB3B</color>
+    <color name="star_bg_tint">#B2DFDB</color>
+    <color name="star_pg_tint">#FFFFFF</color>
     <color name="title_bg">#F5F5F5</color>
 
 </resources>

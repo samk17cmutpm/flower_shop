@@ -2,7 +2,10 @@ package khoaluan.vn.flowershop.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -68,8 +71,10 @@ public class MutipleDetailItemAdapter extends BaseMultiItemQuickAdapter<MutipleD
                 textViewOldPrice.setPaintFlags(textViewOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
                 RatingBar ratingBar = (RatingBar) holder.getConvertView().findViewById(R.id.rating_bar);
-                if (item.getFlower().getRating() != null)
+                if (item.getFlower().getRating() != null) {
                     ratingBar.setRating(Float.parseFloat(item.getFlower().getRating()));
+                }
+
                 break;
 
             case MutipleDetailItem.SHORT_DESCRIPTION:

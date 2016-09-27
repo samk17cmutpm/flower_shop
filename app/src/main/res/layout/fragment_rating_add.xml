@@ -62,6 +62,9 @@
 
                 <RatingBar
                     style="@style/rating_add_bar"
+                    android:progressBackgroundTint="@color/star_bg_tint"
+                    android:progressTint="@color/star"
+                    android:secondaryProgressTint="@color/star_pg_tint"
                     android:rating="1"
                     android:stepSize="1"
                     android:numStars="5"

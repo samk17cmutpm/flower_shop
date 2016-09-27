@@ -10,6 +10,9 @@
 
     <RatingBar
         style="@style/RatingBar"
+        android:progressBackgroundTint="@color/star_bg_tint"
+        android:progressTint="@color/star"
+        android:secondaryProgressTint="@color/star_pg_tint"
         android:rating="5"
         android:stepSize="0.5"
         android:numStars="5"
