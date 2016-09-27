@@ -2,8 +2,6 @@ package khoaluan.vn.flowershop.realm_data_local;
 
 import android.util.Log;
 
-import com.nostra13.universalimageloader.utils.L;
-
 import java.util.List;
 
 import io.realm.Realm;

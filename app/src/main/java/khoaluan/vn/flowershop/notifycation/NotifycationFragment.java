@@ -25,11 +25,9 @@ import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseFragment;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
-import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Notifycation;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
-import khoaluan.vn.flowershop.realm_data_local.RealmNotifycationUtils;
 
 /**
  * A simple {@link Fragment} subclass.

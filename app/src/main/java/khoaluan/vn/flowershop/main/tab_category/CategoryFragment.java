@@ -2,20 +2,15 @@ package khoaluan.vn.flowershop.main.tab_category;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +20,6 @@ import butterknife.ButterKnife;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.action.action_view.CommonView;
-import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.MainDrawerAdapter;

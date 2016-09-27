@@ -41,8 +41,6 @@ import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
 import khoaluan.vn.flowershop.user_data.billings.ShippingAddressAdapter;
-import khoaluan.vn.flowershop.utils.ActionUtils;
-import khoaluan.vn.flowershop.utils.CartUtils;
 
 /**
  * A simple {@link Fragment} subclass.

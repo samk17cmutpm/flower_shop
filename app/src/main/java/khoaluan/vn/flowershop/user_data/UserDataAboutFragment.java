@@ -61,7 +61,7 @@ public class UserDataAboutFragment extends BaseFragment implements UserDataContr
     public void showUI() {
 
         WebView myWebView = (WebView) root.findViewById(R.id.web_view);
-        myWebView.loadUrl("http://livizi.vn/Html/About.html");
+        myWebView.loadUrl("http://flowershop.vn/Html/About.html");
 
     }
 

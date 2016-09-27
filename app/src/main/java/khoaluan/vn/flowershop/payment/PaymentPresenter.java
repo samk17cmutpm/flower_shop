@@ -2,20 +2,8 @@ package khoaluan.vn.flowershop.payment;
 
 import android.app.Activity;
 
-import java.util.List;
-
-import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
-import khoaluan.vn.flowershop.data.response.CityResponse;
-import khoaluan.vn.flowershop.data.response.DistrictResponse;
-import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.OrderClient;
-import khoaluan.vn.flowershop.retrofit.client.UserClient;
-import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by samnguyen on 9/8/16.

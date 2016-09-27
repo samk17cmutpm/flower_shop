@@ -10,7 +10,6 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.OrderItemsDTO;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
 

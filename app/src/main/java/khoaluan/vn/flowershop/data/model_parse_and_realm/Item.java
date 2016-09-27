@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import khoaluan.vn.flowershop.detail.MutipleDetailItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
 
 /**

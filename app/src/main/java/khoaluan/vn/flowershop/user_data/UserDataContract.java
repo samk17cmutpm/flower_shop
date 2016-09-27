@@ -12,7 +12,6 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
-import retrofit2.http.Field;
 
 /**
  * Created by samnguyen on 9/10/16.

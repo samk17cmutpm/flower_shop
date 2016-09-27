@@ -2,7 +2,6 @@ package khoaluan.vn.flowershop.order;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;

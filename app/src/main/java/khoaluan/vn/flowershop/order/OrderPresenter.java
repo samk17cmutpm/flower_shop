@@ -1,7 +1,6 @@
 package khoaluan.vn.flowershop.order;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -16,10 +15,8 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.City;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
-import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForOrder;
-import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
 import khoaluan.vn.flowershop.data.response.BankResponse;
 import khoaluan.vn.flowershop.data.response.BillingDetailResponse;
@@ -40,7 +37,6 @@ import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
 import khoaluan.vn.flowershop.retrofit.client.OrderClient;
-import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
 import retrofit2.Response;

@@ -30,7 +30,6 @@ import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;

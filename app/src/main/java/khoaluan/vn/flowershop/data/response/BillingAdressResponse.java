@@ -3,7 +3,6 @@ package khoaluan.vn.flowershop.data.response;
 import com.google.gson.annotations.SerializedName;
 
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 
 /**
  * Created by samnguyen on 9/13/16.

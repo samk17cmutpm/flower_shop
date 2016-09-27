@@ -306,6 +306,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.showIndicator(false, null);
                         e.printStackTrace();
                         view.noInternetConnectTion();
                     }
@@ -342,6 +343,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.showIndicator(false, null);
                         e.printStackTrace();
                         view.noInternetConnectTion();
                     }
@@ -376,6 +378,7 @@ public class UserDataPresenter implements UserDataContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.showIndicator(false, null);
                         e.printStackTrace();
                         MessageUtils.showLong(activity, "Không có kết nối internet, Vui lòng kiểm tra lại");
                         view.noInternetConnectTion();

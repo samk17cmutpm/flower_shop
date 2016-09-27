@@ -1,6 +1,5 @@
 package khoaluan.vn.flowershop.retrofit.client;
 
-import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
 import khoaluan.vn.flowershop.data.request.UserRequest;
 import khoaluan.vn.flowershop.data.request.UserSignUpRequest;
 import khoaluan.vn.flowershop.data.response.BillingAdressResponse;

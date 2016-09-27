@@ -1,28 +1,21 @@
 package khoaluan.vn.flowershop.main.tab_shop;
 
 import android.app.Activity;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
-import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
 

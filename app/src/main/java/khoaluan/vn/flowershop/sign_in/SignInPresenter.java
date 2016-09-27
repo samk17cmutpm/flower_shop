@@ -10,7 +10,6 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.User;
@@ -26,7 +25,6 @@ import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.exceptions.OnErrorThrowable;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 

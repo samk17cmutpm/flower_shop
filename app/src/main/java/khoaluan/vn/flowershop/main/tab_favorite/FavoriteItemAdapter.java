@@ -1,20 +1,13 @@
 package khoaluan.vn.flowershop.main.tab_favorite;
 
 import android.app.Activity;
-import android.graphics.Canvas;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 
 import java.util.List;
 
@@ -24,9 +17,6 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.FlowerSuggesstion;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.main.tab_home.FlowerAdapter;
-import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
 import khoaluan.vn.flowershop.utils.OnItemClickUtils;
 
 /**

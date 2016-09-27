@@ -1,8 +1,5 @@
 package khoaluan.vn.flowershop.data.parcelable;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by samnguyen on 9/10/16.
  */

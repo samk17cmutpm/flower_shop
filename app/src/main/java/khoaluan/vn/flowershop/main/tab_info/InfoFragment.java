@@ -3,7 +3,6 @@ package khoaluan.vn.flowershop.main.tab_info;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -28,7 +27,6 @@ import khoaluan.vn.flowershop.sign_in.SignInActivity;
 import khoaluan.vn.flowershop.sign_up.SignUpActivity;
 import khoaluan.vn.flowershop.user_data.UserDataActivity;
 import khoaluan.vn.flowershop.utils.ActionUtils;
-import khoaluan.vn.flowershop.utils.MessageUtils;
 
 /**
  * A simple {@link Fragment} subclass.

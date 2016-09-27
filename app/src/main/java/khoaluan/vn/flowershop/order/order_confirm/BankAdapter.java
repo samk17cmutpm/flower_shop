@@ -1,7 +1,6 @@
 package khoaluan.vn.flowershop.order.order_confirm;
 
 import android.app.Activity;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

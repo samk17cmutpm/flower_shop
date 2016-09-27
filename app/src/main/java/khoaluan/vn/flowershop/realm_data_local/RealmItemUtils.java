@@ -4,7 +4,6 @@ import android.util.Log;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Items;
 
 /**

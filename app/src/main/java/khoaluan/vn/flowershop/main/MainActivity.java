@@ -23,11 +23,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
-import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnMenuTabClickListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,26 +36,15 @@ import khoaluan.vn.flowershop.action.action_view.ActtachMainView;
 import khoaluan.vn.flowershop.action.action_view.CommonView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
-import khoaluan.vn.flowershop.data.response.CategoryResponse;
 import khoaluan.vn.flowershop.notifycation.NotifycationActivity;
 import khoaluan.vn.flowershop.realm_data_local.RealmCartUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmCategoryUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
-import khoaluan.vn.flowershop.realm_data_local.RealmFlowerUtils;
-import khoaluan.vn.flowershop.retrofit.ServiceGenerator;
-import khoaluan.vn.flowershop.retrofit.client.FlowerClient;
 import khoaluan.vn.flowershop.search.SearchActivity;
-import khoaluan.vn.flowershop.utils.ActionUtils;
 import khoaluan.vn.flowershop.utils.CartUtils;
 import khoaluan.vn.flowershop.utils.ConvertUtils;
-import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements ActtachMainView, Base, CommonView.ToolBar {
 

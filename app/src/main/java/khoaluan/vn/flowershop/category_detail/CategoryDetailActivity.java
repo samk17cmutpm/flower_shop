@@ -1,18 +1,11 @@
 package khoaluan.vn.flowershop.category_detail;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.BaseActivity;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
-import khoaluan.vn.flowershop.detail.DetailsContract;
-import khoaluan.vn.flowershop.main.tab_category.CategoryFragment;
 import khoaluan.vn.flowershop.utils.ActivityUtils;
 
 public class CategoryDetailActivity extends BaseActivity implements Base {

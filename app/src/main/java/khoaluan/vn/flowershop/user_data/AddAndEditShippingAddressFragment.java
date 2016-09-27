@@ -42,12 +42,9 @@ import khoaluan.vn.flowershop.data.parcelable.Action;
 import khoaluan.vn.flowershop.data.parcelable.ActionDefined;
 import khoaluan.vn.flowershop.data.parcelable.ActionForUserData;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
-import khoaluan.vn.flowershop.realm_data_local.RealmAddressUtills;
 import khoaluan.vn.flowershop.realm_data_local.RealmCityUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmFlag;
 import khoaluan.vn.flowershop.user_data.billings.MultipleBillingItem;
-import khoaluan.vn.flowershop.utils.ActionUtils;
-import khoaluan.vn.flowershop.utils.CartUtils;
 
 /**
  * A simple {@link Fragment} subclass.

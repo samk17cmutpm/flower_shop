@@ -1,11 +1,8 @@
 package khoaluan.vn.flowershop.main.tab_home;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,11 +15,7 @@ import java.util.List;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
-import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
-import khoaluan.vn.flowershop.detail.DetailsActivity;
 import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.utils.AdvertisingUtils;
 import khoaluan.vn.flowershop.utils.ImageUniversalUtils;

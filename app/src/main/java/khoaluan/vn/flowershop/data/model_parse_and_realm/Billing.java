@@ -5,11 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.RealmResults;
 
 /**
  * Created by samnguyen on 9/11/16.

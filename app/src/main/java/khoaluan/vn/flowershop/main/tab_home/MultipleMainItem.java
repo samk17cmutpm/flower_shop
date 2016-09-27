@@ -5,7 +5,6 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.util.List;
 
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Advertising;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.AdvertisingItem;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 
 /**

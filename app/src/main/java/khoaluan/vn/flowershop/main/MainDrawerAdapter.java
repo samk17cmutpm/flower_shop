@@ -15,13 +15,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import khoaluan.vn.flowershop.Base;
 import khoaluan.vn.flowershop.R;
 import khoaluan.vn.flowershop.category_detail.CategoryDetailActivity;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.main.tab_category.CategoriesAdapter;
 

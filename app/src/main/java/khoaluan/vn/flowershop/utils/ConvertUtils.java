@@ -11,7 +11,6 @@ import khoaluan.vn.flowershop.data.model_parse_and_realm.Category;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExpandCategory;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Item;
-import khoaluan.vn.flowershop.main.tab_favorite.FavoriteItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleAdvertisingItem;
 import khoaluan.vn.flowershop.main.tab_home.MultipleMainItem;
 import khoaluan.vn.flowershop.order.order_confirm.MultipleOrderBillingItem;

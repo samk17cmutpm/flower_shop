@@ -2,9 +2,6 @@ package khoaluan.vn.flowershop.data.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Item;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Items;
 
 /**

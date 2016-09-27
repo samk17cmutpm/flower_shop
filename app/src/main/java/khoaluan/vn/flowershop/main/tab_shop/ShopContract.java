@@ -7,7 +7,6 @@ import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
 import khoaluan.vn.flowershop.action.action_view.Network;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Flower;
 
 /**
  * Created by samnguyen on 7/19/16.

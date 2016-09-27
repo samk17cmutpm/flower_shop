@@ -2,17 +2,14 @@ package khoaluan.vn.flowershop.order;
 
 import java.util.List;
 
-import io.realm.RealmList;
 import khoaluan.vn.flowershop.BasePresenter;
 import khoaluan.vn.flowershop.BaseView;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.BillingAddressDTO;
-import khoaluan.vn.flowershop.data.model_parse_and_realm.Cart;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.District;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ExtraInformationDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.InvoiceAddressDTO;
 import khoaluan.vn.flowershop.data.model_parse_and_realm.ShippingAddressDTO;
 import khoaluan.vn.flowershop.data.request.InvoiceRequest;
-import retrofit2.http.Field;
 
 /**
  * Created by samnguyen on 9/11/16.

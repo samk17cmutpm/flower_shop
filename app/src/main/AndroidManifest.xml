@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name=".Application"
+        android:name="khoaluan.vn.flowershop.Application"
         android:allowBackup="true"
         android:icon="@drawable/livizi"
         android:label="@string/app_name"
@@ -33,7 +33,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".main.MainActivity"
+            android:name="khoaluan.vn.flowershop.main.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -44,42 +44,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".detail.DetailsActivity"
+            android:name="khoaluan.vn.flowershop.detail.DetailsActivity"
             android:label="@string/title_activity_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".category_detail.CategoryDetailActivity"
+            android:name="khoaluan.vn.flowershop.category_detail.CategoryDetailActivity"
             android:label="@string/title_activity_category_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".search.SearchActivity"
+            android:name="khoaluan.vn.flowershop.search.SearchActivity"
             android:label="@string/title_activity_search"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".sign_in.SignInActivity"
+            android:name="khoaluan.vn.flowershop.sign_in.SignInActivity"
             android:label="@string/title_activity_sign_in"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".payment.PaymentActivity"
+            android:name="khoaluan.vn.flowershop.payment.PaymentActivity"
             android:label="@string/title_activity_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".sign_up.SignUpActivity"
+            android:name="khoaluan.vn.flowershop.sign_up.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".user_data.UserDataActivity"
+            android:name="khoaluan.vn.flowershop.user_data.UserDataActivity"
             android:label="@string/title_activity_user_data"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".order.OrderActivity"
+            android:name="khoaluan.vn.flowershop.order.OrderActivity"
             android:label="@string/title_activity_order"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -89,11 +89,11 @@
             android:value="8341a3edd71d469edbfa4e926c07ddc1dae4ff14" />
 
         <activity
-            android:name=".notifycation.NotifycationActivity"
+            android:name="khoaluan.vn.flowershop.notifycation.NotifycationActivity"
             android:label="@string/title_activity_notifycation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".rating.RatingActivity"
+            android:name="khoaluan.vn.flowershop.rating.RatingActivity"
             android:label="@string/title_activity_rating"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
