@@ -93,23 +93,24 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
             case MultipleOrderBillingItem.INFO:
                 holder.setText(R.id.tv_name_order, item.getBilling().getBillingAddressDTO().getName())
                         .setText(R.id.tv_phone_order, item.getBilling().getBillingAddressDTO().getPhone())
-                        .setText(R.id.tv_city_order, item.getBilling().getBillingAddressDTO().getCityString());
+                        .setText(R.id.tv_city_order, item.getBilling().getBillingAddressDTO().getCityString()
+                        + " " + item.getBilling().getBillingAddressDTO().getDistrictString() + " " + item.getBilling().getBillingAddressDTO().getAddress());
 
                 holder.setText(R.id.tv_name_delivery, item.getBilling().getShippingAddressDTO().getName())
                         .setText(R.id.tv_phone_delivery, item.getBilling().getShippingAddressDTO().getPhone())
-                        .setText(R.id.tv_city_delivery, item.getBilling().getShippingAddressDTO().getCityString());
+                        .setText(R.id.tv_city_delivery, item.getBilling().getShippingAddressDTO().getCityString()
+                        + " " + item.getBilling().getShippingAddressDTO().getDistrictString() + " "
+                        + item.getBilling().getShippingAddressDTO().getAddress());
                 
                 if (item.getBilling().getInvoiceAddressDTO() != null) {
                     holder.setText(R.id.tv_company_name, item.getBilling().getInvoiceAddressDTO().getCompanyName())
                             .setText(R.id.tv_id_invoice, item.getBilling().getInvoiceAddressDTO().getTaxCode())
                             .setText(R.id.company_address, item.getBilling().getInvoiceAddressDTO().getAddress());
                 } else {
-
                     TextView tv_invoice_title = (TextView) holder.getConvertView().findViewById(R.id.tv_invoice_title);
                     RelativeLayout rl_invoice_detail = (RelativeLayout) holder.getConvertView().findViewById(R.id.rl_invoice_detail);
                     rl_invoice_detail.setVisibility(View.GONE);
                     tv_invoice_title.setText("Không yêu cầu xuất hóa đơn thuế");
-
                 }
 
                 TextView tv_change_invoice = (TextView) holder.getConvertView().findViewById(R.id.tv_change_invoice);

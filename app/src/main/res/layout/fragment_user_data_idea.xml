@@ -40,6 +40,7 @@
                 android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <android.support.design.widget.TextInputLayout
@@ -120,11 +121,11 @@
                         android:hint="Nội dung góp ý"
                         android:imeActionId="@+id/send_info"
                         android:imeActionLabel="Gởi"
+                        android:inputType="textMultiLine"
                         android:textSize="@dimen/text_input_size"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true" />
+                        android:lines="2"
+                        android:maxLines="5"
+                        android:imeOptions="actionUnspecified" />
 
                 </android.support.design.widget.TextInputLayout>
 

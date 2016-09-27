@@ -16,5 +16,5 @@
     <dimen name="detail_magrin">5dp</dimen>
 
     <dimen name="info">60dp</dimen>
-    <dimen name="text_input_size">16sp</dimen>
+    <dimen name="text_input_size">14sp</dimen>
 </resources>

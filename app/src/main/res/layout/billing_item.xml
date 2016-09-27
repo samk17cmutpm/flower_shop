@@ -67,7 +67,6 @@
             android:id="@+id/tv_status"
             android:layout_alignBottom="@+id/imageView21"
             android:layout_toRightOf="@+id/imageView21"
-            android:layout_toEndOf="@+id/imageView21"
             android:layout_marginLeft="10dp"
             android:textColor="@color/primary"
             android:text="empry" />

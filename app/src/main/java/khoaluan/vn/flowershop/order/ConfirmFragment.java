@@ -96,6 +96,8 @@ public class ConfirmFragment extends BaseFragment implements OrderContract.View,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        swipeRefreshLayout.setEnabled(false);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 

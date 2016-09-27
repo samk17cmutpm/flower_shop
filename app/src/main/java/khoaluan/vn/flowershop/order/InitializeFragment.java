@@ -461,7 +461,11 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         if (userInfo.getDistrictString() != null && checkExisted(userInfo.getDistrictString(), ITEMS_DISTRICTS))
             spinnerDictricts.setText(userInfo.getDistrictString());
         else
-            spinnerDictricts.setText(null);
+            try {
+                spinnerDictricts.setText(ITEMS_DISTRICTS[0]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
         if (problem)
             spinnerDictricts.setError("Đã xảy ra lỗi, không thể cập nhập dữ liêu, kiểm tra lại internet");
     }
@@ -479,7 +483,11 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
         if (!flag_choosen_form)
             if (isEdited() && checkExisted(spinnerDictrictsRc.getText().toString(), ITEMS_DISTRICTS_RC));
             else
-                spinnerDictrictsRc.setText(null);
+                try {
+                    spinnerDictrictsRc.setText(ITEMS_DISTRICTS_RC[0]);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
 
         if (problem)
             spinnerDictrictsRc.setError("Đã xảy ra lỗi, không thể cập nhập dữ liêu, kiểm tra lại internet");

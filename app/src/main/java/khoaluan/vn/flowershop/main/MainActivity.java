@@ -86,6 +86,10 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
 
     private MenuItem menuItemBadge;
 
+    private MainDrawerAdapter adapter;
+
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -282,9 +286,10 @@ public class MainActivity extends BaseActivity implements ActtachMainView, Base,
     }
 
     public void loadFlowerCategories() {
+        adapter = new MainDrawerAdapter(MainActivity.this, recyclerView,
+                ConvertUtils.convertCategoriseToExpandCategories(categories), drawerLayout);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        recyclerView.setAdapter(new MainDrawerAdapter(MainActivity.this, recyclerView,
-                ConvertUtils.convertCategoriseToExpandCategories(categories)));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

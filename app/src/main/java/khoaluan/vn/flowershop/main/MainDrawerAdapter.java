@@ -2,6 +2,7 @@ package khoaluan.vn.flowershop.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,11 +35,19 @@ public class MainDrawerAdapter extends RecyclerView.Adapter<MainDrawerAdapter.Vi
 
     private Activity activity;
     private List<ExpandCategory> expandCategories;
+    private DrawerLayout drawerLayout;
 
     public MainDrawerAdapter(Activity activity, RecyclerView recyclerView, List<ExpandCategory> expandCategories) {
         this.recyclerView = recyclerView;
         this.activity = activity;
         this.expandCategories = expandCategories;
+    }
+
+    public MainDrawerAdapter(Activity activity, RecyclerView recyclerView, List<ExpandCategory> expandCategories, DrawerLayout drawerLayout) {
+        this.recyclerView = recyclerView;
+        this.activity = activity;
+        this.expandCategories = expandCategories;
+        this.drawerLayout = drawerLayout;
     }
 
     @Override
@@ -93,6 +102,7 @@ public class MainDrawerAdapter extends RecyclerView.Adapter<MainDrawerAdapter.Vi
             adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int i) {
+                    if (drawerLayout != null)drawerLayout.closeDrawers();
                     Intent intent = new Intent(activity, CategoryDetailActivity.class);
                     intent.putExtra(CATEGORY_PARCELABLE, expandCategories.get(position).getCategories().get(i));
                     activity.startActivity(intent);
