@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Sản phẩm"
+        android:textSize="@dimen/text_view_size"
         android:id="@+id/textView26"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

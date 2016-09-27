@@ -93,14 +93,14 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
             case MultipleOrderBillingItem.INFO:
                 holder.setText(R.id.tv_name_order, item.getBilling().getBillingAddressDTO().getName())
                         .setText(R.id.tv_phone_order, item.getBilling().getBillingAddressDTO().getPhone())
-                        .setText(R.id.tv_city_order, item.getBilling().getBillingAddressDTO().getCityString()
-                        + " " + item.getBilling().getBillingAddressDTO().getDistrictString() + " " + item.getBilling().getBillingAddressDTO().getAddress());
+                        .setText(R.id.tv_city_order, item.getBilling().getBillingAddressDTO().getAddress()
+                        + " " + item.getBilling().getBillingAddressDTO().getDistrictString() + " " + item.getBilling().getBillingAddressDTO().getCityString());
 
                 holder.setText(R.id.tv_name_delivery, item.getBilling().getShippingAddressDTO().getName())
                         .setText(R.id.tv_phone_delivery, item.getBilling().getShippingAddressDTO().getPhone())
-                        .setText(R.id.tv_city_delivery, item.getBilling().getShippingAddressDTO().getCityString()
+                        .setText(R.id.tv_city_delivery, item.getBilling().getShippingAddressDTO().getAddress()
                         + " " + item.getBilling().getShippingAddressDTO().getDistrictString() + " "
-                        + item.getBilling().getShippingAddressDTO().getAddress());
+                        + item.getBilling().getShippingAddressDTO().getCityString());
                 
                 if (item.getBilling().getInvoiceAddressDTO() != null) {
                     holder.setText(R.id.tv_company_name, item.getBilling().getInvoiceAddressDTO().getCompanyName())

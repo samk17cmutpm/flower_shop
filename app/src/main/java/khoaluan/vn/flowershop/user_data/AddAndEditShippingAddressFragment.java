@@ -343,7 +343,12 @@ public class AddAndEditShippingAddressFragment extends BaseFragment implements U
             spinnerDictricts.setText(shippingAddressDTO.getDistrictString());
         }
         else
-            spinnerDictricts.setText(null);
+            try {
+                spinnerDictricts.setText(ITEMS_DISTRICTS[0]);
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
         if (problem)
             spinnerDictricts.setError("Đã xảy ra lỗi, không thể cập nhập dữ liêu, kiểm tra lại");
 

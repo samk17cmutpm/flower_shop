@@ -60,7 +60,7 @@ public class UserDataPolicyFragment extends BaseFragment implements UserDataCont
     public void showUI() {
 
         WebView myWebView = (WebView) root.findViewById(R.id.web_view);
-        myWebView.loadUrl("http://flowershop.vn/Html/TermsOfUse.html");
+        myWebView.loadUrl("http://livizi.vn/Html/TermsOfUse.html");
 
     }
 
