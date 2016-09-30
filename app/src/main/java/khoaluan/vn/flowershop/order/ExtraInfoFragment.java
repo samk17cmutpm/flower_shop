@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,11 @@ import khoaluan.vn.flowershop.data.shared_prefrences.CartSharedPrefrence;
 import khoaluan.vn.flowershop.data.shared_prefrences.UserUtils;
 import khoaluan.vn.flowershop.realm_data_local.RealmBillingUtils;
 import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.DateTimeUtils;
 import khoaluan.vn.flowershop.utils.MessageUtils;
+
+import static khoaluan.vn.flowershop.utils.DateTimeUtils.getDataDelivery;
+import static khoaluan.vn.flowershop.utils.DateTimeUtils.getDataDeliveryFull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,9 +72,10 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
                                             SublimeRecurrencePicker.RecurrenceOption recurrenceOption,
                                             String recurrenceRule) {
                 Timestamp check = new Timestamp(selectedDate.getEndDate().getTimeInMillis());
+
                 if (timeStamp.before(check)) {
-                    dateDelivery = selectedDate.getEndDate().getTimeInMillis();
-                    editTextDate.setText(getDataDelivery(selectedDate.getEndDate().getTimeInMillis()));
+                    dateDelivery = convertDateInPicker2Long(selectedDate.getEndDate().getTimeInMillis(), hourOfDay, minute);
+                    editTextDate.setText(getDateTimeFromTimePicker(selectedDate.getEndDate().getTimeInMillis(), hourOfDay, minute));
 
                 }
                 else
@@ -221,7 +227,7 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
         date = c.getTime();
         dateDelivery = date.getTime();
         timeStamp = new Timestamp(dateDelivery);
-        editTextDate.setText(getDataDelivery(dateDelivery));
+        editTextDate.setText(getDataDeliveryFull(dateDelivery));
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -259,14 +265,26 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
 
 
 
-    public String getDataDelivery(long time) {
+
+
+    public String getDateTimeFromTimePicker(long time, int hour, int minute) {
         Date date = new Date(time);
         Format format = new SimpleDateFormat("yyyy MM dd");
         String delivery =  format.format(date);
         String year = delivery.substring(0, 4);
         String month = delivery.substring(5, 7);
         String day = delivery.substring(8, 10);
-        return "ngày " + day + " tháng " + month + " năm " + year;
+
+        return "giao hàng trước " + hour + " giờ ngày " + day + " tháng " + month + " năm " + year;
+    }
+
+    public long convertDateInPicker2Long(long time, int hour, int minute) {
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("yyyy MM dd");
+        String delivery =  format.format(date);
+
+        String timeString = delivery + " " + hour + " " + minute;
+        return DateTimeUtils.string2Milliseconds(timeString, new SimpleDateFormat("yyyy MM dd HH mm"));
     }
 
     @Override
@@ -362,7 +380,7 @@ public class ExtraInfoFragment extends BaseFragment implements OrderContract.Vie
 
     @Override
     public void editFormExtra(ExtraInformationDTO extraInformationDTO) {
-        editTextDate.setText(getDataDelivery(extraInformationDTO.getDeliveryDate()*1000));
+        editTextDate.setText(getDataDeliveryFull(extraInformationDTO.getDeliveryDate()*1000));
         if (extraInformationDTO.getPaymentMethodId() == 1)
             is_pay_rc.setChecked(true);
         else

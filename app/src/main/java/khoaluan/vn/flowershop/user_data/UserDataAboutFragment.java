@@ -113,7 +113,7 @@ public class UserDataAboutFragment extends BaseFragment implements UserDataContr
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Về chúng tôi");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Liên hệ");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

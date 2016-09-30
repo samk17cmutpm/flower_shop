@@ -22,6 +22,7 @@ import khoaluan.vn.flowershop.lib.SpacesItemDecoration;
 import khoaluan.vn.flowershop.order.OrderContract;
 import khoaluan.vn.flowershop.user_data.billings.OrderItemAdapter;
 import khoaluan.vn.flowershop.utils.ActionUtils;
+import khoaluan.vn.flowershop.utils.DateTimeUtils;
 import khoaluan.vn.flowershop.utils.MoneyUtils;
 
 /**
@@ -50,7 +51,7 @@ public class MultipleOrderBillingItemAdapter extends BaseMultiItemQuickAdapter<M
                         .setText(R.id.tv_total, MoneyUtils.getMoney(countTotalMoney(item.getBilling().getCarts())));
 
                 if (item.getBilling().getExtraInformationDTO() != null) {
-                    holder.setText(R.id.tv_date, item.getBilling().getExtraInformationDTO().getDataDelivery() + "");
+                    holder.setText(R.id.tv_date, DateTimeUtils.getDataDeliveryFull(item.getBilling().getExtraInformationDTO().getDeliveryDate()*1000));
                     holder.setText(R.id.tv_method_payment, item.getBilling().getExtraInformationDTO().getPaymentMethodString());
                 }
                 else {

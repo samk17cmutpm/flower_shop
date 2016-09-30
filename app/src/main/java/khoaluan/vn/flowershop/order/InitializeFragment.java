@@ -3,6 +3,7 @@ package khoaluan.vn.flowershop.order;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -380,6 +381,7 @@ public class InitializeFragment extends BaseFragment implements OrderContract.Vi
 
         materialDialogShippingAddress = new MaterialDialog.Builder(activity)
                 .title(R.string.order_invoice)
+                .dividerColor(Color.BLACK)
                 .adapter(shippingAddressAdapter, null)
                 .autoDismiss(true).build();
 

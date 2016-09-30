@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
+            android:textSize="@dimen/text_view_size"
             android:id="@+id/tv_name"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"

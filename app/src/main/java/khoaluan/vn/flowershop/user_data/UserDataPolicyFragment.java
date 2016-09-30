@@ -112,7 +112,7 @@ public class UserDataPolicyFragment extends BaseFragment implements UserDataCont
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Chính sách sử dụng");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Giới thiệu và điều khoản sử dụng");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
